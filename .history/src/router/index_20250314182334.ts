@@ -4,10 +4,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/login',
-      component: () => import('@/views/login/LoginPage.vue'),
-    },
-    {
       path: '/',
       component: () => import('@/views/layout/LayoutContainer.vue'),
       redirect: '/overview',
@@ -23,10 +19,6 @@ const router = createRouter({
         {
           path: '/cat-manage',
           component: () => import('@/views/manage/cat-manage.vue'),
-        },
-        {
-          path: '/user-manage',
-          component: () => import('@/views/manage/user-manage.vue'),
         },
       ],
     },
