@@ -31,7 +31,6 @@ export const menuData: Menus[] = [
         pid: '2',
         index: '/user-manage',
         title: '用户管理',
-        icon: 'icon-Gc_32_line-UserManagement',
       },
     ],
   },
