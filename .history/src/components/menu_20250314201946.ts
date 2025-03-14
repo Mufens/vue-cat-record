@@ -5,7 +5,7 @@ export const menuData: Menus[] = [
     id: '0',
     title: '首页',
     index: '/overview',
-    icon: 'icon-shouye',
+    icon: 'Oicon-shouyer',
   },
   {
     id: '1',

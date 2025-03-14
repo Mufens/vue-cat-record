@@ -19,7 +19,6 @@ import AsideMenu from './components/aside-menu.vue'
 .layout-container {
   height: 100vh;
   .el-aside {
-    height: 100vh;
     background-color: #fcf2f0;
     .el-aside__logo {
       height: 150px;

@@ -3,6 +3,7 @@ import AsideMenu from './components/aside-menu.vue'
 </script>
 <template>
   <div class="layout-container">
+    <aside></aside>
     <el-container>
       <el-aside width="200px">
         <div class="el-aside__logo"></div>
@@ -19,14 +20,10 @@ import AsideMenu from './components/aside-menu.vue'
 .layout-container {
   height: 100vh;
   .el-aside {
-    height: 100vh;
-    background-color: #fcf2f0;
+    background-color: #f0f0f0;
     .el-aside__logo {
       height: 150px;
-      background: url('@/assets/images/logo.png') no-repeat center / 200px auto;
-    }
-    .el-menu {
-      border-right: none;
+      background: url('@/assets/images/logo.png') no-repeat center / 150px auto;
     }
   }
 }
