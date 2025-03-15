@@ -67,6 +67,11 @@ defineProps({
 </template>
 <style scoped lang="scss">
 .aside {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+
   width: 200px;
   height: 100vh;
   overflow-x: hidden;

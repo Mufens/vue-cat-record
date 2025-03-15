@@ -1,9 +1,30 @@
-:root {
-  --el-color-primary: #d68262;
-  --el-color-success: #819d60;
-  --el-color-warning: #e62121;
-  --el-menu-bg-color: #fcf2f0;
-  --el-menu-text-color: #819d60;
-  --el-menu-active-text-color: #d68262;
-  --el-icon-color: #819d60;
-}
+// 定义主色和文本色变量
+$--color-primary: #819d60 !default;
+$--text-color-primary: #819d60 !default;
+
+// 定义背景色MAP结构（保持Element原结构，仅修改需要覆盖的项）
+$--bg-color: (
+  '': #fcf2f0,
+  // 默认背景色
+  'page': #fcf2f0,
+  // 页面背景色
+  'overlay': #ffffff, // 浮层背景色（保持默认或自定义）
+) !default;
+
+// 注入Element变量系统
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  // 主色配置
+  $colors: (
+      'primary': (
+        'base': $--color-primary,
+        'light-3': mix(#fff, $--color-primary, 30%),
+        // 自动生成浅色
+        'dark-2': mix(#000, $--color-primary, 20%),
+        // 自动生成深色
+      )
+    ),
+  // 文本色
+  $text-color: ('primary': $--text-color-primary, 'regular': #606266, 'secondary': #909399),
+  // 背景色（使用MAP结构）
+  $bg-color: $--bg-color
+);

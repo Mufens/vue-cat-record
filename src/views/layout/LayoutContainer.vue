@@ -11,7 +11,7 @@ const isCollapsed = ref(false)
       class="container"
       :style="{
         marginLeft: isCollapsed ? '0px' : '200px',
-        width: isCollapsed ? 'calc(100% - 0px)' : 'calc(100% - 200px)'
+        width: isCollapsed ? '100%' : 'calc(100% - 200px)'
       }"
     >
       <HeaderMenu @toggle-collapse="state => (isCollapsed = state)"> </HeaderMenu>
@@ -21,6 +21,10 @@ const isCollapsed = ref(false)
 </template>
 <style lang="scss" scoped>
 .layout-container {
+  display: flex;
   height: 100vh;
+  .container {
+    flex: 1;
+  }
 }
 </style>
