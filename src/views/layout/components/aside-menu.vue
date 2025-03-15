@@ -16,14 +16,12 @@ defineProps({
 })
 </script>
 <template>
-  <div class="aside" :style="{ width: isCollapsed ? '64px' : '200px' }">
-    <div
-      class="aside_logo"
-      :style="{ backgroundSize: isCollapsed ? '60px auto' : '200px auto' }"
-    ></div>
+  <div class="aside" :style="{ width: isCollapsed ? '0px' : '200px' }">
+    <div class="aside_logo"></div>
     <el-menu
       class="aside-menu"
       :collapse="isCollapsed"
+      :collapse-transition="false"
       active-text-color="#D68262"
       background-color="#FCF2F0"
       :default-active="onRoutes"
@@ -73,6 +71,8 @@ defineProps({
   height: 100vh;
   overflow-x: hidden;
   background-color: #fcf2f0;
+  transition: all 0.1s ease;
+
   &_logo {
     height: 150px;
     background: url('@/assets/images/logo.png') no-repeat center / 200px auto;
@@ -80,10 +80,15 @@ defineProps({
     .aside-menu {
       border-right: none;
       width: 100%;
+      transition: all 0.1s ease;
     }
   }
 }
+
 .iconfont {
   margin-right: 5px;
+}
+.el-menu {
+  border-right: none;
 }
 </style>

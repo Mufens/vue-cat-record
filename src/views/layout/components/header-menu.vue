@@ -12,7 +12,7 @@ const toggleCollapse = () => {
   <div class="header">
     <div class="header-left">
       <div class="collapse-btn" @click="toggleCollapse">
-        <el-icon :size="20">
+        <el-icon color="#819d60">
           <component :is="isCollapsed ? Expand : Fold" />
         </el-icon>
       </div>
