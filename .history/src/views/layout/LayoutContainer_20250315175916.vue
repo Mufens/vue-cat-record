@@ -23,5 +23,17 @@ const isCollapsed = ref(false)
 .layout-container {
   height: 100vh;
   min-width: 0 !important;
+  .el-aside {
+    height: 100vh;
+    background-color: #fcf2f0;
+    overflow: hidden;
+    transition: width 0.3s;
+    .el-menu {
+      border-right: none;
+    }
+  }
+}
+.el-main {
+  transition: margin-left 0.3s; /* 添加过渡动画 */
 }
 </style>

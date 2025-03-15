@@ -7,23 +7,11 @@ const route = useRoute()
 const onRoutes = computed(() => {
   return route.path
 })
-
-defineProps({
-  isCollapsed: {
-    type: Boolean,
-    default: false
-  }
-})
 </script>
 <template>
-  <div class="aside" :style="{ width: isCollapsed ? '64px' : '200px' }">
-    <div
-      class="aside_logo"
-      :style="{ backgroundSize: isCollapsed ? '60px auto' : '200px auto' }"
-    ></div>
+  <div calss="aside">
     <el-menu
       class="aside-menu"
-      :collapse="isCollapsed"
       active-text-color="#D68262"
       background-color="#FCF2F0"
       :default-active="onRoutes"
@@ -67,22 +55,11 @@ defineProps({
     </el-menu>
   </div>
 </template>
-<style scoped lang="scss">
-.aside {
-  width: 200px;
-  height: 100vh;
-  overflow-x: hidden;
-  background-color: #fcf2f0;
-  &_logo {
-    height: 150px;
-    background: url('@/assets/images/logo.png') no-repeat center / 200px auto;
+<style scoped>
+.aside { width: 100%; // 新增 height: 100%; // 新增 overflow-x: hidden; // 新增 .aside-menu {
+border-right: none; width: 200px; // 保持菜单原始宽度 } }
 
-    .aside-menu {
-      border-right: none;
-      width: 100%;
-    }
-  }
-}
+
 .iconfont {
   margin-right: 5px;
 }

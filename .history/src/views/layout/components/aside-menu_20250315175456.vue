@@ -69,10 +69,12 @@ defineProps({
 </template>
 <style scoped lang="scss">
 .aside {
-  width: 200px;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow-x: hidden;
-  background-color: #fcf2f0;
+  position: fixed;
+  left: 0;
+  top: 0;
   &_logo {
     height: 150px;
     background: url('@/assets/images/logo.png') no-repeat center / 200px auto;
