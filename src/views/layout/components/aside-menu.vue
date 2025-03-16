@@ -22,10 +22,7 @@ defineProps({
       class="aside-menu"
       :collapse="isCollapsed"
       :collapse-transition="false"
-      active-text-color="#D68262"
-      background-color="#FCF2F0"
       :default-active="onRoutes"
-      text-color="#819D60"
       router
     >
       <template v-for="item in menuData">
@@ -71,11 +68,11 @@ defineProps({
   left: 0;
   top: 0;
   z-index: 1000;
-
   width: 200px;
   height: 100vh;
   overflow-x: hidden;
-  background-color: #fcf2f0;
+  //background-color: #fcf2f0;
+  background-color: var(--bg-color);
   transition: all 0.1s ease;
 
   &_logo {

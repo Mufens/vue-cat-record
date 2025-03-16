@@ -1,30 +1,106 @@
-// 定义主色和文本色变量
-$--color-primary: #819d60 !default;
-$--text-color-primary: #819d60 !default;
+:root {
+  --color-primary: #819d60;
+  --text-color-primary: #819d60;
+  --bg-color: #fcf2f0;
+  --menu-active-text-color: #d68262;
+  --menu-hover-bg: #efdad2;
 
-// 定义背景色MAP结构（保持Element原结构，仅修改需要覆盖的项）
-$--bg-color: (
-  '': #fcf2f0,
-  // 默认背景色
-  'page': #fcf2f0,
-  // 页面背景色
-  'overlay': #ffffff, // 浮层背景色（保持默认或自定义）
-) !default;
+  --el-menu-text-color: var(--text-color-primary);
+  --el-menu-active-color: var(--menu-active-text-color);
+  --el-menu-hover-bg-color: var(--menu-hover-bg);
+  --el-menu-bg-color: var(--bg-color);
+  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-text-color: var(--text-color-primary);
+}
 
-// 注入Element变量系统
-@forward 'element-plus/theme-chalk/src/common/var.scss' with (
-  // 主色配置
-  $colors: (
-      'primary': (
-        'base': $--color-primary,
-        'light-3': mix(#fff, $--color-primary, 30%),
-        // 自动生成浅色
-        'dark-2': mix(#000, $--color-primary, 20%),
-        // 自动生成深色
-      )
-    ),
-  // 文本色
-  $text-color: ('primary': $--text-color-primary, 'regular': #606266, 'secondary': #909399),
-  // 背景色（使用MAP结构）
-  $bg-color: $--bg-color
-);
+.grape {
+  --color-primary: #fff;
+  --text-color-primary: #8e7f86;
+  --bg-color: #e9e5fa;
+  --menu-active-text-color: #e073a9;
+  --menu-hover-bg: #dddaef;
+
+  --el-menu-active-color: var(--menu-active-text-color);
+  --el-menu-text-color: var(--text-color-primary);
+  --el-menu-bg-color: var(--bg-color);
+  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-text-color: var(--text-color-primary);
+}
+.blusky {
+  --color-primary: #fff;
+  --text-color-primary: #8e7f86;
+  --bg-color: #8bafc7;
+  --menu-active-text-color: #67a0c0;
+  --menu-hover-bg: #e5f4ee;
+
+  --el-menu-active-color: var(--menu-active-text-color);
+  --el-menu-text-color: var(--text-color-primary);
+  --el-menu-bg-color: var(--bg-color);
+  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-text-color: var(--text-color-primary);
+}
+.water {
+  --color-primary: #fff;
+  --text-color-primary: #587589;
+  --bg-color: #cce7e0;
+  --menu-active-text-color: #67a0c0;
+  --menu-hover-bg: #e5f4ee;
+
+  --el-menu-active-color: var(--menu-active-text-color);
+  --el-menu-text-color: var(--text-color-primary);
+  --el-menu-bg-color: var(--bg-color);
+  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-text-color: var(--text-color-primary);
+}
+.momo {
+  --color-primary: #fff;
+  --text-color-primary: #dc9c3b;
+  --bg-color: #ccb23f;
+  --menu-active-text-color: #67a0c0;
+  --menu-hover-bg: #e5f4ee;
+
+  --el-menu-active-color: var(--menu-active-text-color);
+  --el-menu-text-color: var(--text-color-primary);
+  --el-menu-bg-color: var(--bg-color);
+  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-text-color: var(--text-color-primary);
+}
+.dark {
+  --color-primary: #409eff;
+  --text-color-primary: #ffffff;
+  --bg-color: #1a1a1a;
+  --menu-active-text-color: #409eff;
+  --menu-hover-bg: #2d2d2d;
+
+  --el-menu-bg-color: var(--bg-color);
+  --el-menu-text-color: var(--text-color-primary);
+  --el-menu-active-color: var(--menu-active-text-color);
+  --el-menu-hover-bg-color: var(--menu-hover-bg);
+  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-text-color: var(--text-color-primary);
+}
+
+// 统一图标颜色
+:deep(.el-icon),
+:deep(.iconfont) {
+  color: var(--text-color-primary) !important;
+}
+// 面包屑文字颜色
+:deep(.el-breadcrumb__inner) {
+  color: var(--text-color-primary) !important;
+}
+.el-menu {
+  // 末级菜单项激活状态
+  :deep(.el-menu-item.is-active) {
+    .iconfont {
+      color: var(--el-menu-active-color) !important; // 图标同步激活色
+    }
+  }
+
+  // 父级菜单（即使处于展开状态）保持默认颜色
+  :deep(.el-sub-menu) {
+    .el-sub-menu__title .iconfont {
+      color: var(--el-menu-text-color) !important; // 强制使用默认文字颜色
+    }
+  }
+}

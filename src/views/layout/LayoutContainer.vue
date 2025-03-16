@@ -23,6 +23,7 @@ const isCollapsed = ref(false)
 .layout-container {
   display: flex;
   height: 100vh;
+
   .container {
     flex: 1;
   }
