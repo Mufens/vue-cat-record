@@ -7,8 +7,10 @@ import {
   Crop,
   EditPen,
   CaretBottom,
-  SwitchButton
+  SwitchButton,
+  FullScreen
 } from '@element-plus/icons-vue'
+
 import { ref, computed } from 'vue'
 import { menuData } from '@/components/menu'
 import { useRoute } from 'vue-router'
@@ -31,12 +33,14 @@ const breadcrumbs = computed(() => {
   })
 })
 
-const setFullScreen = () => {
-  if (document.fullscreenElement) {
-    document.exitFullscreen()
+const isFullscreen = ref(false)
+function toggleFullscreen () {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen()
   } else {
-    document.body.requestFullscreen.call(document.body)
+    document.exitFullscreen()
   }
+  isFullscreen.value = !isFullscreen.value
 }
 </script>
 <template>
@@ -58,10 +62,11 @@ const setFullScreen = () => {
     </div>
     <div class="header-right">
       <ThemeSwith></ThemeSwith>
-      <div class="btn-icon" @click="setFullScreen">
-        <el-tooltip effect="dark" content="全屏" placement="bottom">
-          <i class="iconfont icon-xiaoxi"></i>
-        </el-tooltip>
+      <div class="btn-icon" @click="toggleFullscreen">
+        <el-icon v-if="!isFullscreen">
+          <FullScreen />
+        </el-icon>
+        <i class="iconfont icon-tuichuquanping" v-else></i>
       </div>
       <div class="user">
         <el-dropdown placement="bottom-end">
