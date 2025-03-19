@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AsideMenu from './components/aside-menu.vue'
 import HeaderMenu from './components/header-menu.vue'
+import TabContainer from '@/components/TabContainer.vue'
 import { ref } from 'vue'
 const isCollapsed = ref(false)
 </script>
@@ -15,7 +16,10 @@ const isCollapsed = ref(false)
       }"
     >
       <HeaderMenu @toggle-collapse="state => (isCollapsed = state)"> </HeaderMenu>
-      <div class="main"><router-view></router-view></div>
+      <div class="main">
+        <TabContainer></TabContainer>
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>

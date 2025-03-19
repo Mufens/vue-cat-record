@@ -99,7 +99,6 @@ function toggleFullscreen () {
   align-items: center;
   height: 60px;
   background-color: var(--bg-color);
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   .header-left {
     display: flex;
     text-align: center;

@@ -151,7 +151,8 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
 .theme-item {
   &:hover {
     .color-block {
-      border-color: var(--text-color-primary);
+      border-color: var(--text-color-primary) !important
+;
     }
   }
   &.active {
