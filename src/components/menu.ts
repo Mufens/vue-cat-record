@@ -35,4 +35,10 @@ export const menuData: Menus[] = [
       },
     ],
   },
+  {
+    id: '3',
+    title: '留言板',
+    index: '/message-board',
+    icon: 'icon-maojiazhengchangx',
+  },
 ]

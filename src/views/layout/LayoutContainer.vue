@@ -15,7 +15,7 @@ const isCollapsed = ref(false)
       }"
     >
       <HeaderMenu @toggle-collapse="state => (isCollapsed = state)"> </HeaderMenu>
-      <div class="main">Main</div>
+      <div class="main"><router-view></router-view></div>
     </div>
   </div>
 </template>

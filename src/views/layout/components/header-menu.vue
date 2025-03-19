@@ -7,8 +7,7 @@ import {
   Crop,
   EditPen,
   CaretBottom,
-  SwitchButton,
-  FullScreen
+  SwitchButton
 } from '@element-plus/icons-vue'
 
 import { ref, computed } from 'vue'
@@ -63,10 +62,11 @@ function toggleFullscreen () {
     <div class="header-right">
       <ThemeSwith></ThemeSwith>
       <div class="btn-icon" @click="toggleFullscreen">
-        <el-icon v-if="!isFullscreen">
-          <FullScreen />
-        </el-icon>
+        <i class="iconfont icon-quanping" v-if="!isFullscreen"> </i>
         <i class="iconfont icon-tuichuquanping" v-else></i>
+      </div>
+      <div class="message">
+        <i class="iconfont icon-xiaoxi1"></i>
       </div>
       <div class="user">
         <el-dropdown placement="bottom-end">
@@ -118,6 +118,18 @@ function toggleFullscreen () {
     margin-right: 5px;
     text-align: center;
     align-items: center;
+    .btn.icon {
+      margin: 0 15px;
+      .i {
+        font-size: 25px;
+      }
+    }
+    .message {
+      margin: 0 15px;
+      i {
+        font-size: 19px;
+      }
+    }
     .user {
       margin: 0 20px;
       .el-dropdown__box {

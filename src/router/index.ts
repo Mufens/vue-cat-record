@@ -28,6 +28,10 @@ const router = createRouter({
           path: '/user-manage',
           component: () => import('@/views/manage/user-manage.vue'),
         },
+        {
+          path: '/message-board',
+          component: () => import('@/views/board/message-board.vue'),
+        },
       ],
     },
   ],

@@ -14,7 +14,7 @@
 }
 
 .grape {
-  --color-primary: #fff;
+  --color-primary: #e073a9;
   --text-color-primary: #8e7f86;
   --bg-color: #e9e5fa;
   --menu-active-text-color: #e073a9;
@@ -27,11 +27,11 @@
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .blusky {
-  --color-primary: #fff;
-  --text-color-primary: #8e7f86;
-  --bg-color: #8bafc7;
-  --menu-active-text-color: #67a0c0;
-  --menu-hover-bg: #e5f4ee;
+  --color-primary: #356b9e;
+  --text-color-primary: #bedbf7;
+  --bg-color: #356b9e;
+  --menu-active-text-color: #5b93d8;
+  --menu-hover-bg: #4b77b0;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -40,7 +40,7 @@
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .water {
-  --color-primary: #fff;
+  --color-primary: #587589;
   --text-color-primary: #587589;
   --bg-color: #cce7e0;
   --menu-active-text-color: #67a0c0;
@@ -53,11 +53,11 @@
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .momo {
-  --color-primary: #fff;
-  --text-color-primary: #dc9c3b;
-  --bg-color: #ccb23f;
-  --menu-active-text-color: #67a0c0;
-  --menu-hover-bg: #e5f4ee;
+  --color-primary: #71361d;
+  --text-color-primary: #dc9941;
+  --bg-color: #71361d;
+  --menu-active-text-color: #cbd282;
+  --menu-hover-bg: #a17a69;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -66,7 +66,7 @@
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .dark {
-  --color-primary: #409eff;
+  --color-primary: #ffffff;
   --text-color-primary: #ffffff;
   --bg-color: #1a1a1a;
   --menu-active-text-color: #409eff;
@@ -103,4 +103,24 @@
       color: var(--el-menu-text-color) !important; // 强制使用默认文字颜色
     }
   }
+}
+[class^='aside'],
+[class^='header'],
+.el-menu,
+.el-breadcrumb__item,
+.el-dropdown__box {
+  transition: all 0.1s ease;
+}
+
+// 图标和文字颜色过渡
+:deep(.el-icon),
+:deep(.iconfont),
+:deep(.el-breadcrumb__inner) {
+  transition: color 0.111s ease !important;
+}
+
+// 菜单项背景色过渡
+.el-menu-item,
+.el-sub-menu__title {
+  transition: background-color 0.1s ease !important;
 }

@@ -73,7 +73,7 @@ defineProps({
   overflow-x: hidden;
   //background-color: #fcf2f0;
   background-color: var(--bg-color);
-  transition: all 0.05s ease;
+  transition: all 0.1s ease;
 
   &_logo {
     height: 150px;
