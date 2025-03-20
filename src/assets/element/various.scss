@@ -3,7 +3,7 @@
   --text-color-primary: #819d60;
   --bg-color: #fcf2f0;
   --menu-active-text-color: #d68262;
-  --menu-hover-bg: #efdad2;
+  --menu-hover-bg: #faede7;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -19,7 +19,7 @@
   --text-color-primary: #8e7f86;
   --bg-color: #e9e5fa;
   --menu-active-text-color: #e073a9;
-  --menu-hover-bg: #dddaef;
+  --menu-hover-bg: #f4f2fb;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -59,7 +59,7 @@
   --text-color-primary: #dc9941;
   --bg-color: #71361d;
   --menu-active-text-color: #cbd282;
-  --menu-hover-bg: #a17a69;
+  --menu-hover-bg: #9a7667;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -114,7 +114,7 @@
   // 激活状态
   :deep(.el-tabs__item.is-active) {
     color: var(--menu-active-text-color) !important;
-    background-color: var(--bg-color) !important;
+    background-color: var(--menu-hover-bg) !important;
     .iconfont {
       color: var(--menu-active-text-color) !important;
     }
@@ -132,22 +132,5 @@
   // 激活项悬停保持原色
   :deep(.el-tabs__item.is-active:hover) {
     color: var(--menu-active-text-color) !important;
-  }
-
-  // 始终显示关闭按钮
-  :deep(.el-tabs__item) {
-    .el-icon-close {
-      visibility: visible !important;
-      margin-left: 6px !important;
-      opacity: 1 !important; /* 确保不透明度为1 */
-    }
-    &:last-child .el-icon-close {
-      visibility: hidden !important;
-      display: none !important;
-    }
-  }
-  :deep(.el-tabs__item) .el-icon-close {
-    visibility: visible !important;
-    transform: scale(1) !important; /* 防止缩放动画影响显示 */
   }
 }

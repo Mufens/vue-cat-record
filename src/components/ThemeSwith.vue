@@ -97,34 +97,35 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
   position: absolute;
   width: 180px;
   height: 120px;
-  top: 60px;
-  right: 0px;
+  top: 50px;
+  right: -9px;
   background: #fff;
-
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   padding: 12px;
   border-radius: 6px;
   display: flex;
   flex-wrap: wrap;
   z-index: 999;
-  transition: opacity 0.2s;
+  transition: opacity 0.1s;
   .trangle::after {
     position: absolute;
     width: 0px;
     height: 0px;
-    top: -28px;
-    right: 15px;
+    top: -20px;
+    right: 27px;
     content: '';
-    border-right: 15px solid transparent;
-    border-top: 15px solid var(--trangle-color);
-    border-left: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--trangle-color);
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid transparent;
     transform: rotate(180deg);
   }
 
+  filter: drop-shadow(2px 0 2px rgba(0, 0, 0, 0.05)) drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.05));
   .theme-item {
     flex: 1;
     width: 50px;
-    padding-top: 7px;
+    padding-top: 5px;
     cursor: pointer;
     .theme-content {
       display: flex;

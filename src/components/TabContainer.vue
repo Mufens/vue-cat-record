@@ -165,6 +165,20 @@ tabsStore.$subscribe(() => {
   height: 45px;
   overflow: hidden;
   background-color: #ffffff;
+
+  html.dark & {
+    background-color: #1a1a1a !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* 调整标签页分割线颜色 */
+    .el-tabs :deep(.el-tabs__item)::after {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    /* 调整操作按钮边框颜色 */
+    .tab-actions {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
   .el-tabs {
     flex: 1;
     margin: 20px 0 0 4px;
