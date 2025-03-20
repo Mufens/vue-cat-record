@@ -9,7 +9,7 @@
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-hover-bg-color: var(--menu-hover-bg);
   --el-menu-bg-color: var(--bg-color);
-  --el-dropdown-menu-bg-color: var(--bg-color);
+
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
 }
@@ -24,21 +24,21 @@
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--bg-color);
-  --el-dropdown-menu-bg-color: var(--bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
 }
 .blusky {
   --color-primary: #356b9e;
-  --text-color-primary: #b0c9e0;
-  --bg-color: #356b9e;
-  --menu-active-text-color: #74aff8;
-  --menu-hover-bg: #4b77b0;
+  --text-color-primary: #677fac;
+  --bg-color: #a7c7f1;
+  --menu-active-text-color: #3461ae;
+  --menu-hover-bg: #81aadf;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--bg-color);
-  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
+  --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .water {
@@ -51,7 +51,8 @@
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--bg-color);
-  --el-dropdown-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
+  --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .momo {
@@ -59,12 +60,11 @@
   --text-color-primary: #dc9941;
   --bg-color: #71361d;
   --menu-active-text-color: #cbd282;
-  --menu-hover-bg: #9a7667;
+  --menu-hover-bg: #b16f50;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--bg-color);
-  --el-dropdown-menu-bg-color: var(--bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .dark {
@@ -78,7 +78,6 @@
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-hover-bg-color: var(--menu-hover-bg);
-  --el-dropdown-menu-bg-color: var(--bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 
@@ -132,5 +131,14 @@
   // 激活项悬停保持原色
   :deep(.el-tabs__item.is-active:hover) {
     color: var(--menu-active-text-color) !important;
+  }
+}
+.el-dropdown-menu {
+  :deep(.el-dropdown-menu__item) {
+    color: var(--el-dropdown-menuItem-text-color) !important;
+    &:hover {
+      background-color: var(--bg-color) !important;
+      color: var(--menu-active-text-color) !important ;
+    }
   }
 }

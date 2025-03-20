@@ -80,7 +80,7 @@ function toggleFullscreen () {
 
           <!-- 折叠的下拉部分 -->
           <template #dropdown>
-            <el-dropdown-menu>
+            <el-dropdown-menu active-text-color="#fff">
               <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
               <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
               <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item>
@@ -139,5 +139,9 @@ function toggleFullscreen () {
       }
     }
   }
+}
+:deep(.el-dropdown-menu__item:hover) {
+  background-color: var(--el-dropdown-menuItem-hover-fill) !important;
+  color: var(--el-dropdown-menuItem-hover-color) !important;
 }
 </style>

@@ -105,8 +105,8 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
   border-radius: 6px;
   display: flex;
   flex-wrap: wrap;
-  z-index: 999;
-  transition: opacity 0.1s;
+  z-index: 10;
+  transition: opacity 0.05s;
   .trangle::after {
     position: absolute;
     width: 0px;

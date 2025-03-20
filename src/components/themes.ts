@@ -15,8 +15,8 @@ export const themes: ThemeConfig[] = [
   },
   {
     name: 'blusky',
-    label: '孔雀蓝',
-    color: '#356b9e',
+    label: '天空蓝',
+    color: '#a7c7f1',
     className: 'blusky',
   },
   {
