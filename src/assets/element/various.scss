@@ -12,6 +12,9 @@
 
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
+
+  --chart-gradient-start: var(--color-primary);
+  --chart-gradient-end: var(--bg-color);
 }
 
 .grape {
@@ -26,6 +29,9 @@
   --el-menu-bg-color: var(--bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
+
+  --chart-gradient-start: var(--color-primary);
+  --chart-gradient-end: var(--bg-color);
 }
 .blusky {
   --color-primary: #356b9e;
@@ -40,6 +46,9 @@
   --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
   --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
+
+  --chart-gradient-start: var(--color-primary);
+  --chart-gradient-end: var(--bg-color);
 }
 .water {
   --color-primary: #587589;
@@ -54,6 +63,9 @@
   --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
   --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
+
+  --chart-gradient-start: var(--color-primary);
+  --chart-gradient-end: var(--bg-color);
 }
 .momo {
   --color-primary: #71361d;
@@ -66,6 +78,9 @@
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
+
+  --chart-gradient-start: var(--color-primary);
+  --chart-gradient-end: var(--bg-color);
 }
 .dark {
   --color-primary: #ffffff;

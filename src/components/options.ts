@@ -1,5 +1,11 @@
 import type { EChartsOption } from 'echarts'
+import * as echarts from 'echarts'
 
+const getCssVarValue = (varName: string): string => {
+  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim()
+}
+
+const getPrimaryColor = () => getCssVarValue('--color-primary')
 // 使用时可灵活扩展
 export const createLineOptions = (config: {
   xData: string[]
@@ -22,10 +28,22 @@ export const createLineOptions = (config: {
       type: 'line',
       data: config.seriesData,
       smooth: true,
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: getPrimaryColor() + '60',
+          },
+          {
+            offset: 1,
+            color: getPrimaryColor() + '00',
+          },
+        ]),
+      },
       symbol: 'circle',
       symbolSize: 8,
-      itemStyle: { color: '#67b3da' },
-      lineStyle: { color: '#67b3da', width: 3 },
+      itemStyle: { color: getPrimaryColor() },
+      lineStyle: { color: getPrimaryColor(), width: 3 },
     },
   ],
 })
@@ -51,7 +69,7 @@ export const createPieOptions = (
       },
       itemStyle: {
         borderRadius: 8, // 圆角效果
-        borderColor: '#fff',
+        borderColor: ' #fff',
         borderWidth: 2,
       },
       data,
@@ -90,7 +108,7 @@ export const createBarOptions = (config: {
       type: 'bar',
       data: config.seriesData,
       itemStyle: {
-        color: config.color || '#67b3da', // 默认颜色
+        color: config.color || getPrimaryColor(),
         borderRadius: [4, 4, 0, 0], // 顶部圆角
       },
       emphasis: {

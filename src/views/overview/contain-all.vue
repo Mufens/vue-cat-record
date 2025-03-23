@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { use } from 'echarts/core'
-
+import type { EChartsOption } from 'echarts'
 import { TitleComponent, TooltipComponent, GridComponent } from 'echarts/components'
-
 import { LineChart, PieChart, BarChart } from 'echarts/charts'
-
 import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
+import { createLineOptions, createPieOptions, createBarOptions } from '@/components/options'
+import { ref, onMounted, watch, computed } from 'vue'
+import { fetchCardData } from '@/api/count'
+import { fetchLineData, fetchBreedPieData, fetchAgeBarData } from '@/api/echarts'
+import { useThemesStore } from '@/stores/modules/themes'
+import type { CardData } from '@/types/count'
+import type { LineData, PieData, BarData } from '@/types/echarts'
+import { nextTick } from 'vue'
+
+// 初始化ECharts组件
 use([
   TitleComponent,
   TooltipComponent,
@@ -18,89 +26,87 @@ use([
   UniversalTransition
 ])
 
-import { createLineOptions, createPieOptions, createBarOptions } from '@/components/options'
+const themesStore = useThemesStore()
+const cards = ref<CardData[]>([])
+const lineData = ref<LineData>()
+const breedData = ref<PieData[]>()
+const ageData = ref<BarData>()
 
-// 折线图配置（猫咪动态）
-const dashOpt1 = createLineOptions({
-  xData: ['一月', '二月', '三月', '四月', '五月', '六月'],
-  seriesData: [120, 200, 150, 80, 70, 110],
-  xAxisType: 'category'
+// 图表选项使用computed实现响应式
+const dashOpt1 = computed<EChartsOption | undefined>(() => {
+  return lineData.value ? createLineOptions(lineData.value) : undefined
 })
 
-// 种类分布环形图配置
-const dashOpt2 = createPieOptions(
-  [
-    { value: 22, name: '奶牛猫' },
-    { value: 55, name: '狸花猫' },
-    { value: 99, name: '橘猫' },
-    { value: 27, name: '玳瑁猫' },
-    { value: 50, name: '三花猫' },
-    { value: 11, name: '白猫' },
-    { value: 5, name: '金色传说' },
-    { value: 17, name: '黑猫' }
-  ],
-  true // 启用环形模式
+const dashOpt2 = computed<EChartsOption | undefined>(() => {
+  return breedData.value ? createPieOptions(breedData.value, true) : undefined
+})
+
+const dashOpt4 = computed<EChartsOption | undefined>(() => {
+  return ageData.value ? createBarOptions(ageData.value) : undefined
+})
+
+// 加载卡片数据
+const loadData = async () => {
+  try {
+    const { data } = await fetchCardData()
+    if (data.success) {
+      cards.value = data.data
+    }
+  } catch (err) {
+    console.error('数据加载失败', err)
+  }
+}
+
+// 加载图表数据
+const loadChartsData = async () => {
+  try {
+    const [lineRes, breedRes, ageRes] = await Promise.all([
+      fetchLineData(),
+      fetchBreedPieData(),
+      fetchAgeBarData()
+    ])
+
+    lineData.value = lineRes.data.data
+    breedData.value = breedRes.data.data
+    ageData.value = ageRes.data.data
+  } catch (err) {
+    console.error('图表数据加载失败', err)
+  }
+}
+
+// 主题变化时强制更新图表
+watch(
+  () => themesStore.currentTheme,
+  async () => {
+    // 清空数据触发图表卸载
+    lineData.value = undefined
+    breedData.value = undefined
+    ageData.value = undefined
+    // 等待DOM更新后重新加载
+    await nextTick()
+    await loadChartsData()
+  },
+  {
+    deep: true
+  }
 )
 
-// 颜色分布环形图配置
-const dashOpt3 = createPieOptions(
-  [
-    { value: 135, name: '白色' },
-    { value: 110, name: '黑色' },
-    { value: 175, name: '橘色' },
-    { value: 115, name: '三花' }
-  ],
-  true // 启用环形模式
-)
-const dashOpt4 = createBarOptions({
-  xData: ['幼猫 (<1岁)', '青年猫 (1-2岁)', '状年猫 (3-6岁)', '中年猫(7-10岁)', '老年猫 (>11岁)'],
-  seriesData: [20, 70, 90, 55, 18],
-  color: '#fea0b1'
+onMounted(async () => {
+  await loadData()
+  await loadChartsData()
 })
 </script>
+
 <template>
   <el-row :gutter="20" class="mgb20">
-    <el-col :span="6">
+    <el-col v-for="card in cards" :key="card.name" :span="6">
       <el-card shadow="hover" body-class="card-body">
         <div class="card-content">
-          <div>用户访问量</div>
-          <div class="count">999</div>
+          <div class="count">{{ card.count }}</div>
+          <div class="name">{{ card.name }}</div>
         </div>
-        <div class="icon first">
-          <i class="iconfont icon-fangwenliang"></i>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card shadow="hover" body-class="card-body">
-        <div class="card-content">
-          <div>系统消息</div>
-          <div class="count">999</div>
-        </div>
-        <div class="icon second">
-          <i class="iconfont icon-xitongxiaoxi"></i>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card shadow="hover" body-class="card-body">
-        <div class="card-content">
-          <div>猫咪数量</div>
-          <div class="count">999</div>
-        </div>
-        <div class="icon third">
-          <i class="iconfont icon-xiaomao"></i>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card shadow="hover" body-class="card-body">
-        <div class="card-content">
-          <div>救助数量</div>
-          <div class="count">999</div>
-        </div>
-        <div class="icon fourth">
-          <i class="iconfont icon-jiuzhuicon"></i>
+        <div class="icon" :class="card.iconClass">
+          <i class="iconfont" :class="card.icon"></i>
         </div>
       </el-card>
     </el-col>
@@ -109,34 +115,20 @@ const dashOpt4 = createBarOptions({
   <el-row :gutter="20" class="mgb20">
     <el-col :span="15">
       <el-card shadow="hover">
-        <div class="card-header">
-          <p class="card-header-title">猫咪动态</p>
-          <p class="card-header-desc">最近半年猫咪数量变化</p>
-        </div>
-        <v-chart class="chart1" :option="dashOpt1" />
+        <v-chart class="chart1" :option="dashOpt1" autoresize />
       </el-card>
       <el-card shadow="hover">
-        <div class="card-header">
-          <p class="card-header-title">猫咪年龄分布</p>
-          <p class="card-header-desc">2025年3月统计</p>
-        </div>
-        <v-chart class="chart1" :option="dashOpt4" />
+        <v-chart class="chart1" :option="dashOpt4" autoresize />
       </el-card>
     </el-col>
     <el-col :span="9">
       <el-card shadow="hover">
-        <div class="card-header">
-          <p class="card-header-title">猫咪品种</p>
-        </div>
-        <v-chart class="chart2" :option="dashOpt2" />
-      </el-card>
-      <el-card shadow="hover">
-        <div class="card-header"><p class="card-header-title">猫咪颜色</p></div>
-        <v-chart class="chart2" :option="dashOpt3" />
+        <v-chart class="chart2" :option="dashOpt2" autoresize />
       </el-card>
     </el-col>
   </el-row>
 </template>
+
 <style>
 .card-body {
   display: flex;

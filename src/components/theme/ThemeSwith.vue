@@ -1,41 +1,24 @@
 <script setup lang="ts">
+import { useThemesStore } from '@/stores/modules/themes'
 import { themes } from './themes'
-import type { ThemeConfig } from '@/types/themes'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-// 状态管理
-const themeState = ref({
-  visible: false,
-  current: localStorage.getItem('defaultTheme') || 'default',
-  isDefault: localStorage.getItem('defaultTheme') !== null
-})
-
-// DOM引用
+const themesStore = useThemesStore()
 const containerRef = ref<HTMLElement | null>(null)
+const visible = ref(false)
 
 // 初始化主题
 onMounted(() => {
-  applyTheme(themeState.value.current as ThemeConfig['className'])
+  themesStore.initializeTheme()
 })
 
-// 主题应用逻辑
-const applyTheme = (theme: ThemeConfig['className']) => {
-  if (!themes.some(t => t.className === theme)) return
-
-  const root = document.documentElement
-  themes.forEach(t => root.classList.remove(t.className))
-  root.classList.add(theme)
-  themeState.value.current = theme
-  localStorage.setItem('defaultTheme', theme)
-}
-
 // 面板显隐控制
-const togglePanel = () => (themeState.value.visible = !themeState.value.visible)
+const togglePanel = () => (visible.value = !visible.value)
 
 // 点击外部关闭
 const clickHandler = (e: MouseEvent) => {
   if (!containerRef.value?.contains(e.target as Node)) {
-    themeState.value.visible = false
+    visible.value = false
   }
 }
 
@@ -51,10 +34,10 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
     </div>
     <div
       class="theme-panel"
-      v-show="themeState.visible"
+      v-show="visible"
       :style="{
-        background: themeState.current === 'dark' ? '#1a1a1a' : '#fff',
-        '--trangle-color': themeState.current === 'dark' ? '#1a1a1a' : '#fff'
+        background: themesStore.currentTheme === 'dark' ? '#1a1a1a' : '#fff',
+        '--trangle-color': themesStore.currentTheme === 'dark' ? '#1a1a1a' : '#fff'
       }"
     >
       <!-- 三角 -->
@@ -64,8 +47,8 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
         v-for="theme in themes"
         :key="theme.name"
         class="theme-item"
-        :class="{ active: themeState.current === theme.className }"
-        @click.stop="applyTheme(theme.className)"
+        :class="{ active: themesStore.currentTheme === theme.className }"
+        @click.stop="themesStore.applyTheme(theme.className)"
       >
         <div class="theme-content">
           <div class="border">
