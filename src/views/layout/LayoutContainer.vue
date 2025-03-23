@@ -3,6 +3,7 @@ import AsideMenu from './components/aside-menu.vue'
 import HeaderMenu from './components/header-menu.vue'
 import TabContainer from '@/components/TabContainer.vue'
 import { ref } from 'vue'
+
 const isCollapsed = ref(false)
 </script>
 <template>
@@ -18,7 +19,7 @@ const isCollapsed = ref(false)
       <HeaderMenu @toggle-collapse="state => (isCollapsed = state)"> </HeaderMenu>
       <div class="main">
         <TabContainer></TabContainer>
-        <router-view></router-view>
+        <router-view> </router-view>
       </div>
     </div>
   </div>

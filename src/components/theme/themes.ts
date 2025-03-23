@@ -28,7 +28,7 @@ export const themes: ThemeConfig[] = [
   {
     name: 'momo',
     label: '丁香棕',
-    color: '#71361D',
+    color: '#bea78b',
     className: 'momo',
   },
   {

@@ -40,7 +40,7 @@ const router = createRouter({
           path: '/message-board',
           component: () => import('@/views/board/message-board.vue'),
           name: 'message-board',
-          meta: { title: '留言板', icon: 'icon-Gc_32_line-UserManagement' },
+          meta: { title: '留言板', icon: 'icon-maojiazhengchangx' },
         },
       ],
     },

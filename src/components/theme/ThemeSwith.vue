@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { themes } from '@/components/themes'
+import { themes } from './themes'
 import type { ThemeConfig } from '@/types/themes'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
@@ -85,7 +85,6 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
 }
 
 .theme-switch {
-  cursor: pointer;
   padding: 0 15px;
   i {
     font-size: 20px;

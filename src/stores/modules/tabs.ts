@@ -14,6 +14,7 @@ export const useTabsStore = defineStore('tabs', () => {
   const tabList = ref<TabItem[]>([])
 
   // 计算属性
+  const nameList = computed(() => tabList.value.map((t) => t.name))
   const hasTabs = computed(() => tabList.value.length > 0)
   const tabPaths = computed(() => tabList.value.map((t) => t.path))
   const tabCount = computed(() => tabList.value.length)
@@ -56,6 +57,7 @@ export const useTabsStore = defineStore('tabs', () => {
   // 暴露接口
   return {
     tabs: tabList,
+    nameList,
     hasTabs,
     tabPaths,
     tabCount,

@@ -14,7 +14,7 @@ import { ref, computed } from 'vue'
 import { menuData } from '@/components/menu'
 import { useRoute } from 'vue-router'
 import { generateBreadcrumbs } from '@/utils/breadcrumb'
-import ThemeSwith from '@/components/ThemeSwith.vue'
+import ThemeSwith from '@/components/theme/ThemeSwith.vue'
 
 //折叠状态
 const emit = defineEmits(['toggle-collapse'])
