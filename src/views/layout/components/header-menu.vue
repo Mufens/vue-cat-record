@@ -15,6 +15,7 @@ import { menuData } from '@/components/menu'
 import { useRoute } from 'vue-router'
 import { generateBreadcrumbs } from '@/utils/breadcrumb'
 import ThemeSwith from '@/components/theme/ThemeSwith.vue'
+import GetMessage from './GetMessage.vue'
 
 //折叠状态
 const emit = defineEmits(['toggle-collapse'])
@@ -65,14 +66,12 @@ function toggleFullscreen () {
         <i class="iconfont icon-quanping" v-if="!isFullscreen"> </i>
         <i class="iconfont icon-tuichuquanping" v-else></i>
       </div>
-      <div class="message">
-        <i class="iconfont icon-xiaoxi1"></i>
-      </div>
+      <GetMessage></GetMessage>
       <div class="user">
         <el-dropdown placement="bottom-end">
           <!-- 展示给用户，默认看到的 -->
           <div class="el-dropdown__box">
-            <el-avatar></el-avatar>
+            <el-avatar src="src/assets/images/avatar1.jpg"></el-avatar>
             <div class="arrow">
               <el-icon><CaretBottom /></el-icon>
             </div>
@@ -123,12 +122,7 @@ function toggleFullscreen () {
         font-size: 25px;
       }
     }
-    .message {
-      margin: 0 15px;
-      i {
-        font-size: 19px;
-      }
-    }
+
     .user {
       margin: 0 20px;
       .el-dropdown__box {

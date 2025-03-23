@@ -71,7 +71,7 @@
   --color-primary: #71361d;
   --text-color-primary: #865d34;
   --bg-color: #bea78b;
-  --menu-active-text-color: #f9e8d4b9;
+  --menu-active-text-color: #47403ae7;
   --menu-hover-bg: #b3987a;
 
   --el-menu-active-color: var(--menu-active-text-color);
@@ -94,6 +94,10 @@
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-hover-bg-color: var(--menu-hover-bg);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
+
+  --message-panel-bg: #1a1a1a;
+  --message-panel-text: #ffffff;
+  --border-color: #1e293b;
 }
 
 // 统一图标颜色

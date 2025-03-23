@@ -197,6 +197,6 @@ onMounted(async () => {
 }
 .chart2 {
   width: 100%;
-  height: 300px;
+  height: 400px;
 }
 </style>

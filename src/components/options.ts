@@ -41,9 +41,9 @@ export const createLineOptions = (config: {
         ]),
       },
       symbol: 'circle',
-      symbolSize: 8,
+      symbolSize: 5,
       itemStyle: { color: getPrimaryColor() },
-      lineStyle: { color: getPrimaryColor(), width: 3 },
+      lineStyle: { color: getPrimaryColor(), width: 2 },
     },
   ],
 })
