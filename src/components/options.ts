@@ -32,7 +32,7 @@ export const createLineOptions = (config: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: getPrimaryColor() + '60',
+            color: getPrimaryColor() + '50',
           },
           {
             offset: 1,
@@ -51,6 +51,10 @@ export const createPieOptions = (
   data: Array<{ value: number; name: string }>,
   isRing: boolean = false,
 ): EChartsOption => ({
+  title: {
+    text: '猫咪种类分布',
+    left: 'center',
+  },
   tooltip: {
     trigger: 'item',
     formatter: '{b}: {c} ({d}%)',
@@ -68,9 +72,7 @@ export const createPieOptions = (
         },
       },
       itemStyle: {
-        borderRadius: 8, // 圆角效果
-        borderColor: ' #fff',
-        borderWidth: 2,
+        borderRadius: 1, // 圆角效果
       },
       data,
       emphasis: {

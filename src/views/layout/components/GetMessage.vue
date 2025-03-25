@@ -58,7 +58,7 @@ const messageData = {
     }
   ],
   notifications: [
-    { title: '系统升级通知', content: '本周六凌晨进行系统升级维护', time: '今天 09:00:00' },
+    { title: '系统维护通知', content: '本周六凌晨进行系统升级维护', time: '今天 09:00:00' },
     { title: '权限变更通知', content: '您的账号权限已更新', time: '昨天 18:30:00' }
   ],
   todos: [{ task: '报销审批', status: '待处理', time: '今天 10:00:00' }]
@@ -79,10 +79,7 @@ const markAllAsRead = () => {
     <div class="message-panel" ref="panelRef" v-show="dialogVisible" @click.stop>
       <!-- 标签页区域 -->
       <el-tabs type="card" class="message-tabs">
-        <el-tab-pane label="消息(3)">
-          <template #label>
-            消息 <el-badge :value="messageData.messages.length" class="tab-badge" />
-          </template>
+        <el-tab-pane :label="`消息(${messageData.messages.length})`">
           <div class="message-list">
             <div v-for="(msg, index) in messageData.messages" :key="index" class="message-item">
               <div class="avater">
@@ -98,28 +95,23 @@ const markAllAsRead = () => {
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="通知(2)">
-          <template #label>
-            通知 <el-badge :value="messageData.notifications.length" class="tab-badge" />
-          </template>
+        <el-tab-pane :label="`通知(${messageData.notifications.length})`">
           <div class="message-list">
             <div
               v-for="(noti, index) in messageData.notifications"
               :key="index"
               class="message-item"
             >
-              <div class="title">{{ noti.title }}</div>
-              <div class="content">{{ noti.content }}</div>
-              <div class="time">{{ noti.time }}</div>
+              <div class="notinfo">
+                <div class="title">【{{ noti.title }}】</div>
+                <div class="content">{{ noti.content }}</div>
+                <div class="time">{{ noti.time }}</div>
+              </div>
             </div>
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="待办(1)">
-          <template #label>
-            待办 <el-badge :value="messageData.todos.length" class="tab-badge" />
-          </template>
-
+        <el-tab-pane :label="`代办(${messageData.todos.length})`">
           <div class="message-list">
             <div v-for="(todo, index) in messageData.todos" :key="index" class="message-item">
               <div class="task">{{ todo.task }}</div>
@@ -200,7 +192,22 @@ const markAllAsRead = () => {
           flex-direction: column;
           justify-content: center;
         }
-
+        .notinfo {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          .title {
+            text-align: left;
+          }
+          .content {
+            padding-left: 7px;
+            text-align: left;
+          }
+          .time {
+            padding-left: 7px;
+            text-align: left;
+          }
+        }
         &:last-child {
           border-bottom: none;
         }

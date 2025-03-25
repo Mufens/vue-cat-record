@@ -70,6 +70,7 @@ defineProps({
   z-index: 1000;
   width: 200px;
   height: 100vh;
+  border-right: 1px solid var(--border-color);
   overflow-x: hidden;
   //background-color: #fcf2f0;
   background-color: var(--bg-color);

@@ -36,8 +36,8 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
       class="theme-panel"
       v-show="visible"
       :style="{
-        background: themesStore.currentTheme === 'dark' ? '#1a1a1a' : '#fff',
-        '--trangle-color': themesStore.currentTheme === 'dark' ? '#1a1a1a' : '#fff'
+        background: themesStore.currentTheme === 'dark' ? '#232324' : '#fff',
+        '--trangle-color': themesStore.currentTheme === 'dark' ? '#232324' : '#fff'
       }"
     >
       <!-- 三角 -->
@@ -51,9 +51,10 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
         @click.stop="themesStore.applyTheme(theme.className)"
       >
         <div class="theme-content">
-          <div class="border">
+          <div class="block">
             <div class="color-block" :style="{ backgroundColor: theme.color }"></div>
           </div>
+
           <div class="theme-label">{{ theme.label }}</div>
         </div>
       </div>
@@ -78,56 +79,62 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
 .theme-panel {
   position: absolute;
   width: 180px;
-  height: 120px;
   top: 50px;
   right: -9px;
   background: #fff;
-  border: 0.1px solid var(--border-color, #fff);
+  border: 1px solid var(--border-color, #fff);
 
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   padding: 12px;
   border-radius: 6px;
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
   z-index: 10;
-  transition: opacity 0.05s;
-  .trangle::after {
+  .trangle {
     position: absolute;
     width: 0px;
     height: 0px;
-    top: -20px;
-    right: 27px;
-    content: '';
-    border-right: 10px solid transparent;
-    border-top: 10px solid var(--trangle-color);
-    border-left: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    transform: rotate(180deg);
+    top: -28px;
+    right: 47px;
+    &::after {
+      content: '';
+      border: 10px solid transparent;
+      border-bottom-color: var(--trangle-color);
+      transform: rotate(90deg);
+    }
   }
 
   filter: drop-shadow(2px 0 2px rgba(0, 0, 0, 0.05)) drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.05));
   .theme-item {
-    flex: 1;
-    width: 50px;
+    width: auto;
     padding-top: 5px;
     cursor: pointer;
     .theme-content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      .color-block {
+      .block {
         width: 46px;
-        height: 17px;
-        margin: 5px;
-        border-radius: 4px;
-        border: 2px solid transparent;
-        transition: border-color 0.2s;
+        height: 24px;
+        border-radius: 8px;
+        border: 1.5px solid #e5e6eb;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .color-block {
+          width: 16px;
+          height: 16px;
+          border-radius: 5px;
+        }
       }
 
       .theme-label {
         margin: 5px;
         font-size: 12px;
-        color: var(--color-primary);
+        color: var(--text-color-primary);
         text-align: center;
       }
     }
@@ -135,14 +142,13 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
 }
 .theme-item {
   &:hover {
-    .color-block {
-      border-color: var(--text-color-primary) !important
-;
+    .block {
+      border-color: var(--bg-color) !important;
     }
   }
   &.active {
-    .color-block {
-      border-color: var(--text-color-primary) !important;
+    .block {
+      border-color: var(--bg-color) !important;
     }
   }
 }

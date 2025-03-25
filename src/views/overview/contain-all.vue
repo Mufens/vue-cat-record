@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CountUp from 'vue-countup-v3'
 import { use } from 'echarts/core'
 import type { EChartsOption } from 'echarts'
 import { TitleComponent, TooltipComponent, GridComponent } from 'echarts/components'
@@ -13,6 +14,8 @@ import { useThemesStore } from '@/stores/modules/themes'
 import type { CardData } from '@/types/count'
 import type { LineData, PieData, BarData } from '@/types/echarts'
 import { nextTick } from 'vue'
+import { fetchRankData } from '@/api/rank'
+import type { RankItem } from '@/types/rank'
 
 // 初始化ECharts组件
 use([
@@ -91,19 +94,56 @@ watch(
   }
 )
 
+const ranks = ref<RankItem[]>([])
+const loadRankData = async () => {
+  try {
+    const { data } = await fetchRankData()
+    if (Array.isArray(data)) {
+      ranks.value = data
+      console.log('排行榜数据:', ranks.value)
+    } else if (data.success) {
+      ranks.value = data.data
+      console.log('排行榜数据:', ranks.value)
+    }
+  } catch (err) {
+    console.error('排行榜数据加载失败', err)
+  }
+}
+
 onMounted(async () => {
   await loadData()
   await loadChartsData()
+  await loadRankData()
 })
 </script>
 
 <template>
-  <el-row :gutter="20" class="mgb20">
+  <el-row :gutter="20" class="card">
     <el-col v-for="card in cards" :key="card.name" :span="6">
       <el-card shadow="hover" body-class="card-body">
         <div class="card-content">
-          <div class="count">{{ card.count }}</div>
           <div class="name">{{ card.name }}</div>
+          <div class="num">
+            <count-up
+              class="count"
+              :startVal="0"
+              :endVal="card.count"
+              :duration="2"
+              :options="{
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.'
+              }"
+            />
+
+            <span
+              class="change"
+              :style="{ color: card.change.startsWith('+') ? '#67C23A' : '#F56C6C' }"
+            >
+              {{ card.change }}
+            </span>
+          </div>
         </div>
         <div class="icon" :class="card.iconClass">
           <i class="iconfont" :class="card.icon"></i>
@@ -112,18 +152,80 @@ onMounted(async () => {
     </el-col>
   </el-row>
 
-  <el-row :gutter="20" class="mgb20">
-    <el-col :span="15">
-      <el-card shadow="hover">
+  <el-row :gutter="20" class="chart">
+    <el-col :span="14">
+      <el-card shadow="never">
+        <div class="card-header">
+          <p class="card-header-title">猫咪动态</p>
+          <p class="card-header-desc">最近半年猫咪数量变化</p>
+        </div>
+
         <v-chart class="chart1" :option="dashOpt1" autoresize />
       </el-card>
-      <el-card shadow="hover">
+    </el-col>
+    <el-col :span="10">
+      <el-card shadow="never">
+        <div class="card-header">
+          <p class="card-header-title">猫咪年龄分布</p>
+          <p class="card-header-desc">猫咪年龄统计截止日期为2025.7.1</p>
+        </div>
         <v-chart class="chart1" :option="dashOpt4" autoresize />
       </el-card>
     </el-col>
-    <el-col :span="9">
-      <el-card shadow="hover">
-        <v-chart class="chart2" :option="dashOpt2" autoresize />
+  </el-row>
+  <el-row :gutter="20" class="chart">
+    <el-col :span="8">
+      <el-card shadow="never">
+        <v-chart class="chart1" :option="dashOpt2" autoresize />
+      </el-card>
+    </el-col>
+    <el-col :span="8">
+      <el-card shadow="never" :body-style="{ height: '400px' }">
+        <div class="card-header">
+          <p class="card-header-title">排行榜</p>
+          <p class="card-header-desc">猫咪所花费的大米Top5</p>
+        </div>
+        <div>
+          <div class="rank">
+            <div
+              class="rank-item"
+              v-for="(rank, index) in ranks.slice(0, 5)"
+              :key="rank.title + index"
+            >
+              <div class="rank-item-avatar" :style="{ backgroundColor: rank.color }">
+                {{ index + 1 }}
+              </div>
+              <div class="rank-item-content">
+                <div class="rank-item-top">
+                  <div class="rank-item-title">{{ rank.title }}</div>
+                  <div class="rank-item-desc">花销：¥{{ rank.value.toLocaleString() }}</div>
+                </div>
+                <el-progress
+                  :show-text="false"
+                  striped
+                  :stroke-width="8"
+                  :percentage="rank.percent"
+                  :color="rank.color"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </el-card>
+    </el-col>
+    <el-col :span="8">
+      <el-card shadow="hover" :body-style="{ height: '400px' }">
+        <div class="card-header">
+          <p class="card-header-title">时间线</p>
+          <p class="card-header-desc">最新的销售动态和活动信息</p>
+        </div>
+        <el-timeline>
+          <el-timeline-item>
+            <div class="timeline-item">
+              <div></div>
+            </div>
+          </el-timeline-item>
+        </el-timeline>
       </el-card>
     </el-col>
   </el-row>
@@ -141,7 +243,9 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .el-card {
-  margin: 10px 8px;
+  margin: 8px 5px;
+}
+.card {
   .icon {
     height: 60px;
     width: 60px;
@@ -173,14 +277,29 @@ onMounted(async () => {
       background: radial-gradient(at top left, #96ccbe, #96c9a3);
     }
   }
-  .card-content {
-    text-align: center;
-    font-size: 16px;
+}
+.card-content {
+  font-size: 16px;
+  .name {
+    padding-bottom: 5px;
+  }
+  .num {
+    display: flex;
     .count {
       font-size: 25px;
     }
+    .change {
+      padding-left: 7px;
+      padding-top: 12px;
+      font-size: 12px;
+    }
   }
 }
+.card-header {
+  padding-left: 5px;
+  margin-bottom: 5px;
+}
+
 .card-header-title {
   font-size: 18px;
   font-weight: bold;
@@ -195,8 +314,30 @@ onMounted(async () => {
   width: 100%;
   height: 400px;
 }
-.chart2 {
-  width: 100%;
-  height: 400px;
+.rank {
+  .rank-item {
+    display: flex;
+    margin: 8px 0;
+    padding: 10px 0;
+
+    &-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 38px;
+      color: white;
+      font-weight: bold;
+      margin-right: 12px;
+    }
+    &-content {
+      flex: 1;
+      .rank-item-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+    }
+  }
 }
 </style>

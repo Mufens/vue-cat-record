@@ -164,20 +164,8 @@ tabsStore.$subscribe(() => {
   align-items: center;
   height: 45px;
   overflow: hidden;
-  background-color: #ffffff;
-
-  html.dark & {
-    background-color: #1a1a1a !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    /* 调整标签页分割线颜色 */
-    .el-tabs :deep(.el-tabs__item)::after {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    /* 调整操作按钮边框颜色 */
-    .tab-actions {
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-  }
+  border-bottom: 1px solid var(--border-color, #e5e6eb);
+  background-color: var(--message-panel-bg, #ffffff);
 
   .el-tabs {
     flex: 1;
@@ -228,8 +216,8 @@ tabsStore.$subscribe(() => {
     margin-top: 5px;
     margin-right: 10px;
     padding: 12px;
-    border-left: 2px solid rgba(245, 245, 245);
-    border-right: 2px solid rgba(245, 245, 245);
+    border-left: 2px solid var(--border-color, rgba(245, 245, 245));
+    border-right: 2px solid var(--border-color, rgba(245, 245, 245));
   }
 }
 </style>

@@ -3,6 +3,7 @@ export interface CardData {
   count: number
   iconClass: string
   icon: string
+  change: string
 }
 
 export interface CountResponse {

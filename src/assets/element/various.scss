@@ -1,9 +1,10 @@
 :root {
-  --color-primary: #819d60;
-  --text-color-primary: #819d60;
-  --bg-color: #fcf2f0;
-  --menu-active-text-color: #d68262;
-  --menu-hover-bg: #faede7;
+  --color-primary: #e0a2aa;
+  --text-color-primary: #c68280;
+  --bg-color: #fbced3;
+  --menu-active-text-color: #f67a95;
+  --menu-hover-bg: #fce4e9;
+  --menu-hover-bg2: #f5f4f4;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -12,17 +13,15 @@
 
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
-
-  --chart-gradient-start: var(--color-primary);
-  --chart-gradient-end: var(--bg-color);
 }
 
 .grape {
   --color-primary: #e073a9;
   --text-color-primary: #8e7f86;
-  --bg-color: #e9e5fa;
+  --bg-color: #d8d3f1;
   --menu-active-text-color: #e073a9;
   --menu-hover-bg: #f4f2fb;
+  --menu-hover-bg2: #f5f4f4;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -39,6 +38,7 @@
   --bg-color: #a7c7f1;
   --menu-active-text-color: #3461ae;
   --menu-hover-bg: #b7cdec;
+  --menu-hover-bg2: #f5f4f4;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -56,6 +56,7 @@
   --bg-color: #cce7e0;
   --menu-active-text-color: #67a0c0;
   --menu-hover-bg: #e5f4ee;
+  --menu-hover-bg2: #f5f4f4;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -73,6 +74,23 @@
   --bg-color: #bea78b;
   --menu-active-text-color: #47403ae7;
   --menu-hover-bg: #b3987a;
+  --menu-hover-bg2: #f5f4f4;
+
+  --el-menu-active-color: var(--menu-active-text-color);
+  --el-menu-text-color: var(--text-color-primary);
+  --el-menu-bg-color: var(--bg-color);
+  --el-dropdown-menuItem-text-color: var(--text-color-primary);
+
+  --chart-gradient-start: var(--color-primary);
+  --chart-gradient-end: var(--bg-color);
+}
+.white {
+  --color-primary: #71361d;
+  --text-color-primary: #865d34;
+  --bg-color: #bea78b;
+  --menu-active-text-color: #47403ae7;
+  --menu-hover-bg: #b3987a;
+  --menu-hover-bg2: #f5f4f4;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -85,19 +103,20 @@
 .dark {
   --color-primary: #ffffff;
   --text-color-primary: #ffffff;
-  --bg-color: #1a1a1a;
-  --menu-active-text-color: #409eff;
+  --bg-color: #232324;
+  --menu-active-text-color: #3c7eff;
   --menu-hover-bg: #2d2d2d;
+  --menu-hover-bg2: #2d2d2d;
 
   --el-menu-bg-color: var(--bg-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-hover-bg-color: var(--menu-hover-bg);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
-
-  --message-panel-bg: #1a1a1a;
+  --el-card-bg-color: var(--bg-color);
+  --message-panel-bg: #232324;
   --message-panel-text: #ffffff;
-  --border-color: #1e293b;
+  --border-color: #333335;
 }
 
 // 统一图标颜色
@@ -144,7 +163,7 @@
   // 悬停状态
   :deep(.el-tabs__item:not(.is-active):hover) {
     color: var(--text-color-primary) !important;
-    background-color: var(--menu-hover-bg) !important;
+    background-color: var(--menu-hover-bg2) !important;
   }
 
   // 激活项悬停保持原色

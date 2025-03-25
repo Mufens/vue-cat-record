@@ -10,7 +10,7 @@ export const themes: ThemeConfig[] = [
   {
     name: 'grape',
     label: '葡萄紫',
-    color: '#e9e5fa',
+    color: '#d8d3f1',
     className: 'grape',
   },
   {
@@ -30,6 +30,12 @@ export const themes: ThemeConfig[] = [
     label: '丁香棕',
     color: '#bea78b',
     className: 'momo',
+  },
+  {
+    name: 'white',
+    label: '经典白',
+    color: '#bea78b',
+    className: 'white',
   },
   {
     name: 'dark',

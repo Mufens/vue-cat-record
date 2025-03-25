@@ -61,6 +61,10 @@ function toggleFullscreen () {
       </div>
     </div>
     <div class="header-right">
+      <div class="dark">
+        <i class="iconfont icon-icon-light"></i>
+        <i class="iconfont icon-icon-dark"></i>
+      </div>
       <ThemeSwith></ThemeSwith>
       <div class="btn-icon" @click="toggleFullscreen">
         <i class="iconfont icon-quanping" v-if="!isFullscreen"> </i>
@@ -95,6 +99,7 @@ function toggleFullscreen () {
 .header {
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid var(--border-color, #fff);
   align-items: center;
   height: 60px;
   background-color: var(--bg-color);
