@@ -16,9 +16,18 @@ const isCollapsed = ref(false)
         width: isCollapsed ? '100%' : 'calc(100% - 200px)'
       }"
     >
-      <HeaderMenu @toggle-collapse="state => (isCollapsed = state)"> </HeaderMenu>
-      <div class="main">
+      <div
+        class="fixed-header"
+        :style="{
+          width: isCollapsed ? '100%' : 'calc(100% - 200px)',
+          left: isCollapsed ? '0' : '200px'
+        }"
+      >
+        <HeaderMenu @toggle-collapse="state => (isCollapsed = state)"> </HeaderMenu>
+
         <TabContainer></TabContainer>
+      </div>
+      <div class="main">
         <router-view> </router-view>
       </div>
     </div>
@@ -28,9 +37,21 @@ const isCollapsed = ref(false)
 .layout-container {
   display: flex;
   height: 100vh;
-
   .container {
     flex: 1;
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: var(--bg-color);
+      height: 105px;
+    }
+    .main {
+      height: calc(100vh - 105px);
+      margin-top: 105px;
+      overflow-x: hidden;
+    }
   }
 }
 </style>

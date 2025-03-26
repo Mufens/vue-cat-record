@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #f5f5f5;
+  background-color: var(--bg-color1, #f5f5f5);
   font-family:
     'PingFang SC', 'Helvetica Neue', Helvetica, 'microsoft yahei', arial, STHeiTi, sans-serif;
 }

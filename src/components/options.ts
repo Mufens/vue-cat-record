@@ -6,6 +6,11 @@ const getCssVarValue = (varName: string): string => {
 }
 
 const getPrimaryColor = () => getCssVarValue('--color-primary')
+const getTextColor = () => {
+  const color = getCssVarValue('--message-panel-text')
+  return color || '#333' // 默认黑色
+}
+
 // 使用时可灵活扩展
 export const createLineOptions = (config: {
   xData: string[]
@@ -32,7 +37,7 @@ export const createLineOptions = (config: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: getPrimaryColor() + '50',
+            color: getPrimaryColor() + '60',
           },
           {
             offset: 1,
@@ -54,6 +59,11 @@ export const createPieOptions = (
   title: {
     text: '猫咪种类分布',
     left: 'center',
+    textStyle: {
+      color: getTextColor(), // 使用文本主题色
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
   },
   tooltip: {
     trigger: 'item',

@@ -76,10 +76,11 @@ const loadChartsData = async () => {
     console.error('图表数据加载失败', err)
   }
 }
+const themeWatcher = computed(() => themesStore.currentTheme + themesStore.isDarkMode)
 
 // 主题变化时强制更新图表
 watch(
-  () => themesStore.currentTheme,
+  () => themeWatcher.value,
   async () => {
     // 清空数据触发图表卸载
     lineData.value = undefined
@@ -115,6 +116,16 @@ onMounted(async () => {
   await loadChartsData()
   await loadRankData()
 })
+
+//时间线数据
+const activities = ref([
+  { content: '第五次大抓捕13号圆满成功ᕑᗢᓫ', timestamp: '2025-04-12 ', color: '#00bcd4' },
+  { content: '恭喜我队成功拿到猫德学院赞助⌯>ᴗo⌯ಣ', timestamp: '2025-02-15 ', color: '#1231d4' },
+  { content: '经过多日训练多只猫咪已具猫德/•᷅•᷄\୭', timestamp: '2025-01-1 ', color: '#ff7aaE' },
+  { content: '第三次大抓捕13号出师不利被放走𖦹𖦹 .ᐟ.ᐟ', timestamp: '2024-12-12 ', color: '#07bcd4' },
+  { content: '今日开启猫咪领养平台=• ֊ •=', timestamp: '2024-11-15 ', color: '#bab267' },
+  { content: '严厉加强绝育工作', timestamp: '2024-11-10 ', color: '#e58333' }
+])
 </script>
 
 <template>
@@ -157,19 +168,18 @@ onMounted(async () => {
       <el-card shadow="never">
         <div class="card-header">
           <p class="card-header-title">猫咪动态</p>
-          <p class="card-header-desc">最近半年猫咪数量变化</p>
+          <p class="card-header-desc">最近一年猫咪数量变化</p>
         </div>
-
-        <v-chart class="chart1" :option="dashOpt1" autoresize />
+        <v-chart class="chart1" :option="dashOpt1" :key="themeWatcher" autoresize />
       </el-card>
     </el-col>
     <el-col :span="10">
       <el-card shadow="never">
         <div class="card-header">
           <p class="card-header-title">猫咪年龄分布</p>
-          <p class="card-header-desc">猫咪年龄统计截止日期为2025.7.1</p>
+          <p class="card-header-desc">猫咪年龄统计截止日期为2024.12.31</p>
         </div>
-        <v-chart class="chart1" :option="dashOpt4" autoresize />
+        <v-chart class="chart1" :option="dashOpt4" :key="themeWatcher" autoresize />
       </el-card>
     </el-col>
   </el-row>
@@ -189,7 +199,7 @@ onMounted(async () => {
           <div class="rank">
             <div
               class="rank-item"
-              v-for="(rank, index) in ranks.slice(0, 5)"
+              v-for="(rank, index) in [...ranks].sort((a, b) => b.value - a.value).slice(0, 5)"
               :key="rank.title + index"
             >
               <div class="rank-item-avatar" :style="{ backgroundColor: rank.color }">
@@ -217,12 +227,17 @@ onMounted(async () => {
       <el-card shadow="hover" :body-style="{ height: '400px' }">
         <div class="card-header">
           <p class="card-header-title">时间线</p>
-          <p class="card-header-desc">最新的销售动态和活动信息</p>
+          <p class="card-header-desc">最新猫咪大事件消息</p>
         </div>
         <el-timeline>
-          <el-timeline-item>
+          <el-timeline-item
+            v-for="(activity, index) in activities"
+            :key="index"
+            :color="activity.color"
+            :timestamp="activity.timestamp"
+          >
             <div class="timeline-item">
-              <div></div>
+              {{ activity.content }}
             </div>
           </el-timeline-item>
         </el-timeline>
@@ -339,5 +354,8 @@ onMounted(async () => {
       }
     }
   }
+}
+.el-timeline {
+  margin-top: 15px;
 }
 </style>

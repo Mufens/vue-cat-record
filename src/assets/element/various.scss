@@ -2,121 +2,139 @@
   --color-primary: #e0a2aa;
   --text-color-primary: #c68280;
   --bg-color: #fbced3;
+  --aside-bg-color: #fbced3;
+  --header-bg-color: #fbced3;
   --menu-active-text-color: #f67a95;
+  //菜单hover颜色
   --menu-hover-bg: #fce4e9;
+  //el-tabs标签页悬浮颜色
   --menu-hover-bg2: #f5f4f4;
+  //el-tabs激活颜色
+  --menu-bg2: #fce4e9;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-hover-bg-color: var(--menu-hover-bg);
-  --el-menu-bg-color: var(--bg-color);
+  --el-menu-bg-color: var(--aside-bg-color);
 
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
 }
 
 .grape {
-  --color-primary: #e073a9;
+  --color-primary: #d8d3f1;
   --text-color-primary: #8e7f86;
   --bg-color: #d8d3f1;
+  --aside-bg-color: #d8d3f1;
+  --header-bg-color: #d8d3f1;
   --menu-active-text-color: #e073a9;
-  --menu-hover-bg: #f4f2fb;
+  --menu-hover-bg: #e4def6;
   --menu-hover-bg2: #f5f4f4;
+  --menu-bg2: #e4def6;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--bg-color);
+  --el-menu-bg-color: var(--aside-bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
-
-  --chart-gradient-start: var(--color-primary);
-  --chart-gradient-end: var(--bg-color);
 }
 .blusky {
-  --color-primary: #356b9e;
+  --color-primary: #a7c7f1;
   --text-color-primary: #677fac;
   --bg-color: #a7c7f1;
+  --aside-bg-color: #a7c7f1;
+  --header-bg-color: #a7c7f1;
   --menu-active-text-color: #3461ae;
   --menu-hover-bg: #b7cdec;
   --menu-hover-bg2: #f5f4f4;
+  --menu-bg2: #b7cdec;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--bg-color);
+  --el-menu-bg-color: var(--aside-bg-color);
   --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
   --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
-
-  --chart-gradient-start: var(--color-primary);
-  --chart-gradient-end: var(--bg-color);
 }
 .water {
-  --color-primary: #587589;
+  --color-primary: #cce7e0;
   --text-color-primary: #587589;
   --bg-color: #cce7e0;
+  --aside-bg-color: #cce7e0;
+  --header-bg-color: #cce7e0;
   --menu-active-text-color: #67a0c0;
-  --menu-hover-bg: #e5f4ee;
+  --menu-hover-bg: #d8f5ea;
   --menu-hover-bg2: #f5f4f4;
+  --menu-bg2: #d8f5ea;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--bg-color);
+  --el-menu-bg-color: var(--aside-bg-color);
   --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
   --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
-
-  --chart-gradient-start: var(--color-primary);
-  --chart-gradient-end: var(--bg-color);
 }
 .momo {
-  --color-primary: #71361d;
+  --color-primary: #bea78b;
   --text-color-primary: #865d34;
   --bg-color: #bea78b;
+  --aside-bg-color: #bea78b;
+  --header-bg-color: #bea78b;
   --menu-active-text-color: #47403ae7;
   --menu-hover-bg: #b3987a;
   --menu-hover-bg2: #f5f4f4;
+  --menu-bg2: #b3987a;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--bg-color);
+  --el-menu-bg-color: var(--aside-bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
-
-  --chart-gradient-start: var(--color-primary);
-  --chart-gradient-end: var(--bg-color);
 }
-.white {
-  --color-primary: #71361d;
-  --text-color-primary: #865d34;
-  --bg-color: #bea78b;
-  --menu-active-text-color: #47403ae7;
-  --menu-hover-bg: #b3987a;
-  --menu-hover-bg2: #f5f4f4;
-
+.gaoji {
+  --color-primary: #06b1bd;
+  --text-color-primary: #303133;
+  --bg-color: #06b1bd;
+  --aside-bg-color: #accaeb;
+  --header-bg-color: #f9f3ef;
+  --active-color: #f9e9be;
+  --menu-active-text-color: #303133;
+  --menu-hover-bg: #f2f3f5;
+  --menu-hover-bg2: #f2f2f2;
+  --menu-bg2: #d4eef0;
+  --border-color: #e4e7ed;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--bg-color);
+  --el-menu-bg-color: var(--aside-bg-color);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
 
-  --chart-gradient-start: var(--color-primary);
-  --chart-gradient-end: var(--bg-color);
+  :deep(.el-tabs__item.is-active) {
+    background-color: var(--active-color) !important;
+  }
 }
+
 .dark {
   --color-primary: #ffffff;
   --text-color-primary: #ffffff;
   --bg-color: #232324;
+  --aside-bg-color: #232324;
+  --header-bg-color: #232324;
   --menu-active-text-color: #3c7eff;
   --menu-hover-bg: #2d2d2d;
   --menu-hover-bg2: #2d2d2d;
+  --menu-bg2: #2d2d2d;
 
   --el-menu-bg-color: var(--bg-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-hover-bg-color: var(--menu-hover-bg);
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
-  --el-card-bg-color: var(--bg-color);
   --message-panel-bg: #232324;
   --message-panel-text: #ffffff;
   --border-color: #333335;
+  --bg-color1: #3a3a3d;
+  .el-card {
+    background-color: var(--bg-color);
+  }
 }
 
 // 统一图标颜色
@@ -131,6 +149,7 @@
 .el-menu {
   // 末级菜单项激活状态
   :deep(.el-menu-item.is-active) {
+    background-color: var(--active-color);
     .iconfont {
       color: var(--el-menu-active-color) !important; // 图标同步激活色
     }
@@ -151,7 +170,7 @@
   // 激活状态
   :deep(.el-tabs__item.is-active) {
     color: var(--menu-active-text-color) !important;
-    background-color: var(--menu-hover-bg) !important;
+    background-color: var(--menu-bg2) !important;
     .iconfont {
       color: var(--menu-active-text-color) !important;
     }
@@ -177,6 +196,17 @@
     &:hover {
       background-color: var(--bg-color) !important;
       color: var(--menu-active-text-color) !important ;
+    }
+    &.is-disabled {
+      color: #c0c4cc !important;
+      cursor: not-allowed;
+      opacity: 1; /* 覆盖默认的透明度 */
+      .el-icon {
+        color: var(--el-text-color-disabled, #c0c4cc) !important;
+      }
+      &:hover {
+        background-color: transparent !important;
+      }
     }
   }
 }

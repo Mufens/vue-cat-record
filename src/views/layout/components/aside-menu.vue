@@ -73,8 +73,7 @@ defineProps({
   border-right: 1px solid var(--border-color);
   overflow-x: hidden;
   //background-color: #fcf2f0;
-  background-color: var(--bg-color);
-  transition: all 0.1s ease;
+  background-color: var(--aside-bg-color);
 
   &_logo {
     height: 150px;
@@ -83,7 +82,6 @@ defineProps({
     .aside-menu {
       border-right: none;
       width: 100%;
-      transition: all 0.1s ease;
     }
   }
 }

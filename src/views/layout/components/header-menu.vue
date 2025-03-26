@@ -61,10 +61,6 @@ function toggleFullscreen () {
       </div>
     </div>
     <div class="header-right">
-      <div class="dark">
-        <i class="iconfont icon-icon-light"></i>
-        <i class="iconfont icon-icon-dark"></i>
-      </div>
       <ThemeSwith></ThemeSwith>
       <div class="btn-icon" @click="toggleFullscreen">
         <i class="iconfont icon-quanping" v-if="!isFullscreen"> </i>
@@ -99,10 +95,11 @@ function toggleFullscreen () {
 .header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border-color, #fff);
+  border-bottom: 1px solid var(--border-color, #f5f6f6);
   align-items: center;
   height: 60px;
-  background-color: var(--bg-color);
+  background-color: var(--header-bg-color);
+  border-left: 1px solid var(--border-color);
   .header-left {
     display: flex;
     text-align: center;
@@ -118,16 +115,8 @@ function toggleFullscreen () {
   }
   .header-right {
     display: flex;
-    margin-right: 5px;
     text-align: center;
     align-items: center;
-    .btn.icon {
-      margin: 0 15px;
-      .i {
-        font-size: 25px;
-      }
-    }
-
     .user {
       margin: 0 20px;
       .el-dropdown__box {

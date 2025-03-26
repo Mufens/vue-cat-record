@@ -164,6 +164,7 @@ tabsStore.$subscribe(() => {
   align-items: center;
   height: 45px;
   overflow: hidden;
+  border-left: 1px solid var(--border-color, #e4e7ed);
   border-bottom: 1px solid var(--border-color, #e5e6eb);
   background-color: var(--message-panel-bg, #ffffff);
 
@@ -213,7 +214,6 @@ tabsStore.$subscribe(() => {
     }
   }
   .tab-actions {
-    margin-top: 5px;
     margin-right: 10px;
     padding: 12px;
     border-left: 2px solid var(--border-color, rgba(245, 245, 245));

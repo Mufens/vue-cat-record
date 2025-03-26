@@ -9,34 +9,34 @@ const mockRankData: RankItem[] = [
   },
   {
     title: '医疗',
-    value: 13200,
-    percent: 45,
+    value: 18900,
+    percent: 65,
     color: '#E6A23C',
   },
   {
     title: '疫苗',
-    value: 18900,
-    percent: 65,
+    value: 16900,
+    percent: 57,
     color: '#67C23A',
   },
   {
     title: '驱虫',
-    value: 15450,
-    percent: 53,
+    value: 12450,
+    percent: 45,
     color: '#409EFF',
   },
 
   {
     title: '食品',
-    value: 9800,
-    percent: 34,
-    color: '#909399',
+    value: 15000,
+    percent: 55,
+    color: '#f9e67a',
   },
   {
     title: '用具',
-    value: 12000,
+    value: 9800,
     percent: 27,
-    color: '#eaeeba',
+    color: '#909399',
   },
 ]
 

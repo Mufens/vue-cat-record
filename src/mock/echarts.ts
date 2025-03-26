@@ -3,8 +3,8 @@ import type { LineData, PieData, BarData } from '@/types/echarts'
 
 // 模拟数据
 const mockLineData: LineData = {
-  xData: ['一月', '二月', '三月', '四月', '五月', '六月'],
-  seriesData: [120, 200, 150, 80, 70, 110],
+  xData: ['一月', '三月', '五月', '七月', '九月', '十二月'],
+  seriesData: [127, 111, 155, 180, 162, 150],
   xAxisType: 'category',
 }
 

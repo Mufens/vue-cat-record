@@ -4,7 +4,7 @@ export const themes: ThemeConfig[] = [
   {
     name: 'default',
     label: '樱花粉',
-    color: '#fcf2f0',
+    color: '#fbced3',
     className: 'default',
   },
   {
@@ -32,10 +32,10 @@ export const themes: ThemeConfig[] = [
     className: 'momo',
   },
   {
-    name: 'white',
-    label: '经典白',
-    color: '#bea78b',
-    className: 'white',
+    name: 'gaoji',
+    label: '拼接色',
+    color: '#06b1bd',
+    className: 'gaoji',
   },
   {
     name: 'dark',

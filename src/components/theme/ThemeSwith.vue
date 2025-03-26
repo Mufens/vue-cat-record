@@ -1,50 +1,68 @@
 <script setup lang="ts">
 import { useThemesStore } from '@/stores/modules/themes'
 import { themes } from './themes'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 
 const themesStore = useThemesStore()
 const containerRef = ref<HTMLElement | null>(null)
 const visible = ref(false)
+const visibleThemes = computed(() => themes.filter(t => t.className !== 'dark')) // 只过滤dark
 
-// 初始化主题
 onMounted(() => {
   themesStore.initializeTheme()
 })
 
-// 面板显隐控制
 const togglePanel = () => (visible.value = !visible.value)
 
-// 点击外部关闭
 const clickHandler = (e: MouseEvent) => {
   if (!containerRef.value?.contains(e.target as Node)) {
     visible.value = false
   }
 }
 
-// 事件监听管理
 onMounted(() => document.addEventListener('click', clickHandler))
 onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
 </script>
 
 <template>
   <div class="theme-container" ref="containerRef">
-    <div class="theme-switch" @click="togglePanel">
-      <i class="iconfont icon-zhuti_tiaosepan_o"></i>
+    <div class="switch-group">
+      <!-- 暗黑模式切换按钮 -->
+      <div class="darkchange" @click="themesStore.toggleDarkMode()">
+        <i v-if="!themesStore.isDarkMode" class="iconfont icon-taiyang"></i>
+        <i v-else class="iconfont icon-icon-heiyemoshi"></i>
+      </div>
+
+      <!-- 浅色主题切换按钮 -->
+      <template v-if="themesStore.isDarkMode">
+        <el-tooltip
+          effect="light"
+          content="浅色主题使用请切换为白天模式 ᖰ⌯'▾'⌯ᖳ"
+          placement="bottom"
+        >
+          <div class="theme-switch disabled">
+            <i class="iconfont icon-zhuti_tiaosepan_o"></i>
+          </div>
+        </el-tooltip>
+      </template>
+      <template v-else>
+        <div class="theme-switch" @click="togglePanel">
+          <i class="iconfont icon-zhuti_tiaosepan_o"></i>
+        </div>
+      </template>
     </div>
+    <!-- 主题面板 -->
     <div
       class="theme-panel"
       v-show="visible"
       :style="{
-        background: themesStore.currentTheme === 'dark' ? '#232324' : '#fff',
-        '--trangle-color': themesStore.currentTheme === 'dark' ? '#232324' : '#fff'
+        background: themesStore.isDarkMode ? '#232324' : '#fff',
+        '--trangle-color': themesStore.isDarkMode ? '#232324' : '#fff'
       }"
     >
-      <!-- 三角 -->
       <div class="trangle"></div>
-      <!-- 主题颜色列表 -->
       <div
-        v-for="theme in themes"
+        v-for="theme in visibleThemes"
         :key="theme.name"
         class="theme-item"
         :class="{ active: themesStore.currentTheme === theme.className }"
@@ -54,7 +72,6 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
           <div class="block">
             <div class="color-block" :style="{ backgroundColor: theme.color }"></div>
           </div>
-
           <div class="theme-label">{{ theme.label }}</div>
         </div>
       </div>
@@ -66,6 +83,16 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
 .theme-container {
   position: relative;
   display: inline-block;
+}
+.switch-group {
+  display: flex;
+  align-items: center;
+  .darkchange {
+    .iconfont {
+      font-size: 18px;
+      color: var(--text-color-primary) !important;
+    }
+  }
 }
 
 .theme-switch {
@@ -82,7 +109,7 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
   top: 50px;
   right: -9px;
   background: #fff;
-  border: 1px solid var(--border-color, #fff);
+  border: 1px solid #fff;
 
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   padding: 12px;

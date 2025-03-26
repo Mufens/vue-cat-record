@@ -1,6 +1,6 @@
 [file name]: GetMessage.vue [file content begin]
 <script setup lang="ts">
-import { ElTabs, ElTabPane, ElBadge, ElButton } from 'element-plus'
+import { ElTabs, ElTabPane, ElBadge } from 'element-plus'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const dialogVisible = ref(false)
@@ -124,8 +124,8 @@ const markAllAsRead = () => {
 
       <!-- 底部操作栏 -->
       <div class="panel-footer">
-        <el-button type="text" @click="markAllAsRead">全部已读</el-button>
-        <el-button type="text">查看更多</el-button>
+        <div class="read" @click="markAllAsRead">全部已读</div>
+        <div class="more">查看更多</div>
       </div>
     </div>
   </div>
@@ -258,7 +258,9 @@ const markAllAsRead = () => {
       padding-top: 12px;
       margin-top: 12px;
       border-top: 1px solid var(--border-color, #e2e8f0);
-      .el-button {
+      .more,
+      .read {
+        cursor: pointer;
         font-size: 12px;
         padding: 0 8px;
         color: var(--text-color-primary);
@@ -266,10 +268,6 @@ const markAllAsRead = () => {
           color: var(--menu-active-text-color);
         }
       }
-    }
-
-    .tab-badge :deep(.el-badge__content) {
-      transform: scale(0.8) translateY(-1px);
     }
   }
 }
