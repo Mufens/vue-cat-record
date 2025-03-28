@@ -9,8 +9,10 @@
   --menu-hover-bg: #fce4e9;
   //el-tabs标签页悬浮颜色
   --menu-hover-bg2: #f5f4f4;
-  //el-tabs激活颜色
+  //el-tabs激活背景色
   --menu-bg2: #fce4e9;
+  //评分颜色
+  --rate-color: #e0a2aa;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -19,18 +21,20 @@
 
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
+  --el-button-text-color: var(--color-primary);
+  --el-button-hover-bg-color: var(--bg-color);
 }
-
 .grape {
   --color-primary: #d8d3f1;
   --text-color-primary: #8e7f86;
   --bg-color: #d8d3f1;
   --aside-bg-color: #d8d3f1;
   --header-bg-color: #d8d3f1;
-  --menu-active-text-color: #e073a9;
+  --menu-active-text-color: #f090c0;
   --menu-hover-bg: #e4def6;
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #e4def6;
+  --rate-color: #c1b7eb;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -44,10 +48,11 @@
   --bg-color: #a7c7f1;
   --aside-bg-color: #a7c7f1;
   --header-bg-color: #a7c7f1;
-  --menu-active-text-color: #3461ae;
+  --menu-active-text-color: #5b89d8;
   --menu-hover-bg: #b7cdec;
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #b7cdec;
+  --rate-color: #a7c7f1;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -66,6 +71,7 @@
   --menu-hover-bg: #d8f5ea;
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #d8f5ea;
+  --rate-color: #84b5d1;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -76,14 +82,15 @@
 }
 .momo {
   --color-primary: #bea78b;
-  --text-color-primary: #865d34;
+  --text-color-primary: #906b46;
   --bg-color: #bea78b;
   --aside-bg-color: #bea78b;
   --header-bg-color: #bea78b;
-  --menu-active-text-color: #47403ae7;
+  --menu-active-text-color: #644c24e7;
   --menu-hover-bg: #b3987a;
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #b3987a;
+  --rate-color: #bea78b;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -102,6 +109,7 @@
   --menu-hover-bg2: #f2f2f2;
   --menu-bg2: #d4eef0;
   --border-color: #e4e7ed;
+  --rate-color: #f9e9be;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -122,7 +130,7 @@
   --menu-hover-bg: #2d2d2d;
   --menu-hover-bg2: #2d2d2d;
   --menu-bg2: #2d2d2d;
-
+  --rate-color: #ffffff;
   --el-menu-bg-color: var(--bg-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -133,6 +141,9 @@
   --border-color: #333335;
   --bg-color1: #3a3a3d;
   .el-card {
+    background-color: var(--bg-color);
+  }
+  .el-table {
     background-color: var(--bg-color);
   }
 }
@@ -163,6 +174,7 @@
   }
 }
 
+//标签页颜色
 .el-tabs {
   &__item {
     color: var(--text-color-primary);
@@ -194,7 +206,7 @@
   :deep(.el-dropdown-menu__item) {
     color: var(--el-dropdown-menuItem-text-color) !important;
     &:hover {
-      background-color: var(--bg-color) !important;
+      background-color: var(--menu-bg2) !important;
       color: var(--menu-active-text-color) !important ;
     }
     &.is-disabled {
@@ -208,5 +220,34 @@
         background-color: transparent !important;
       }
     }
+  }
+}
+//输入框
+.el-input {
+  --el-input-focus-border-color: var(--menu-active-text-color);
+}
+//选择框
+:deep(.el-select__wrapper.is-focused) {
+  box-shadow: 0 0 0 1px var(--menu-active-text-color) inset;
+}
+.el-select-dropdown__item.is-selected {
+  color: var(--menu-active-text-color);
+}
+// 按钮
+.el-button {
+  color: var(--text-color-primary);
+  &:hover {
+    background-color: var(--bg-color);
+    border-color: var(--menu-active-text-color);
+    color: var(--text-color-primary);
+  }
+}
+// 分页颜色
+.el-pagination.is-background .el-pager li {
+  &.is-active {
+    background-color: var(--menu-active-text-color);
+  }
+  &:not(.is-active):hover {
+    color: var(--menu-active-text-color);
   }
 }

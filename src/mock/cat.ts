@@ -1,0 +1,145 @@
+import type { MockMethod } from 'vite-plugin-mock'
+import type { CatItem } from '@/types/cat'
+export default [
+  {
+    url: '/api/cat/mes/list',
+    method: 'get',
+    response: ({
+      query,
+    }: {
+      query: { pagenum?: number; pagesize?: number; breed?: string; adoptionStatus?: string }
+    }) => {
+      const { pagenum = 1, pagesize = 8, breed, adoptionStatus } = query
+      let data = [
+        {
+          id: 1,
+          name: '大宝',
+          breed: '橘猫',
+          age: '12岁',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '未领养',
+          area: '东区12栋',
+          friendliness: 5,
+          createTime: '2024-03-27T22:38:06',
+          catImg: 'cat1',
+        } as CatItem,
+        {
+          id: 2,
+          name: '大宝',
+          breed: '橘猫',
+          age: '12岁',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '未领养',
+          area: '东区12栋',
+          friendliness: 3,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat2',
+        },
+        {
+          id: 3,
+          name: '年糕',
+          breed: '白猫',
+          age: '2岁',
+          gender: '公',
+          healthStatus: '喵星',
+          adoptionStatus: '未领养',
+          area: '东区操场',
+          friendliness: 3,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat3',
+        },
+        {
+          id: 4,
+          name: '来财',
+          breed: '奶牛猫',
+          age: '3',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '已领养',
+          area: '东区12栋',
+          friendliness: 5,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat3',
+        },
+        {
+          id: 5,
+          name: '胖虎',
+          breed: '橘猫',
+          age: '3',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '未领养',
+          area: '梦月湖旁',
+          friendliness: 2,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat3',
+        },
+        {
+          id: 6,
+          name: '来财',
+          breed: '奶牛猫',
+          age: '3',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '未领养',
+          area: '东区12栋',
+          friendliness: 5,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat3',
+        },
+        {
+          id: 7,
+          name: '来财',
+          breed: '奶牛猫',
+          age: '3',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '未领养',
+          area: '东区12栋',
+          friendliness: 5,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat3',
+        },
+        {
+          id: 8,
+          name: '来财',
+          breed: '奶牛猫',
+          age: '3',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '未领养',
+          area: '东区12栋',
+          friendliness: 5,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat3',
+        },
+        {
+          id: 9,
+          name: '来财',
+          breed: '奶牛猫',
+          age: '3',
+          gender: '公',
+          healthStatus: '健康',
+          adoptionStatus: '未领养',
+          area: '东区12栋',
+          friendliness: 5,
+          createTime: '2024-08-27T22:38:06',
+          catImg: 'cat3',
+        },
+      ]
+      if (breed) data = data.filter((item) => item.breed === breed)
+      if (adoptionStatus) data = data.filter((item) => item.adoptionStatus === adoptionStatus)
+      const start = (pagenum - 1) * Number(pagesize)
+      const end = start + Number(pagesize)
+      return {
+        success: true,
+        data: {
+          data: data.slice(start, end),
+          total: data.length,
+        },
+      }
+    },
+  },
+] as MockMethod[]

@@ -258,7 +258,7 @@ const activities = ref([
 
 <style scoped lang="scss">
 .el-card {
-  margin: 8px 5px;
+  margin: 8px 6px;
 }
 .card {
   .icon {
