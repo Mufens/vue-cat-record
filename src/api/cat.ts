@@ -4,3 +4,17 @@ import type { CatItem } from '@/types/cat'
 export const fetchCatData = (params?: Record<string, string | number | boolean>) => {
   return axios.get<{ data: CatItem[]; total: number }>('/api/cat/mes/list', { params })
 }
+// 新增猫咪
+export const addCatData = (data: Omit<CatItem, 'id'>) => {
+  return axios.post('/api/cat/mes', data)
+}
+
+// 编辑猫咪
+export const editCatData = (id: number, data: Partial<CatItem>) => {
+  return axios.put(`/api/cat/mes/${id}`, data)
+}
+
+// 删除猫咪
+export const deleteCatData = (id: number) => {
+  return axios.delete(`/api/cat/mes/${id}`)
+}

@@ -1,11 +1,43 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { formatDate } from '@/utils/format'
 import TableActions from '@/components/TableActions.vue'
 import { Search, ZoomIn, Edit, Delete, RefreshRight, CirclePlus } from '@element-plus/icons-vue'
 import { fetchCatData } from '@/api/cat'
 import type { CatItem, CatQueryParams } from '@/types/cat'
 import CatDetail from './components/cat-detail.vue'
+import CatEdit from './components/cat-edit.vue'
+import { deleteCatData } from '@/api/cat'
+const catEditRef = ref()
+const AddCat = () => {
+  catEditRef.value.open()
+}
+const EditCat = (row: CatItem) => {
+  catEditRef.value.open(row)
+}
+const DelCat = async (row: CatItem) => {
+  try {
+    await ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+
+    await deleteCatData(row.id)
+    ElMessage.success('删除成功')
+    fetchCatList()
+  } catch {
+    ElMessage.error('删除失败')
+  }
+}
+const onSuccess = (type: 'add' | 'edit') => {
+  if (type === 'add') {
+    const lastPage = Math.ceil((total.value + 1) / queryParams.value.pagesize)
+    queryParams.value.pagenum = lastPage
+  }
+  fetchCatList()
+}
 
 const catList = ref<CatItem[]>([])
 const loading = ref(false)
@@ -129,7 +161,9 @@ onMounted(() => {
       <!-- 操作项 -->
       <div class="column">
         <div class="column-left">
-          <el-button :icon="CirclePlus" style="background-color: var(--menu-bg2)">新增 </el-button>
+          <el-button :icon="CirclePlus" style="background-color: var(--menu-bg2)" @click="AddCat"
+            >新增
+          </el-button>
         </div>
         <div class="column-right">
           <TableActions
@@ -158,6 +192,7 @@ onMounted(() => {
             :type="col.type"
             :fixed="col.fixed"
             :header-align="col.headerAlign"
+            show-overflow-tooltip
           >
             <!-- 序号列 -->
             <template v-if="col.type === 'index'" #default="{ $index }">
@@ -208,8 +243,8 @@ onMounted(() => {
                 type="primary"
                 @click="ViewCat(row)"
               ></el-button>
-              <el-button :icon="Edit" circle plain type="primary"></el-button>
-              <el-button :icon="Delete" circle plain type="danger"></el-button>
+              <el-button :icon="Edit" circle plain type="primary" @click="EditCat(row)"></el-button>
+              <el-button :icon="Delete" circle plain type="danger" @click="DelCat(row)"></el-button>
             </template>
           </el-table-column>
         </template>
@@ -227,6 +262,7 @@ onMounted(() => {
       style="margin-top: 10px; margin-right: 5px; justify-content: flex-end"
     />
     <cat-detail v-if="currentCat" :cat-data="currentCat" v-model:visible="detailVisible" />
+    <cat-edit ref="catEditRef" @success="onSuccess" />
   </div>
 </template>
 
