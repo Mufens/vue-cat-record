@@ -19,10 +19,10 @@ export default [
           gender: '公',
           healthStatus: '健康',
           adoptionStatus: '未领养',
-          area: '东区12栋',
+          area: '生活服务中心',
           friendliness: 5,
           createTime: '2024-03-27T22:38:06',
-          catImg: 'cat1',
+          catImg: '/images/111.jpg',
         } as CatItem,
         {
           id: 112,
@@ -35,7 +35,7 @@ export default [
           area: '东区12栋',
           friendliness: 3,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat2',
+          catImg: '/images/113.jpg',
         },
         {
           id: 113,
@@ -48,7 +48,7 @@ export default [
           area: '东区操场',
           friendliness: 3,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat3',
+          catImg: '',
         },
         {
           id: 114,
@@ -61,7 +61,7 @@ export default [
           area: '南区11栋',
           friendliness: 5,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat3',
+          catImg: '/images/113.jpg',
         },
         {
           id: 115,
@@ -74,7 +74,7 @@ export default [
           area: '梦月湖旁',
           friendliness: 2,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat3',
+          catImg: '',
         },
         {
           id: 116,
@@ -87,7 +87,7 @@ export default [
           area: '东区12栋',
           friendliness: 1,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat3',
+          catImg: '',
         },
         {
           id: 117,
@@ -100,7 +100,7 @@ export default [
           area: '生活服务中心',
           friendliness: 4,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat3',
+          catImg: '',
         },
         {
           id: 118,
@@ -113,7 +113,7 @@ export default [
           area: '东区12栋',
           friendliness: 5,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat3',
+          catImg: '',
         },
         {
           id: 119,
@@ -126,9 +126,10 @@ export default [
           area: '北区食堂',
           friendliness: 5,
           createTime: '2024-08-27T22:38:06',
-          catImg: 'cat3',
+          catImg: '/images/113.jpg',
         },
       ]
+
       if (breed) data = data.filter((item) => item.breed === breed)
       if (adoptionStatus) data = data.filter((item) => item.adoptionStatus === adoptionStatus)
       const start = (pagenum - 1) * Number(pagesize)

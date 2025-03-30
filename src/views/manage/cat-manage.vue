@@ -5,6 +5,7 @@ import TableActions from '@/components/TableActions.vue'
 import { Search, ZoomIn, Edit, Delete, RefreshRight, CirclePlus } from '@element-plus/icons-vue'
 import { fetchCatData } from '@/api/cat'
 import type { CatItem, CatQueryParams } from '@/types/cat'
+import CatDetail from './components/cat-detail.vue'
 
 const catList = ref<CatItem[]>([])
 const loading = ref(false)
@@ -43,6 +44,7 @@ const fetchCatList = async () => {
     const response = await fetchCatData(queryParams.value)
     if (response?.data) {
       catList.value = response.data.data
+
       total.value = response.data.total
       loading.value = false
     }
@@ -82,7 +84,14 @@ const onCurrentChange = (val: number) => {
 const getStarColor = (index: number, friendliness: number): string => {
   return index <= friendliness ? 'var(--rate-color)' : '#C0C0C0'
 }
+const detailVisible = ref(false)
+const currentCat = ref<CatItem | null>(null)
 
+// 查看猫咪详情方法
+const ViewCat = (row: CatItem) => {
+  currentCat.value = row
+  detailVisible.value = true
+}
 onMounted(() => {
   fetchCatList()
 })
@@ -191,8 +200,14 @@ onMounted(() => {
             </template>
 
             <!-- 操作列模板 -->
-            <template v-else-if="col.prop === 'actions'" #default>
-              <el-button :icon="ZoomIn" circle plain type="primary"></el-button>
+            <template v-else-if="col.prop === 'actions'" #default="{ row }">
+              <el-button
+                :icon="ZoomIn"
+                circle
+                plain
+                type="primary"
+                @click="ViewCat(row)"
+              ></el-button>
               <el-button :icon="Edit" circle plain type="primary"></el-button>
               <el-button :icon="Delete" circle plain type="danger"></el-button>
             </template>
@@ -211,6 +226,7 @@ onMounted(() => {
       @update:current-page="onCurrentChange"
       style="margin-top: 10px; margin-right: 5px; justify-content: flex-end"
     />
+    <cat-detail v-if="currentCat" :cat-data="currentCat" v-model:visible="detailVisible" />
   </div>
 </template>
 
@@ -245,7 +261,7 @@ onMounted(() => {
           margin-left: 8px;
         }
         margin-top: 10px;
-        margin-right: 10px;
+        margin-right: 5px;
       }
     }
 
@@ -254,6 +270,9 @@ onMounted(() => {
       .rate {
         display: flex;
         gap: 2px;
+      }
+      .el-button:hover {
+        background: transparent !important;
       }
     }
   }
