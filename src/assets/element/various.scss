@@ -13,6 +13,8 @@
   --menu-bg2: #fce4e9;
   //评分颜色
   --rate-color: #e0a2aa;
+  //表格悬浮颜色
+  --table-hover-color: #f5f7fa;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -140,10 +142,8 @@
   --message-panel-text: #ffffff;
   --border-color: #333335;
   --bg-color1: #3a3a3d;
+  --table-hover-color: #262727;
   .el-card {
-    background-color: var(--bg-color);
-  }
-  .el-table {
     background-color: var(--bg-color);
   }
 }
@@ -237,7 +237,7 @@
 .el-button {
   color: var(--text-color-primary);
   &:hover {
-    background-color: var(--bg-color);
+    background-color: var(--menu-bg2);
     border-color: var(--menu-active-text-color);
     color: var(--text-color-primary);
   }
@@ -250,4 +250,23 @@
   &:not(.is-active):hover {
     color: var(--menu-active-text-color);
   }
+}
+//加载图标
+.el-loading-spinner .path {
+  stroke: var(--menu-active-text-color);
+}
+//表格悬浮
+.el-table tbody tr:hover > td {
+  background-color: var(--table-hover-color) !important;
+}
+//选择框
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: var(--menu-active-text-color);
+}
+.el-checkbox__input.is-checked .el-checkbox__inner {
+  background-color: var(--menu-active-text-color);
+  border-color: var(--menu-active-text-color);
+}
+.el-checkbox__inner:hover {
+  border-color: var(--menu-active-text-color);
 }

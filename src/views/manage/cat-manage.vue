@@ -1,18 +1,50 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Search, Refresh, ZoomIn, Edit, Delete } from '@element-plus/icons-vue'
+import { formatDate } from '@/utils/format'
+import TableActions from '@/components/TableActions.vue'
+import { Search, ZoomIn, Edit, Delete, RefreshRight, CirclePlus } from '@element-plus/icons-vue'
 import { fetchCatData } from '@/api/cat'
 import type { CatItem, CatQueryParams } from '@/types/cat'
 
 const catList = ref<CatItem[]>([])
+const loading = ref(false)
 const total = ref(0)
+
+const columns = ref([
+  { label: '#', prop: 'index', visible: true, type: 'index' },
+  { label: '编号', prop: 'id', visible: true },
+  { label: '姓名', prop: 'name', visible: true },
+  { label: '品种', prop: 'breed', visible: true },
+  { label: '年龄', prop: 'age', visible: true },
+  { label: '性别', prop: 'gender', visible: true },
+  { label: '健康状况', prop: 'healthStatus', visible: true },
+  { label: '活动区域', prop: 'area', visible: true, width: '120' },
+  { label: '亲和度等级', prop: 'friendliness', visible: true, width: '100' },
+  { label: '领养状态', prop: 'adoptionStatus', visible: true },
+  {
+    label: '登记时间',
+    prop: 'createTime',
+    visible: true,
+    width: '120'
+  },
+  {
+    label: '操作',
+    prop: 'actions',
+    visible: true,
+    width: '150',
+    fixed: 'right',
+    headerAlign: 'center'
+  }
+])
 
 const fetchCatList = async () => {
   try {
+    loading.value = true
     const response = await fetchCatData(queryParams.value)
     if (response?.data) {
       catList.value = response.data.data
       total.value = response.data.total
+      loading.value = false
     }
   } catch (err) {
     console.error('数据加载失败', err)
@@ -47,11 +79,6 @@ const onCurrentChange = (val: number) => {
   fetchCatList()
 }
 
-const formatDate = (date: string): string => {
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' }
-  return new Date(date).toLocaleDateString(undefined, options)
-}
-
 const getStarColor = (index: number, friendliness: number): string => {
   return index <= friendliness ? 'var(--rate-color)' : '#C0C0C0'
 }
@@ -75,12 +102,7 @@ onMounted(() => {
           ></el-input>
         </el-form-item>
         <el-form-item label="领养状态">
-          <el-select
-            :popper-append-to-body="false"
-            v-model="queryParams.adoptionStatus"
-            placeholder="请选择"
-            style="width: 100px"
-          >
+          <el-select v-model="queryParams.adoptionStatus" placeholder="请选择" style="width: 100px">
             <el-option label="已领养" value="已领养"></el-option>
             <el-option label="未领养" value="未领养"></el-option>
           </el-select>
@@ -88,54 +110,96 @@ onMounted(() => {
       </el-form>
       <!-- 操作工具栏 -->
       <div class="toolbar">
-        <el-button :icon="Search" @click="search"> 查询 </el-button>
-        <el-button :icon="Refresh" @click="reset"> 重置 </el-button>
+        <el-button :icon="Search" @click="search" style="background-color: var(--menu-bg2)">
+          查询
+        </el-button>
+        <el-button :icon="RefreshRight" @click="reset"> 重置 </el-button>
       </div>
     </div>
+    <div class="operation">
+      <!-- 操作项 -->
+      <div class="column">
+        <div class="column-left">
+          <el-button :icon="CirclePlus" style="background-color: var(--menu-bg2)">新增 </el-button>
+        </div>
+        <div class="column-right">
+          <TableActions
+            v-model:columns="columns"
+            :show-columns-type="'checkbox'"
+            @refresh="fetchCatList"
+          />
+        </div>
+      </div>
 
-    <!-- 数据表格 -->
-    <el-table
-      :data="catList"
-      :cell-style="{ background: 'var(--message-panel-bg, #ffffff)' }"
-      :header-cell-style="{ background: 'var(--bg-color1,#f2f3f5)' }"
-    >
-      <el-table-column prop="id" label="编号" />
-      <el-table-column prop="name" label="姓名" />
-      <el-table-column prop="breed" label="品种" />
-      <el-table-column prop="age" label="年龄" />
-      <el-table-column prop="gender" label="性别" />
-      <el-table-column prop="healthStatus" label="健康状况" />
-      <el-table-column label="领养状态">
-        <template #default="{ row }">
-          <el-tag :type="row.adoptionStatus === '已领养' ? 'success' : 'info'">
-            {{ row.adoptionStatus }}
-          </el-tag>
+      <!-- 数据表格 -->
+      <el-table
+        :data="catList"
+        :cell-style="{ background: 'var(--message-panel-bg, #ffffff)' }"
+        :header-cell-style="{
+          background: 'var(--menu-bg2)',
+          color: '#606266'
+        }"
+      >
+        <template v-for="col in columns" :key="col.prop">
+          <el-table-column
+            v-if="col.visible"
+            :prop="col.prop"
+            :label="col.label"
+            :width="col.width"
+            :type="col.type"
+            :fixed="col.fixed"
+            :header-align="col.headerAlign"
+          >
+            <!-- 序号列 -->
+            <template v-if="col.type === 'index'" #default="{ $index }">
+              {{ $index + 1 }}
+            </template>
+
+            <!-- 健康状况 -->
+            <template v-else-if="col.prop === 'healthStatus'" #default="{ row }">
+              <el-tag
+                :type="
+                  row.healthStatus === '健康'
+                    ? 'success'
+                    : row.healthStatus === '生病'
+                    ? 'warning'
+                    : 'info'
+                "
+              >
+                {{ row.healthStatus }}
+              </el-tag>
+            </template>
+
+            <!-- 亲和度等级 -->
+            <template v-else-if="col.prop === 'friendliness'" #default="{ row }">
+              <div class="rate">
+                <span v-for="i in 5" :key="i" :style="{ color: getStarColor(i, row.friendliness) }">
+                  {{ i <= row.friendliness ? '★' : '☆' }}
+                </span>
+              </div>
+            </template>
+            <!-- 领养状态 -->
+            <template v-else-if="col.prop === 'adoptionStatus'" #default="{ row }">
+              <el-tag :type="row.adoptionStatus === '已领养' ? 'success' : 'info'">
+                {{ row.adoptionStatus }}
+              </el-tag>
+            </template>
+
+            <!-- 登记时间 -->
+            <template v-else-if="col.prop === 'createTime'" #default="{ row }">
+              {{ formatDate(row.createTime) }}
+            </template>
+
+            <!-- 操作列模板 -->
+            <template v-else-if="col.prop === 'actions'" #default>
+              <el-button :icon="ZoomIn" circle plain type="primary"></el-button>
+              <el-button :icon="Edit" circle plain type="primary"></el-button>
+              <el-button :icon="Delete" circle plain type="danger"></el-button>
+            </template>
+          </el-table-column>
         </template>
-      </el-table-column>
-      <el-table-column prop="area" label="活动区域" width="120"> </el-table-column>
-      <el-table-column prop="friendliness" label="亲和度等级" width="125">
-        <template #default="{ row }">
-          <div class="rate">
-            <span v-for="i in 5" :key="i" :style="{ color: getStarColor(i, row.friendliness) }">
-              {{ i <= row.friendliness ? '★' : '☆' }}
-            </span>
-          </div>
-        </template>
-      </el-table-column>
-
-      <el-table-column prop="createTime" label="登记时间" width="120">
-        <template #default="{ row }">{{ formatDate(row.createTime) }}</template>
-      </el-table-column>
-      <el-table-column fixed="right" label="操作" min-width="180">
-        <template #default>
-          <el-button :icon="ZoomIn" circle plain type="primary"></el-button>
-
-          <el-button :icon="Edit" circle plain type="primary"></el-button>
-          <el-button :icon="Delete" circle plain type="danger"></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
+      </el-table>
+    </div>
     <!-- 分页组件 -->
     <el-pagination
       :page-sizes="[3, 6, 8, 10]"
@@ -168,12 +232,30 @@ onMounted(() => {
       margin-left: auto;
     }
   }
-  .el-table {
-    padding: 0 10px;
-  }
-  .rate {
-    display: flex;
-    gap: 2px;
+  .operation {
+    padding: 0 20px;
+    .column {
+      display: flex;
+      justify-content: space-between;
+      &-left {
+        margin-top: 5px;
+      }
+      &-right {
+        .el-icon {
+          margin-left: 8px;
+        }
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+    }
+
+    .el-table {
+      padding-top: 5px;
+      .rate {
+        display: flex;
+        gap: 2px;
+      }
+    }
   }
 }
 </style>
