@@ -71,7 +71,7 @@ const markAllAsRead = () => {
 <template>
   <div class="message-container">
     <div class="message-icon" ref="iconRef" @click.stop="dialogVisible = !dialogVisible">
-      <el-badge is-dot :offset="[-3, 1]">
+      <el-badge is-dot :offset="[-5, 1]">
         <i class="iconfont icon-xiaoxi1"></i>
       </el-badge>
     </div>

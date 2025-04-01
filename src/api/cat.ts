@@ -5,10 +5,9 @@ export const fetchCatData = (params?: Record<string, string | number | boolean>)
   return axios.get<{ data: CatItem[]; total: number }>('/api/cat/mes/list', { params })
 }
 // 新增猫咪
-export const addCatData = (data: Omit<CatItem, 'id'>) => {
+export const addCatData = (data: Partial<CatItem>) => {
   return axios.post('/api/cat/mes', data)
 }
-
 // 编辑猫咪
 export const editCatData = (id: number, data: Partial<CatItem>) => {
   return axios.put(`/api/cat/mes/${id}`, data)

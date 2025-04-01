@@ -150,22 +150,23 @@ export default [
       }
     },
   },
-
+  //POST 添加猫咪
   {
     url: '/api/cat/mes',
     method: 'post',
     response: ({ body }: { body: Partial<CatItem> }) => {
       const newCat: CatItem = {
         id: Date.now(),
-        name: body.name || '',
-        breed: body.breed || '',
-        age: body.age || '',
+        ...body,
+        name: body.name || '未命名',
+        breed: body.breed || '未知品种',
+        age: body.age || '未知年龄',
         gender: body.gender || '公',
         healthStatus: body.healthStatus || '健康',
         adoptionStatus: body.adoptionStatus || '未领养',
-        area: body.area || '',
-        friendliness: body.friendliness || 0,
-        createTime: new Date().toISOString(),
+        area: body.area || '未知区域',
+        friendliness: body.friendliness ?? 3,
+        createTime: body.createTime || new Date().toISOString(),
         catImg: body.catImg || '',
       }
       data.push(newCat)
@@ -179,7 +180,11 @@ export default [
     response: ({ body, query }: { body: Partial<CatItem>; query: { id: string } }) => {
       const index = data.findIndex((item) => item.id === Number(query.id))
       if (index >= 0) {
-        data[index] = { ...data[index], ...body }
+        data[index] = {
+          ...data[index],
+          ...body,
+          catImg: body.catImg || data[index].catImg,
+        }
         return { success: true, data: data[index] }
       }
       return { success: false }

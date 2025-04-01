@@ -9,39 +9,11 @@ import type { CatItem, CatQueryParams } from '@/types/cat'
 import CatDetail from './components/cat-detail.vue'
 import CatEdit from './components/cat-edit.vue'
 import { deleteCatData } from '@/api/cat'
-const catEditRef = ref()
-const AddCat = () => {
-  catEditRef.value.open()
-}
-const EditCat = (row: CatItem) => {
-  catEditRef.value.open(row)
-}
-const DelCat = async (row: CatItem) => {
-  try {
-    await ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    })
-
-    await deleteCatData(row.id)
-    ElMessage.success('删除成功')
-    fetchCatList()
-  } catch {
-    ElMessage.error('删除失败')
-  }
-}
-const onSuccess = (type: 'add' | 'edit') => {
-  if (type === 'add') {
-    const lastPage = Math.ceil((total.value + 1) / queryParams.value.pagesize)
-    queryParams.value.pagenum = lastPage
-  }
-  fetchCatList()
-}
 
 const catList = ref<CatItem[]>([])
 const loading = ref(false)
 const total = ref(0)
+const catEditRef = ref()
 
 const columns = ref([
   { label: '#', prop: 'index', visible: true, type: 'index' },
@@ -84,6 +56,9 @@ const fetchCatList = async () => {
     console.error('数据加载失败', err)
   }
 }
+onMounted(() => {
+  fetchCatList()
+})
 
 // 查询参数
 const queryParams = ref<CatQueryParams>({
@@ -124,9 +99,34 @@ const ViewCat = (row: CatItem) => {
   currentCat.value = row
   detailVisible.value = true
 }
-onMounted(() => {
+const AddCat = () => {
+  catEditRef.value.open()
+}
+const EditCat = (row: CatItem) => {
+  catEditRef.value.open(row)
+}
+const DelCat = async (row: CatItem) => {
+  try {
+    await ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+      center: true
+    })
+    await deleteCatData(row.id)
+    ElMessage.success('删除成功')
+    fetchCatList()
+  } catch {
+    ElMessage.error('删除失败')
+  }
+}
+const onSuccess = (type: 'add' | 'edit') => {
+  if (type === 'add') {
+    const lastPage = Math.ceil((total.value + 1) / queryParams.value.pagesize)
+    queryParams.value.pagenum = lastPage
+  }
   fetchCatList()
-})
+}
 </script>
 
 <template>
