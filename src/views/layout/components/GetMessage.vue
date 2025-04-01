@@ -6,6 +6,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const dialogVisible = ref(false)
 const panelRef = ref<HTMLElement | null>(null)
 const iconRef = ref<HTMLElement | null>(null)
+const isdot = ref(true) //初始有未读消息
 
 const handleClickOutside = (event: MouseEvent) => {
   if (
@@ -64,6 +65,7 @@ const messageData = {
   todos: [{ task: '报销审批', status: '待处理', time: '今天 10:00:00' }]
 }
 const markAllAsRead = () => {
+  isdot.value = false
   dialogVisible.value = false
 }
 </script>
@@ -71,9 +73,15 @@ const markAllAsRead = () => {
 <template>
   <div class="message-container">
     <div class="message-icon" ref="iconRef" @click.stop="dialogVisible = !dialogVisible">
-      <el-badge is-dot :offset="[-5, 1]">
+      <!-- 修改此处：根据 isdot 条件渲染 Badge -->
+      <template v-if="isdot">
+        <el-badge :is-dot="true" :offset="[-5, 1]">
+          <i class="iconfont icon-xiaoxi1"></i>
+        </el-badge>
+      </template>
+      <template v-else>
         <i class="iconfont icon-xiaoxi1"></i>
-      </el-badge>
+      </template>
     </div>
 
     <div class="message-panel" ref="panelRef" v-show="dialogVisible" @click.stop>
