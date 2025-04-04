@@ -15,6 +15,8 @@
   --rate-color: #e0a2aa;
   //表格悬浮颜色
   --table-hover-color: #f5f7fa;
+  //实心按钮颜色
+  --button-color: #fce4e9;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -37,6 +39,7 @@
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #e4def6;
   --rate-color: #c1b7eb;
+  --button-color: #e4def6;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -55,6 +58,7 @@
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #b7cdec;
   --rate-color: #a7c7f1;
+  --button-color: #b7cdec;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -74,7 +78,7 @@
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #d8f5ea;
   --rate-color: #84b5d1;
-
+  --button-color: #d8f5ea;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -93,7 +97,7 @@
   --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #b3987a;
   --rate-color: #bea78b;
-
+  --button-color: #b3987a;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -112,6 +116,7 @@
   --menu-bg2: #d4eef0;
   --border-color: #e4e7ed;
   --rate-color: #f9e9be;
+  --button-color: #3c7eff;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -133,6 +138,7 @@
   --menu-hover-bg2: #2d2d2d;
   --menu-bg2: #2d2d2d;
   --rate-color: #ffffff;
+  --button-color: #3c7eff;
   --el-menu-bg-color: var(--bg-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -238,8 +244,8 @@
 .el-button {
   color: var(--text-color-primary);
   &:hover {
-    background-color: var(--menu-bg2);
     border-color: var(--menu-active-text-color);
+    background: var(--menu-hover-bg2);
     color: var(--text-color-primary);
   }
 }

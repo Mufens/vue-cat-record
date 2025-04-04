@@ -7,6 +7,9 @@ const dialogVisible = ref(false)
 const panelRef = ref<HTMLElement | null>(null)
 const iconRef = ref<HTMLElement | null>(null)
 const isdot = ref(true) //初始有未读消息
+const messagesRead = ref(false)
+const notificationsRead = ref(false)
+const todosRead = ref(false)
 
 const handleClickOutside = (event: MouseEvent) => {
   if (
@@ -66,6 +69,9 @@ const messageData = {
 }
 const markAllAsRead = () => {
   isdot.value = false
+  messagesRead.value = true
+  notificationsRead.value = true
+  todosRead.value = true
   dialogVisible.value = false
 }
 </script>
@@ -87,7 +93,7 @@ const markAllAsRead = () => {
     <div class="message-panel" ref="panelRef" v-show="dialogVisible" @click.stop>
       <!-- 标签页区域 -->
       <el-tabs type="card" class="message-tabs">
-        <el-tab-pane :label="`消息(${messageData.messages.length})`">
+        <el-tab-pane :label="messagesRead ? '消息' : `消息(${messageData.messages.length})`">
           <div class="message-list">
             <div v-for="(msg, index) in messageData.messages" :key="index" class="message-item">
               <div class="avater">
@@ -103,7 +109,9 @@ const markAllAsRead = () => {
           </div>
         </el-tab-pane>
 
-        <el-tab-pane :label="`通知(${messageData.notifications.length})`">
+        <el-tab-pane
+          :label="notificationsRead ? '通知' : `通知(${messageData.notifications.length})`"
+        >
           <div class="message-list">
             <div
               v-for="(noti, index) in messageData.notifications"
@@ -119,7 +127,7 @@ const markAllAsRead = () => {
           </div>
         </el-tab-pane>
 
-        <el-tab-pane :label="`代办(${messageData.todos.length})`">
+        <el-tab-pane :label="todosRead ? '待办' : `待办(${messageData.todos.length})`">
           <div class="message-list">
             <div v-for="(todo, index) in messageData.todos" :key="index" class="message-item">
               <div class="task">{{ todo.task }}</div>

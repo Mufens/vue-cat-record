@@ -35,11 +35,7 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
 
       <!-- 浅色主题切换按钮 -->
       <template v-if="themesStore.isDarkMode">
-        <el-tooltip
-          effect="light"
-          content="浅色主题使用请切换为白天模式 ᖰ⌯'▾'⌯ᖳ"
-          placement="bottom"
-        >
+        <el-tooltip effect="dark" content="浅色主题使用请切换为白天模式 ᖰ⌯'▾'⌯ᖳ" placement="bottom">
           <div class="theme-switch disabled">
             <i class="iconfont icon-zhuti_tiaosepan_o"></i>
           </div>

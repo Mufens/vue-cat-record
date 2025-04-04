@@ -151,7 +151,7 @@ const onSuccess = (type: 'add' | 'edit') => {
       </el-form>
       <!-- 操作工具栏 -->
       <div class="toolbar">
-        <el-button :icon="Search" @click="search" style="background-color: var(--menu-bg2)">
+        <el-button :icon="Search" @click="search" style="background-color: var(--button-color)">
           查询
         </el-button>
         <el-button :icon="RefreshRight" @click="reset"> 重置 </el-button>
@@ -161,7 +161,10 @@ const onSuccess = (type: 'add' | 'edit') => {
       <!-- 操作项 -->
       <div class="column">
         <div class="column-left">
-          <el-button :icon="CirclePlus" style="background-color: var(--menu-bg2)" @click="AddCat"
+          <el-button
+            :icon="CirclePlus"
+            style="background-color: var(--button-color)"
+            @click="AddCat"
             >新增
           </el-button>
         </div>
@@ -192,7 +195,7 @@ const onSuccess = (type: 'add' | 'edit') => {
             :type="col.type"
             :fixed="col.fixed"
             :header-align="col.headerAlign"
-            show-overflow-tooltip
+            :show-overflow-tooltip="col.prop === 'area' || col.prop === 'id'"
           >
             <!-- 序号列 -->
             <template v-if="col.type === 'index'" #default="{ $index }">

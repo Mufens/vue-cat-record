@@ -145,7 +145,7 @@ defineExpose({ open })
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button style="background-color: var(--button-color)" @click="onSubmit">提交</el-button>
       </el-form-item>
     </el-form>
   </el-drawer>
