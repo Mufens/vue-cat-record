@@ -29,7 +29,7 @@ export const useTabsStore = defineStore('tabs', () => {
       const newTab = {
         name: route.name?.toString() || targetPath,
         path: targetPath,
-        title: (route.meta.title as string) || '未命名标签',
+        title: route.meta.title as string,
         icon: (route.meta.icon as string) || 'el-icon-document',
       }
       tabList.value = [...tabList.value, newTab]

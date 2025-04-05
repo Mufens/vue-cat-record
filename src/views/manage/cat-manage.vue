@@ -239,15 +239,9 @@ const onSuccess = (type: 'add' | 'edit') => {
 
             <!-- 操作列模板 -->
             <template v-else-if="col.prop === 'actions'" #default="{ row }">
-              <el-button
-                :icon="ZoomIn"
-                circle
-                plain
-                type="primary"
-                @click="ViewCat(row)"
-              ></el-button>
-              <el-button :icon="Edit" circle plain type="primary" @click="EditCat(row)"></el-button>
-              <el-button :icon="Delete" circle plain type="danger" @click="DelCat(row)"></el-button>
+              <el-button class="primary" :icon="ZoomIn" circle @click="ViewCat(row)"></el-button>
+              <el-button class="primary" :icon="Edit" circle @click="EditCat(row)"></el-button>
+              <el-button class="danger" :icon="Delete" circle @click="DelCat(row)"></el-button>
             </template>
           </el-table-column>
         </template>
@@ -269,7 +263,7 @@ const onSuccess = (type: 'add' | 'edit') => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cat-manage {
   margin: 10px 10px;
   background-color: var(--message-panel-bg, #ffffff);
@@ -296,9 +290,6 @@ const onSuccess = (type: 'add' | 'edit') => {
         margin-top: 5px;
       }
       &-right {
-        .el-icon {
-          margin-left: 8px;
-        }
         margin-top: 10px;
         margin-right: 5px;
       }
@@ -310,8 +301,21 @@ const onSuccess = (type: 'add' | 'edit') => {
         display: flex;
         gap: 2px;
       }
-      .el-button:hover {
-        background: transparent !important;
+      .el-button {
+        &.primary {
+          background-color: var(--type-primary-color) !important;
+          border-color: #a0cfff !important;
+          &:hover {
+            border-color: var(--menu-active-text-color) !important;
+          }
+        }
+        &.danger {
+          background-color: var(--type-danger-color) !important;
+          border-color: #fab6b6 !important;
+          &:hover {
+            border-color: var(--menu-active-text-color) !important;
+          }
+        }
       }
     }
   }

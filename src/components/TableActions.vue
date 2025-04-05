@@ -77,6 +77,10 @@ const showColumnDropdown = ref(false)
 </template>
 
 <style lang="scss" scoped>
+.el-icon {
+  margin-left: 8px;
+}
+
 .el-dropdown-menu {
   height: 190px;
   :deep(.el-dropdown-menu__item) {

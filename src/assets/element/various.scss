@@ -17,12 +17,14 @@
   --table-hover-color: #f5f7fa;
   //实心按钮颜色
   --button-color: #fce4e9;
+  //表格操作项按钮颜色
+  --type-primary-color: #ecf5ff;
+  --type-danger-color: #fef0f0;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-hover-bg-color: var(--menu-hover-bg);
   --el-menu-bg-color: var(--aside-bg-color);
-
   --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --el-tabs-item-color: var(--text-color-primary);
   --el-button-text-color: var(--color-primary);
@@ -149,6 +151,8 @@
   --border-color: #333335;
   --bg-color1: #3a3a3d;
   --table-hover-color: #262727;
+  --type-primary-color: #18222c;
+  --type-danger-color: #2b1d1d;
   .el-card {
     background-color: var(--bg-color);
   }
@@ -215,6 +219,9 @@
     &:hover {
       background-color: var(--menu-bg2) !important;
       color: var(--menu-active-text-color) !important ;
+      .el-icon {
+        color: var(--menu-active-text-color) !important;
+      }
     }
     &.is-disabled {
       color: #c0c4cc !important;
@@ -240,14 +247,27 @@
 .el-select-dropdown__item.is-selected {
   color: var(--menu-active-text-color);
 }
+
 // 按钮
 .el-button {
   color: var(--text-color-primary);
   &:hover {
     border-color: var(--menu-active-text-color);
-    background: var(--menu-hover-bg2);
     color: var(--text-color-primary);
   }
+}
+.el-button--primary {
+  background-color: var(--button-color) !important;
+  border-color: var(--button-color) !important;
+  color: var(--text-color-primary) !important;
+
+  &:hover {
+    border-color: var(--menu-active-text-color) !important;
+  }
+}
+.el-message-box__close,
+.el-message-box__headerbtn:hover .el-message-box__close {
+  color: var(--menu-active-text-color);
 }
 // 分页颜色
 .el-pagination.is-background .el-pager li {
