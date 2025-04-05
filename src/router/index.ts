@@ -44,6 +44,15 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/403',
+      component: () => import('@/views/pages/403-error.vue'),
+    },
+    {
+      path: '/404',
+      component: () => import('@/views/pages/404-error.vue'),
+    },
+    { path: '/:path(.*)', redirect: '/404' },
   ],
 })
 

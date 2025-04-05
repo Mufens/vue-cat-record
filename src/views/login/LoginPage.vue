@@ -178,7 +178,7 @@ watch(isRegister, () => {
 
     width: 400px;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: var(--bg-color1, #fff);
     padding: 40px 50px 50px;
 
     box-sizing: border-box;
@@ -196,7 +196,7 @@ watch(isRegister, () => {
       }
       .login-title {
         font-size: 22px;
-        color: #333;
+        color: var(--menu-active-text-color);
         font-weight: bold;
       }
     }
