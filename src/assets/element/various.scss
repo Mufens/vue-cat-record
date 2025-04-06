@@ -222,6 +222,9 @@
       .el-icon {
         color: var(--menu-active-text-color) !important;
       }
+      .iconfont {
+        color: var(--menu-active-text-color) !important;
+      }
     }
     &.is-disabled {
       color: #c0c4cc !important;
@@ -257,14 +260,17 @@
   }
 }
 .el-button--primary {
-  background-color: var(--button-color) !important;
+  background-color: var(--menu-active-text-color) !important;
   border-color: var(--button-color) !important;
-  color: var(--text-color-primary) !important;
-
+  color: #fff !important;
+  :deep(.el-icon) {
+    color: #fff !important;
+  }
   &:hover {
     border-color: var(--menu-active-text-color) !important;
   }
 }
+//提示框
 .el-message-box__close,
 .el-message-box__headerbtn:hover .el-message-box__close {
   color: var(--menu-active-text-color);

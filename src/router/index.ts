@@ -42,15 +42,23 @@ const router = createRouter({
           name: 'message-board',
           meta: { title: '留言板', icon: 'icon-maojiazhengchangx' },
         },
+        {
+          path: '/user',
+          component: () => import('@/views/user/UserProfile.vue'),
+          name: 'user',
+          meta: { title: '个人中心', icon: 'icon-personalcenter' },
+        },
       ],
     },
     {
       path: '/403',
       component: () => import('@/views/pages/403-error.vue'),
+      meta: { title: '没有权限' },
     },
     {
       path: '/404',
       component: () => import('@/views/pages/404-error.vue'),
+      meta: { title: '页面不存在' },
     },
     { path: '/:path(.*)', redirect: '/404' },
   ],

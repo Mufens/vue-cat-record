@@ -106,19 +106,15 @@ const EditCat = (row: CatItem) => {
   catEditRef.value.open(row)
 }
 const DelCat = async (row: CatItem) => {
-  try {
-    await ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-      center: true
-    })
-    await deleteCatData(row.id)
-    ElMessage.success('删除成功')
-    fetchCatList()
-  } catch {
-    ElMessage.error('删除失败')
-  }
+  await ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+    center: true
+  })
+  await deleteCatData(row.id)
+  ElMessage.success('删除成功')
+  fetchCatList()
 }
 const onSuccess = (type: 'add' | 'edit') => {
   if (type === 'add') {
@@ -151,9 +147,7 @@ const onSuccess = (type: 'add' | 'edit') => {
       </el-form>
       <!-- 操作工具栏 -->
       <div class="toolbar">
-        <el-button :icon="Search" @click="search" style="background-color: var(--button-color)">
-          查询
-        </el-button>
+        <el-button :icon="Search" @click="search" type="primary"> 查询 </el-button>
         <el-button :icon="RefreshRight" @click="reset"> 重置 </el-button>
       </div>
     </div>
@@ -161,12 +155,7 @@ const onSuccess = (type: 'add' | 'edit') => {
       <!-- 操作项 -->
       <div class="column">
         <div class="column-left">
-          <el-button
-            :icon="CirclePlus"
-            style="background-color: var(--button-color)"
-            @click="AddCat"
-            >新增
-          </el-button>
+          <el-button :icon="CirclePlus" type="primary" @click="AddCat">新增 </el-button>
         </div>
         <div class="column-right">
           <TableActions

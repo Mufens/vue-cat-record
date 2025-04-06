@@ -41,4 +41,10 @@ export const menuData: Menus[] = [
     index: '/message-board',
     icon: 'icon-maojiazhengchangx',
   },
+  {
+    id: '4',
+    title: '个人中心',
+    index: '/user',
+    icon: 'icon-personalcenter',
+  },
 ]

@@ -3,6 +3,8 @@ import { User, Lock, Message } from '@element-plus/icons-vue'
 import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { registerAPI, loginAPI } from '@/api/user'
+import { useUserStore } from '@/stores'
 const isRegister = ref(false)
 const form = ref()
 const formModel = ref({ username: 'admin', password: '123456', email: '', repassword: '' })
@@ -18,7 +20,17 @@ const rules = {
   ],
   repassword: [
     { required: true, message: '请再次输入密码', trigger: 'blur' },
-    { pattern: /^\S{6,15}$/, message: '密码必须是 6-15位 的非空字符', trigger: 'blur' }
+    { pattern: /^\S{6,15}$/, message: '密码必须是 6-15位 的非空字符', trigger: 'blur' },
+    {
+      validator: (rule: string, value: string, callback: (error?: Error) => void) => {
+        if (value !== formModel.value.password) {
+          callback(new Error('两次输入密码不一致'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur'
+    }
   ]
 }
 const router = useRouter()
@@ -26,19 +38,33 @@ const router = useRouter()
 const register = async () => {
   // 注册成功之前，先进行校验，校验成功 → 请求，校验失败 → 自动提示
   await form.value.validate()
+  await registerAPI({
+    name: formModel.value.username,
+    password: formModel.value.password,
+    email: formModel.value.email,
+    role: '爱喵用户',
+    avatar: ''
+  })
 
   ElMessage.success('注册成功')
   isRegister.value = false
 }
 
 const login = () => {
-  form.value.validate((valid: boolean) => {
+  form.value.validate(async (valid: boolean) => {
     if (valid) {
       // 登录逻辑
-      console.log('登录成功', formModel.value)
-      router.push('/overview')
+      const user = await loginAPI({
+        name: formModel.value.username,
+        password: formModel.value.password
+      })
+      const userStore = useUserStore()
+      userStore.setToken('mock-token') // 根据实际接口返回修改
+      userStore.setUser(user)
+      ElMessage.success('登录成功')
+      router.push('/')
     } else {
-      console.log('登录失败')
+      ElMessage.error('登录失败')
       return false
     }
   })

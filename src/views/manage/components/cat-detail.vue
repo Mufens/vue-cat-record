@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import { formatDate } from '@/utils/format'
+import type { CatItem } from '@/types/cat'
+import { computed } from 'vue'
+import cat from '@/assets/images/cat.jpg'
+
+const props = defineProps<{ catData: CatItem; visible: boolean }>()
+
+const emit = defineEmits(['update:visible'])
+const localVisible = computed({ get: () => props.visible, set: val => emit('update:visible', val) })
+
+const healthTagType = (status: string) => {
+  return status === '健康' ? 'success' : status === '生病' ? 'warning' : 'info'
+}
+
+const getStarColor = (index: number, friendliness: number): string => {
+  return index <= friendliness ? 'var(--rate-color)' : '#C0C0C0'
+}
+</script>
+
 <template>
   <el-dialog v-model="localVisible" title="猫咪详情" width="50%">
     <el-descriptions border>
@@ -39,26 +59,6 @@
     </el-descriptions>
   </el-dialog>
 </template>
-
-<script setup lang="ts">
-import { formatDate } from '@/utils/format'
-import type { CatItem } from '@/types/cat'
-import { computed } from 'vue'
-import cat from '@/assets/images/cat.jpg'
-
-const props = defineProps<{ catData: CatItem; visible: boolean }>()
-
-const emit = defineEmits(['update:visible'])
-const localVisible = computed({ get: () => props.visible, set: val => emit('update:visible', val) })
-
-const healthTagType = (status: string) => {
-  return status === '健康' ? 'success' : status === '生病' ? 'warning' : 'info'
-}
-
-const getStarColor = (index: number, friendliness: number): string => {
-  return index <= friendliness ? 'var(--rate-color)' : '#C0C0C0'
-}
-</script>
 
 <style scoped>
 .rate {
