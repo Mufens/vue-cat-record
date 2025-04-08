@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getUserInfoAPI } from '@/api/user'
 import type { User } from '@/types/user'
-
+import { users } from '@/mock/user'
 export const useUserStore = defineStore(
   'big-user',
   () => {
@@ -21,7 +21,12 @@ export const useUserStore = defineStore(
       user.value = res
     }
     const setUser = (obj: User) => {
-      user.value = obj
+      user.value = { ...user.value, ...obj }
+      // 同步更新本地模拟数据（临时方案）
+      const index = users.findIndex((u) => u.id === obj.id)
+      if (index !== -1) {
+        users[index] = { ...users[index], ...obj }
+      }
     }
 
     return {

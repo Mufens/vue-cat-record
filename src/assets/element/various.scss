@@ -212,6 +212,13 @@
     color: var(--menu-active-text-color) !important;
   }
 }
+.el-tabs__item.is-active,
+.el-tabs__item:hover {
+  color: var(--menu-active-text-color);
+}
+.el-tabs__active-bar {
+  background-color: var(--menu-active-text-color);
+}
 // 下拉框
 .el-dropdown-menu {
   :deep(.el-dropdown-menu__item) {
@@ -302,4 +309,9 @@
 }
 .el-checkbox__inner:hover {
   border-color: var(--menu-active-text-color);
+}
+//标签x号
+:deep(.el-tag .el-tag__close) {
+  color: var(--menu-active-text-color) !important;
+  --el-tag-hover-color: var(--bg-color);
 }

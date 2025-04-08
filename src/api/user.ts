@@ -37,3 +37,30 @@ export const getUserInfoAPI = async (userId: number) => {
   if (!user) throw new Error('用户不存在')
   return user
 }
+
+export const updatePasswordAPI = async (
+  userId: number,
+  oldPassword: string,
+  newPassword: string,
+) => {
+  await delay(500)
+  const user = users.find((u) => u.id === userId)
+  if (!user) throw new Error('用户不存在')
+  if (user.password !== oldPassword) throw new Error('原密码错误')
+
+  user.password = newPassword
+  return true
+}
+export const updateUserInfoAPI = async (userId: number, updateData: Partial<User>) => {
+  await delay(500)
+  const userIndex = users.findIndex((u) => u.id === userId)
+  if (userIndex === -1) throw new Error('用户不存在')
+
+  // 用户名唯一性校验
+  if (updateData.name && users.some((u) => u.id !== userId && u.name === updateData.name)) {
+    throw new Error('用户名已存在')
+  }
+
+  users[userIndex] = { ...users[userIndex], ...updateData }
+  return users[userIndex]
+}
