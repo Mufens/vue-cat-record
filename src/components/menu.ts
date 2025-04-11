@@ -33,6 +33,13 @@ export const menuData: Menus[] = [
         title: '用户管理',
         icon: 'icon-Gc_32_line-UserManagement',
       },
+      {
+        id: '23',
+        pid: '3',
+        index: '/role-manage',
+        title: '角色管理',
+        icon: 'icon-a-jiaoseguanli2',
+      },
     ],
   },
   {

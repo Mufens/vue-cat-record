@@ -1,5 +1,5 @@
 import { users } from '../mock/user'
-import type { User } from '../types/user'
+import type { User, UserQueryParams } from '../types/user'
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -63,4 +63,40 @@ export const updateUserInfoAPI = async (userId: number, updateData: Partial<User
 
   users[userIndex] = { ...users[userIndex], ...updateData }
   return users[userIndex]
+}
+
+//获取用户列表
+export const getUserListAPI = async (params: UserQueryParams) => {
+  await delay(500)
+
+  // 过滤逻辑
+  let filtered = [...users]
+
+  if (params.name) {
+    filtered = filtered.filter((u) => u.name.includes(params.name!))
+  }
+  if (params.email) {
+    filtered = filtered.filter((u) => u.email.includes(params.email!))
+  }
+  if (typeof params.status !== 'undefined') {
+    filtered = filtered.filter((u) => u.status === params.status)
+  }
+  if (params.role) {
+    filtered = filtered.filter((u) => u.role.includes(params.role!))
+  }
+  if (params.createStart && params.createEnd) {
+    filtered = filtered.filter(
+      (u) => u.createdAt >= params.createStart! && u.createdAt <= params.createEnd! + 'T23:59:59Z',
+    )
+  }
+
+  // 分页逻辑
+  const start = (params.page - 1) * params.pageSize
+  const end = start + params.pageSize
+  const paginated = filtered.slice(start, end)
+
+  return {
+    list: paginated,
+    total: filtered.length,
+  }
 }

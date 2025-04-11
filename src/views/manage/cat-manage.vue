@@ -8,7 +8,7 @@ import { fetchCatData } from '@/api/cat'
 import type { CatItem, CatQueryParams } from '@/types/cat'
 import CatDetail from './components/cat-detail.vue'
 import CatEdit from './components/cat-edit.vue'
-import { deleteCatData } from '@/api/cat'
+import { deleteCatData, deleteBatchCatData } from '@/api/cat'
 
 const catList = ref<CatItem[]>([])
 const loading = ref(false)
@@ -16,6 +16,7 @@ const total = ref(0)
 const catEditRef = ref()
 
 const columns = ref([
+  { label: '选择', prop: 'selection', visible: true, type: 'selection' },
   { label: '#', prop: 'index', visible: true, type: 'index' },
   { label: '编号', prop: 'id', visible: true },
   { label: '姓名', prop: 'name', visible: true },
@@ -78,6 +79,12 @@ const reset = () => {
   fetchCatList()
 }
 
+const showBatchDelete = ref(false)
+const multipleSelection = ref<CatItem[]>([])
+const handleSelectionChange = (val: CatItem[]) => {
+  multipleSelection.value = val
+  showBatchDelete.value = val.length > 0
+}
 //页数改变
 const onSizeChange = (val: number) => {
   queryParams.value.pagesize = val
@@ -105,17 +112,29 @@ const AddCat = () => {
 const EditCat = (row: CatItem) => {
   catEditRef.value.open(row)
 }
-const DelCat = async (row: CatItem) => {
-  await ElMessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning',
-    center: true
-  })
-  await deleteCatData(row.id)
-  ElMessage.success('删除成功')
-  fetchCatList()
+const DelCat = async (row?: CatItem) => {
+  try {
+    const ids = row ? [row.id] : multipleSelection.value.map(cat => cat.id)
+    console.log('要删除的IDs:', ids)
+
+    await ElMessageBox.confirm(
+      `此操作将永久删除${row ? '该猫咪' : `选中的${ids.length}只猫咪`}, 是否继续?`,
+      '提示',
+      { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning', center: true }
+    )
+    if (row) {
+      await deleteCatData(row.id)
+    } else {
+      await deleteBatchCatData(ids)
+      ElMessage.success('删除成功')
+    }
+    fetchCatList()
+    multipleSelection.value = []
+  } catch {
+    console.log('取消删除')
+  }
 }
+
 const onSuccess = (type: 'add' | 'edit') => {
   if (type === 'add') {
     const lastPage = Math.ceil((total.value + 1) / queryParams.value.pagesize)
@@ -156,6 +175,9 @@ const onSuccess = (type: 'add' | 'edit') => {
       <div class="column">
         <div class="column-left">
           <el-button :icon="CirclePlus" type="primary" @click="AddCat">新增 </el-button>
+          <el-button :icon="Delete" class="danger" v-if="showBatchDelete" @click="DelCat()"
+            >批量删除</el-button
+          >
         </div>
         <div class="column-right">
           <TableActions
@@ -169,6 +191,8 @@ const onSuccess = (type: 'add' | 'edit') => {
       <!-- 数据表格 -->
       <el-table
         :data="catList"
+        v-loading="loading"
+        @selection-change="handleSelectionChange"
         :cell-style="{ background: 'var(--message-panel-bg, #ffffff)' }"
         :header-cell-style="{
           background: 'var(--menu-bg2)',
@@ -184,7 +208,9 @@ const onSuccess = (type: 'add' | 'edit') => {
             :type="col.type"
             :fixed="col.fixed"
             :header-align="col.headerAlign"
-            :show-overflow-tooltip="col.prop === 'area' || col.prop === 'id'"
+            :show-overflow-tooltip="
+              col.prop === 'area' || col.prop === 'id' || col.prop === 'createTime'
+            "
           >
             <!-- 序号列 -->
             <template v-if="col.type === 'index'" #default="{ $index }">
@@ -277,6 +303,23 @@ const onSuccess = (type: 'add' | 'edit') => {
       justify-content: space-between;
       &-left {
         margin-top: 5px;
+        .el-button {
+          &.danger {
+            background-color: var(--type-danger-color) !important;
+            border-color: var(--danger-border-color) !important;
+            color: var(--danger-color) !important;
+            :deep(.el-icon) {
+              color: var(--danger-color) !important;
+            }
+            &:hover {
+              background-color: #f56c6c !important;
+              color: #fff !important;
+              :deep(.el-icon) {
+                color: #fff !important;
+              }
+            }
+          }
+        }
       }
       &-right {
         margin-top: 10px;
@@ -293,16 +336,31 @@ const onSuccess = (type: 'add' | 'edit') => {
       .el-button {
         &.primary {
           background-color: var(--type-primary-color) !important;
-          border-color: #a0cfff !important;
+          border-color: var(--primary-border-color) !important;
+          :deep(.el-icon) {
+            color: var(--menu-active-text-color) !important;
+          }
+
           &:hover {
             border-color: var(--menu-active-text-color) !important;
+            background-color: var(--menu-active-text-color) !important;
+            :deep(.el-icon) {
+              color: #fff !important;
+            }
           }
         }
         &.danger {
           background-color: var(--type-danger-color) !important;
-          border-color: #fab6b6 !important;
+          border-color: var(--danger-border-color) !important;
+          :deep(.el-icon) {
+            color: var(--danger-color) !important;
+          }
+
           &:hover {
-            border-color: var(--menu-active-text-color) !important;
+            background-color: #f56c6c !important;
+            :deep(.el-icon) {
+              color: #fff !important;
+            }
           }
         }
       }

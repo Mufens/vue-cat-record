@@ -17,3 +17,11 @@ export const editCatData = (id: number, data: Partial<CatItem>) => {
 export const deleteCatData = (id: number) => {
   return axios.delete(`/api/cat/mes/${id}`)
 }
+
+//批量删除猫咪
+export const deleteBatchCatData = (ids: number[]) => {
+  return axios.delete('/api/cat/mes/batch', {
+    params: { ids: ids.join(',') },
+    paramsSerializer: { indexes: null },
+  })
+}

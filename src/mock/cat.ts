@@ -1,6 +1,6 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import type { CatItem } from '@/types/cat'
-const data: CatItem[] = [
+let data: CatItem[] = [
   {
     id: 111,
     name: '大宝',
@@ -201,6 +201,21 @@ export default [
         return { success: true }
       }
       return { success: false }
+    },
+  },
+  // DELETE 批量删除猫咪
+  {
+    url: '/api/cat/mes/batch',
+    method: 'delete',
+    response: ({ query }: { query: { ids: string } }) => {
+      console.log('Received ids:', query.ids)
+      if (!query.ids) return { success: false }
+      const ids = query.ids.split(',').map(Number)
+      console.log('Parsed ids:', ids)
+      // 使用filter过滤掉需要删除的项
+      data = data.filter((item) => !ids.includes(item.id))
+
+      return { success: true }
     },
   },
 ] as MockMethod[]

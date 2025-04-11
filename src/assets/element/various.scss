@@ -17,9 +17,13 @@
   --table-hover-color: #f5f7fa;
   //实心按钮颜色
   --button-color: #fce4e9;
-  //表格操作项按钮颜色
-  --type-primary-color: #ecf5ff;
-  --type-danger-color: #fef0f0;
+  --type-primary-color: #fff0f0;
+  --primary-border-color: #ffd1d8;
+  --type-danger-color: #fff1f0;
+  --danger-color: #ff7875;
+  --danger-border-color: #fab6b6;
+  //日期选择背景
+  --date-choose-bg: #fff0f0;
 
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -42,6 +46,10 @@
   --menu-bg2: #e4def6;
   --rate-color: #c1b7eb;
   --button-color: #e4def6;
+  --type-primary-color: #fff0f5;
+  --primary-border-color: #d9d1f7;
+
+  --date-choose-bg: #f5f0ff;
 
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
@@ -61,7 +69,10 @@
   --menu-bg2: #b7cdec;
   --rate-color: #a7c7f1;
   --button-color: #b7cdec;
+  --type-primary-color: #e1eef7;
+  --primary-border-color: #aed6f9;
 
+  --date-choose-bg: #f0f5ff;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -81,6 +92,9 @@
   --menu-bg2: #d8f5ea;
   --rate-color: #84b5d1;
   --button-color: #d8f5ea;
+  --type-primary-color: #d8f5ea;
+  --primary-border-color: #cce7e0;
+  --date-choose-bg: #eaf7f1;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -100,6 +114,9 @@
   --menu-bg2: #b3987a;
   --rate-color: #bea78b;
   --button-color: #b3987a;
+  --type-primary-color: #fcf3ea;
+  --type-border-color: #c4baaf;
+  --date-choose-bg: #f5f4f4;
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -119,6 +136,7 @@
   --border-color: #e4e7ed;
   --rate-color: #f9e9be;
   --button-color: #3c7eff;
+
   --el-menu-active-color: var(--menu-active-text-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-bg-color: var(--aside-bg-color);
@@ -141,6 +159,11 @@
   --menu-bg2: #2d2d2d;
   --rate-color: #ffffff;
   --button-color: #3c7eff;
+  --type-primary-color: #18222c;
+  --primary-border-color: #2a598a;
+  --type-danger-color: #2b1d1d;
+  --danger-border-color: #854040;
+  --date-choose-bg: #2d2d2d;
   --el-menu-bg-color: var(--bg-color);
   --el-menu-text-color: var(--text-color-primary);
   --el-menu-active-color: var(--menu-active-text-color);
@@ -158,7 +181,6 @@
   }
 }
 
-// 统一图标颜色
 :deep(.el-icon),
 :deep(.iconfont) {
   color: var(--text-color-primary) !important;
@@ -263,7 +285,11 @@
   color: var(--text-color-primary);
   &:hover {
     border-color: var(--menu-active-text-color);
-    color: var(--text-color-primary);
+    color: var(--menu-active-text-color);
+    background-color: transparent;
+    :deep(.el-icon) {
+      color: var(--menu-active-text-color) !important;
+    }
   }
 }
 .el-button--primary {
@@ -275,6 +301,9 @@
   }
   &:hover {
     border-color: var(--menu-active-text-color) !important;
+    :deep(.el-icon) {
+      color: #fff !important;
+    }
   }
 }
 //提示框
@@ -300,6 +329,10 @@
   background-color: var(--table-hover-color) !important;
 }
 //选择框
+.el-checkbox {
+  --el-checkbox-checked-bg-color: var(--menu-active-text-color);
+  --el-checkbox-checked-input-border-color: var(--menu-active-text-color);
+}
 .el-checkbox__input.is-checked + .el-checkbox__label {
   color: var(--menu-active-text-color);
 }
@@ -314,4 +347,37 @@
 :deep(.el-tag .el-tag__close) {
   color: var(--menu-active-text-color) !important;
   --el-tag-hover-color: var(--bg-color);
+}
+//时间选择器
+:deep(.el-date-editor .el-range__icon) {
+  color: #a8abb2 !important;
+}
+.el-date-editor {
+  .el-range-separator {
+    color: #a8abb2 !important;
+  }
+  --el-input-focus-border-color: var(--menu-active-text-color);
+}
+.el-picker-panel__icon-btn:hover {
+  color: var(--menu-active-text-color);
+}
+.el-date-table td.in-range div {
+  background-color: var(--date-choose-bg) !important;
+  &:hover {
+    color: var(--menu-active-text-color);
+  }
+}
+
+.el-date-table td.today span {
+  color: var(--menu-active-text-color) !important;
+  background-color: var(--bg-color);
+}
+.el-date-table td.start-date span,
+.el-date-table td.end-date span {
+  background-color: var(--menu-active-text-color) !important;
+  color: #fff !important;
+}
+.el-date-table td.available:hover span {
+  color: var(--menu-active-text-color) !important;
+  background-color: transparent !important;
 }

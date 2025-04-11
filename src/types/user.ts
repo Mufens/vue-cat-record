@@ -9,3 +9,13 @@ export interface User {
   createdAt: string
   tags?: string[]
 }
+export interface UserQueryParams {
+  page: number
+  pageSize: number
+  name?: string
+  email?: string
+  status?: boolean
+  role?: string
+  createStart?: string
+  createEnd?: string
+}

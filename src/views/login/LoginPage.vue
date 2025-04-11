@@ -9,7 +9,10 @@ const isRegister = ref(false)
 const form = ref()
 const formModel = ref({ username: 'admin', password: '123456', email: '', repassword: '' })
 const rules = {
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 1, max: 11, message: '用户名长度在 1 到 11个字符之间', trigger: 'blur' }
+  ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     { pattern: /^\S{6,15}$/, message: '密码必须是 6-15位 的非空字符', trigger: 'blur' }

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import 'nprogress/nprogress.css'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,6 +36,12 @@ const router = createRouter({
           component: () => import('@/views/manage/user-manage.vue'),
           name: 'user-manage',
           meta: { title: '用户管理', icon: 'icon-Gc_32_line-UserManagement' },
+        },
+        {
+          path: '/role-manage',
+          component: () => import('@/views/manage/role-manage.vue'),
+          name: 'role-manage',
+          meta: { title: '角色管理', icon: 'icon-a-jiaoseguanli2' },
         },
         {
           path: '/message-board',
