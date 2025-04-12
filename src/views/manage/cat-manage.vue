@@ -174,7 +174,9 @@ const onSuccess = (type: 'add' | 'edit') => {
       <!-- 操作项 -->
       <div class="column">
         <div class="column-left">
-          <el-button :icon="CirclePlus" type="primary" @click="AddCat">新增 </el-button>
+          <el-button :icon="CirclePlus" type="primary" v-has="'cat:add'" @click="AddCat"
+            >新增
+          </el-button>
           <el-button :icon="Delete" class="danger" v-if="showBatchDelete" @click="DelCat()"
             >批量删除</el-button
           >
@@ -255,7 +257,13 @@ const onSuccess = (type: 'add' | 'edit') => {
             <!-- 操作列模板 -->
             <template v-else-if="col.prop === 'actions'" #default="{ row }">
               <el-button class="primary" :icon="ZoomIn" circle @click="ViewCat(row)"></el-button>
-              <el-button class="primary" :icon="Edit" circle @click="EditCat(row)"></el-button>
+              <el-button
+                class="primary"
+                :icon="Edit"
+                circle
+                v-has="'cat:edit'"
+                @click="EditCat(row)"
+              ></el-button>
               <el-button class="danger" :icon="Delete" circle @click="DelCat(row)"></el-button>
             </template>
           </el-table-column>

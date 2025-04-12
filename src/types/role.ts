@@ -4,11 +4,20 @@ export interface Role {
   remark: string
   status: boolean
   createdAt: string
+  permissions?: string[]
 }
 
 export interface RoleQueryParams {
-  page?: number
-  pageSize?: number
+  pagenum?: number
+  pagesize?: number
   name?: string
   status?: boolean
+}
+export interface PermissionNode {
+  label: string
+  value: string
+  children?: PermissionNode[]
+}
+export interface CreateRoleDTO extends Omit<Role, 'id' | 'createdAt'> {
+  permissions: string[]
 }

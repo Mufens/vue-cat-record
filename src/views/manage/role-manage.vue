@@ -5,9 +5,12 @@ import type { Role, RoleQueryParams } from '@/types/role'
 import { formatDate } from '@/utils/format'
 import TableActions from '@/components/TableActions.vue'
 import { Search, RefreshRight, CirclePlus } from '@element-plus/icons-vue'
+import RoleEdit from './components/role-edit.vue'
 
 const tableData = ref<Role[]>([])
 const total = ref(0)
+const roleEditRef = ref()
+
 const columns = ref([
   {
     label: '角色ID',
@@ -45,27 +48,38 @@ const columns = ref([
 ])
 
 const queryParams = ref<RoleQueryParams>({
-  page: 1,
-  pageSize: 10,
+  pagenum: 1,
+  pagesize: 10,
   name: '',
   status: undefined
 })
 
 const fetchRoleList = async () => {
-  const res = await getRoleListAPI(queryParams.value)
-  tableData.value = res.list
-  total.value = res.total
+  try {
+    const res = await getRoleListAPI(queryParams.value)
+    console.log('API响应:', res)
+    if (res.data) {
+      tableData.value = res.data.list || []
+      total.value = res.data.total || 0
+    } else {
+      console.error('API返回的数据结构不正确:', res)
+      tableData.value = []
+      total.value = 0
+    }
+  } catch (error) {
+    console.error('获取角色列表失败:', error)
+  }
 }
 
 const search = () => {
-  queryParams.value.page = 1
+  queryParams.value.pagenum = 1
   fetchRoleList()
 }
 
 const reset = () => {
   queryParams.value = {
-    page: 1,
-    pageSize: 10,
+    pagenum: 1,
+    pagesize: 10,
     name: '',
     status: undefined
   }
@@ -73,12 +87,14 @@ const reset = () => {
 }
 
 const onSizeChange = (val: number) => {
-  queryParams.value.pageSize = val
+  queryParams.value.pagesize = val
+  queryParams.value.pagenum = 1
+
   fetchRoleList()
 }
 
 const onCurrentChange = (val: number) => {
-  queryParams.value.page = val
+  queryParams.value.pagesize = val
   fetchRoleList()
 }
 
@@ -114,7 +130,7 @@ onMounted(() => fetchRoleList())
     <div class="operation">
       <div class="column">
         <div class="column-left">
-          <el-button :icon="CirclePlus" type="primary">新增</el-button>
+          <el-button :icon="CirclePlus" type="primary" @click="roleEditRef.open()">新增</el-button>
         </div>
         <div class="column-right">
           <TableActions v-model:columns="columns" show-columns-type="checkbox" />
@@ -147,7 +163,9 @@ onMounted(() => fetchRoleList())
             }}</template>
             <template v-else-if="col.prop === 'actions'" #default>
               <div class="actions">
-                <el-button class="primary" size="small">编辑</el-button>
+                <el-button class="primary" size="small" @click="roleEditRef.open(row)"
+                  >编辑</el-button
+                >
                 <el-button class="danger" size="small">删除</el-button>
               </div>
             </template>
@@ -157,8 +175,8 @@ onMounted(() => fetchRoleList())
     </div>
 
     <el-pagination
-      v-model:current-page="queryParams.page"
-      v-model:page-size="queryParams.pageSize"
+      v-model:current-page="queryParams.pagenum"
+      v-model:page-size="queryParams.pagesize"
       :page-sizes="[3, 6, 8, 10]"
       :background="true"
       layout="total, sizes, prev, pager, next, jumper"
@@ -166,6 +184,7 @@ onMounted(() => fetchRoleList())
       @size-change="onSizeChange"
       @current-change="onCurrentChange"
     />
+    <RoleEdit ref="roleEditRef" @refresh="fetchRoleList" />
   </div>
 </template>
 

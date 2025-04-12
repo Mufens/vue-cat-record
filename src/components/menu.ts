@@ -6,12 +6,14 @@ export const menuData: Menus[] = [
     title: '首页',
     index: '/overview',
     icon: 'icon-shouye',
+    permiss: 'overview:view',
   },
   {
     id: '1',
     title: '记录',
     index: '/record',
     icon: 'icon-jilu',
+    permiss: 'record:view',
   },
   {
     id: '2',
@@ -25,6 +27,7 @@ export const menuData: Menus[] = [
         index: '/cat-manage',
         title: '猫猫管理',
         icon: 'icon-claw',
+        permiss: 'cat:view',
       },
       {
         id: '22',
@@ -32,6 +35,7 @@ export const menuData: Menus[] = [
         index: '/user-manage',
         title: '用户管理',
         icon: 'icon-Gc_32_line-UserManagement',
+        permiss: 'user:view',
       },
       {
         id: '23',
@@ -39,6 +43,7 @@ export const menuData: Menus[] = [
         index: '/role-manage',
         title: '角色管理',
         icon: 'icon-a-jiaoseguanli2',
+        permiss: 'role:view',
       },
     ],
   },
@@ -47,11 +52,13 @@ export const menuData: Menus[] = [
     title: '留言板',
     index: '/message-board',
     icon: 'icon-maojiazhengchangx',
+    permiss: 'message:view',
   },
   {
     id: '4',
     title: '个人中心',
     index: '/user',
     icon: 'icon-personalcenter',
+    permiss: 'user:view',
   },
 ]

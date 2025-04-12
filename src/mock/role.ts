@@ -1,71 +1,112 @@
-import type { Role } from '@/types/role'
+import type { MockMethod } from 'vite-plugin-mock'
+import type { CreateRoleDTO } from '@/types/role'
+import { mockRoles, allPermissions } from './role-mock-data' // 将原有mock数据分离
 
-export const mockRoles: Role[] = [
+export default [
+  // 获取角色列表（带分页和过滤）
   {
-    id: 'd7e7cbf3-815c-450e-b6e2-20ef6ccba20d',
-    name: '管理员',
-    remark: '拥有系统最高权限,掌管力量的神',
-    status: true,
-    createdAt: '2023-01-01T10:00:00Z',
-  },
-  {
-    id: '16f5cb6f-09c2-4b86-8b09-615e06ce5add',
-    name: '金角大王',
-    remark: '管理员的左膀，底池对彼此不得不差不多不得不',
-    status: true,
-    createdAt: '2023-01-02T11:00:00Z',
-  },
-  {
-    id: 'd7d93e9a-16b8-4c10-b06d-c7db102d8b68',
-    name: '银角大王',
-    remark: '右臂,u出督促督促对比得出背单词ucus宿舍虚构',
-    status: false,
-    createdAt: '2023-01-03T12:00:00Z',
-  },
-  {
-    id: 'aa550feb-3429-42bf-a558-7df10ec882f6',
-    name: '爱喵用户',
-    remark: '猫咪爱好者专属角色',
-    status: true,
-    createdAt: '2023-01-04T13:00:00Z',
-  },
-]
+    url: '/api/roles/list',
+    method: 'get',
+    response: ({
+      query,
+    }: {
+      query: { pagenum?: number; pagesize?: number; name?: string; status?: string }
+    }) => {
+      const { pagenum = 1, pagesize = 10, name, status } = query
 
-// 模拟GET请求的分页和过滤
-interface RoleListParams {
-  name?: string
-  status?: boolean
-  page?: number
-  pageSize?: number
-}
+      let filtered = [...mockRoles]
 
-export const getRoleListMock = (params: RoleListParams) => {
-  let filtered = [...mockRoles]
+      // 过滤逻辑
+      if (name) {
+        filtered = filtered.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()))
+      }
+      if (status !== undefined) {
+        filtered = filtered.filter((item) => item.status === (status === 'true'))
+      }
 
-  // 按名称过滤
-  if (params.name) {
-    filtered = filtered.filter((item) =>
-      item.name.toLowerCase().includes((params.name ?? '').toLowerCase()),
-    )
-  }
+      // 分页计算
+      const start = (pagenum - 1) * pagesize
+      const end = start + Number(pagesize)
 
-  // 按状态过滤
-  if (params.status !== undefined) {
-    filtered = filtered.filter((item) => item.status === params.status)
-  }
-
-  // 分页逻辑
-  const page = params.page || 1
-  const pageSize = params.pageSize || 10
-  const start = (page - 1) * pageSize
-  const end = page * pageSize
-
-  return {
-    code: 200,
-    message: 'success',
-    data: {
-      list: filtered.slice(start, end),
-      total: filtered.length,
+      return {
+        code: 200,
+        data: {
+          list: filtered.slice(start, end),
+          total: filtered.length,
+        },
+      }
     },
-  }
-}
+  },
+
+  // 新增角色
+  {
+    url: '/api/roles',
+    method: 'post',
+    response: ({ body }: { body: CreateRoleDTO }) => {
+      const newRole = {
+        ...body,
+        id: `role-${Date.now()}`,
+        createdAt: new Date().toISOString(),
+        permissions: body.permissions || [],
+      }
+      mockRoles.push(newRole)
+      return { code: 200, data: newRole }
+    },
+  },
+
+  // 修改角色
+  {
+    url: '/api/roles/:id',
+    method: 'put',
+    response: ({ body, query }: { body: Partial<CreateRoleDTO>; query: { id: string } }) => {
+      const index = mockRoles.findIndex((r) => r.id === query.id)
+      if (index > -1) {
+        mockRoles[index] = {
+          ...mockRoles[index],
+          ...body,
+          permissions: body.permissions || [],
+        }
+        return { code: 200, data: mockRoles[index] }
+      }
+      return { code: 404, message: '角色不存在' }
+    },
+  },
+
+  // 删除角色
+  {
+    url: '/api/roles/:id',
+    method: 'delete',
+    response: ({ query }: { query: { ids: string } }) => {
+      const id = query.ids // Assuming 'ids' contains a single ID for this endpoint
+      const index = mockRoles.findIndex((r) => r.id === id)
+      if (index > -1) {
+        mockRoles.splice(index, 1)
+        return { code: 200 }
+      }
+      return { code: 404 }
+    },
+  },
+
+  // 获取所有权限
+  {
+    url: '/api/permissions/all',
+    method: 'get',
+    response: () => ({
+      code: 200,
+      data: allPermissions,
+    }),
+  },
+
+  // 获取角色权限
+  {
+    url: '/api/roles/:id/permissions',
+    method: 'get',
+    response: ({ query }: { query: { id: string } }) => {
+      const role = mockRoles.find((r) => r.id === query.id)
+      return {
+        code: 200,
+        data: role?.permissions || [],
+      }
+    },
+  },
+] as MockMethod[]
