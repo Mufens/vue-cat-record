@@ -11,7 +11,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '生活服务中心',
     friendliness: 5,
-    createTime: '2024-03-27T22:38:06',
+    createTime: '2024-03-27T22:38:06Z',
     catImg: '/images/111.jpg',
   } as CatItem,
   {
@@ -24,7 +24,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '东区12栋',
     friendliness: 3,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '/images/113.jpg',
   },
   {
@@ -37,7 +37,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '东区操场',
     friendliness: 3,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '',
   },
   {
@@ -50,7 +50,7 @@ let data: CatItem[] = [
     adoptionStatus: '已领养',
     area: '南区11栋',
     friendliness: 5,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '/images/113.jpg',
   },
   {
@@ -63,7 +63,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '梦月湖旁',
     friendliness: 2,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '',
   },
   {
@@ -76,7 +76,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '东区12栋',
     friendliness: 1,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '',
   },
   {
@@ -89,7 +89,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '生活服务中心',
     friendliness: 4,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '',
   },
   {
@@ -102,7 +102,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '志敏大道222号十字路口绿化带旁',
     friendliness: 5,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '',
   },
   {
@@ -115,7 +115,7 @@ let data: CatItem[] = [
     adoptionStatus: '未领养',
     area: '北区食堂',
     friendliness: 5,
-    createTime: '2024-08-27T22:38:06',
+    createTime: '2024-08-27T22:38:06Z',
     catImg: '/images/113.jpg',
   },
 ]

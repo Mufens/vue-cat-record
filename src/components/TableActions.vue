@@ -79,6 +79,7 @@ const showColumnDropdown = ref(false)
 <style lang="scss" scoped>
 .el-icon {
   margin-left: 8px;
+  color: var(--text-color-primary);
 }
 
 .el-dropdown-menu {

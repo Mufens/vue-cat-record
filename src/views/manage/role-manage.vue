@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getRoleListAPI } from '@/api/role'
+import { getRoleListAPI, deleteRoleAPI } from '@/api/role'
 import type { Role, RoleQueryParams } from '@/types/role'
 import { formatDate } from '@/utils/format'
 import TableActions from '@/components/TableActions.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, RefreshRight, CirclePlus } from '@element-plus/icons-vue'
 import RoleEdit from './components/role-edit.vue'
 
@@ -86,6 +87,31 @@ const reset = () => {
   fetchRoleList()
 }
 
+const AddRole = () => {
+  roleEditRef.value.open()
+}
+const EditRole = (row: Role) => {
+  roleEditRef.value.open(row)
+}
+const DelRole = async (row: Role) => {
+  try {
+    await ElMessageBox.confirm(`确认删除角色【${row.name}】吗？`, '警告', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+    const { code } = (await deleteRoleAPI(row.id)).data
+    if (code === 200) {
+      ElMessage.success('删除成功')
+      fetchRoleList()
+    }
+  } catch (error) {
+    if (error !== 'cancel') {
+      ElMessage.error('删除失败')
+    }
+  }
+}
+
 const onSizeChange = (val: number) => {
   queryParams.value.pagesize = val
   queryParams.value.pagenum = 1
@@ -130,7 +156,9 @@ onMounted(() => fetchRoleList())
     <div class="operation">
       <div class="column">
         <div class="column-left">
-          <el-button :icon="CirclePlus" type="primary" @click="roleEditRef.open()">新增</el-button>
+          <el-button :icon="CirclePlus" type="primary" v-has="'role:add'" @click="AddRole"
+            >新增</el-button
+          >
         </div>
         <div class="column-right">
           <TableActions v-model:columns="columns" show-columns-type="checkbox" />
@@ -163,10 +191,12 @@ onMounted(() => fetchRoleList())
             }}</template>
             <template v-else-if="col.prop === 'actions'" #default>
               <div class="actions">
-                <el-button class="primary" size="small" @click="roleEditRef.open(row)"
+                <el-button class="primary" size="small" v-has="'role:edit'" @click="EditRole(row)"
                   >编辑</el-button
                 >
-                <el-button class="danger" size="small">删除</el-button>
+                <el-button class="danger" size="small" v-has="'role:delete'" @click="DelRole(row)"
+                  >删除</el-button
+                >
               </div>
             </template>
           </el-table-column>

@@ -264,7 +264,13 @@ const onSuccess = (type: 'add' | 'edit') => {
                 v-has="'cat:edit'"
                 @click="EditCat(row)"
               ></el-button>
-              <el-button class="danger" :icon="Delete" circle @click="DelCat(row)"></el-button>
+              <el-button
+                class="danger"
+                :icon="Delete"
+                circle
+                v-has="'cat:delete'"
+                @click="DelCat(row)"
+              ></el-button>
             </template>
           </el-table-column>
         </template>
@@ -272,7 +278,7 @@ const onSuccess = (type: 'add' | 'edit') => {
     </div>
     <!-- 分页组件 -->
     <el-pagination
-      :page-sizes="[3, 6, 8, 10]"
+      :page-sizes="[6, 10, 15, 20]"
       :page-size="queryParams.pagesize"
       :background="true"
       layout="jumper, total, sizes, prev, pager, next"

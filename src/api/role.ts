@@ -23,8 +23,9 @@ export const deleteRoleAPI = async (roleId: string) => {
 export const getAllPermissionAPI = async () => {
   return axios.get('/api/permissions/all')
 }
-// 添加获取角色权限接口
-export const getRolePermissionsAPI = async (roleId: string) => {
-  const { data } = await axios.get(`/api/roles/${roleId}/permissions`)
+
+// 根据角色名称获取权限
+export const getRolePermissionsAPI = async (roleName: string) => {
+  const { data } = await axios.get(`/api/roles/permissions`, { params: { roleName } })
   return data
 }

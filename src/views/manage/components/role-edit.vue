@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Role, PermissionNode } from '@/types/role'
-import { getAllPermissionAPI, addRoleAPI, editRoleAPI, getRolePermissionsAPI } from '@/api/role'
+import { getAllPermissionAPI, addRoleAPI, editRoleAPI } from '@/api/role'
 import { ElMessage } from 'element-plus'
+import { nextTick } from 'vue'
 
 const emit = defineEmits(['refresh'])
 const visible = ref(false)
@@ -25,10 +26,10 @@ const open = async (role?: Role) => {
         createdAt: '',
         permissions: []
       }
-
+  await nextTick()
   if (role) {
-    const res = await getRolePermissionsAPI(role.id)
-    defaultCheckedKeys.value = res.data
+    defaultCheckedKeys.value = role.permissions || []
+    treeRef.value?.setCheckedKeys(defaultCheckedKeys.value)
   } else {
     defaultCheckedKeys.value = []
   }
@@ -38,7 +39,14 @@ const open = async (role?: Role) => {
 // 加载权限数据
 const loadPermissions = async () => {
   const res = await getAllPermissionAPI()
-  permissionsTree.value = res.data
+  permissionsTree.value = res.data.data || []
+  console.log('权限数据:', res.data)
+}
+const customNodeClass = (data: PermissionNode) => {
+  if ('children' in data) {
+    return data.isPenultimate ? 'is-penultimate' : ''
+  }
+  return ''
 }
 
 const handleSave = async () => {
@@ -48,7 +56,12 @@ const handleSave = async () => {
   }
   try {
     if (isEditMode.value && currentRole.value.id) {
-      await editRoleAPI(currentRole.value.id, { ...currentRole.value, permissions: checkedKeys })
+      await editRoleAPI(currentRole.value.id, {
+        name: currentRole.value.name,
+        remark: currentRole.value.remark,
+        status: currentRole.value.status,
+        permissions: checkedKeys
+      })
     } else {
       await addRoleAPI({ ...currentRole.value, permissions: checkedKeys })
     }
@@ -64,16 +77,16 @@ defineExpose({ open })
 </script>
 
 <template>
-  <el-drawer v-model="visible" :title="isEditMode ? '编辑角色' : '新增角色'" size="40%">
+  <el-drawer v-model="visible" :title="isEditMode ? '编辑角色' : '新增角色'" size="35%">
     <el-form v-if="currentRole" label-width="100px">
       <el-form-item label="角色名称" required>
-        <el-input v-model="currentRole.name" :disabled="isEditMode" />
+        <el-input v-model="currentRole.name" :disabled="isEditMode" id="roleName" />
       </el-form-item>
       <el-form-item label="角色状态">
-        <el-select v-model="currentRole.status">
-          <el-option label="启用" value="true" />
-          <el-option label="禁用" value="false" />
-        </el-select>
+        <el-radio-group v-model="currentRole.status" id="roleStatus">
+          <el-radio :value="true">启用</el-radio>
+          <el-radio :value="false">禁用</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="角色备注">
         <el-input
@@ -86,35 +99,68 @@ defineExpose({ open })
 
       <el-form-item label="权限分配">
         <el-tree
+          style="width: 400px"
           ref="treeRef"
           :data="permissionsTree"
           show-checkbox
           node-key="value"
+          default-expand-all
+          :expand-on-click-node="false"
           :default-checked-keys="defaultCheckedKeys"
           :props="{
             children: 'children',
-            label: 'label'
+            label: 'label',
+            class: customNodeClass
           }"
           class="permission-tree"
         >
+          <template #default="{ data }">
+            <div class="tree-node-content">
+              <i v-if="data.icon" :class="['iconfont', data.icon]" style="margin-right: 6px"></i>
+              <span>{{ data.label }}</span>
+            </div>
+          </template>
         </el-tree>
       </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="handleSave"
-          >{{ isEditMode ? '保存修改' : '创建角色' }}
-        </el-button>
-      </el-form-item>
     </el-form>
+    <div class="form-action-buttons">
+      <el-button @click="visible = false">取消 </el-button>
+      <el-button type="primary" @click="handleSave">确认 </el-button>
+    </div>
   </el-drawer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.el-form {
+  margin-top: -20px;
+}
+.form-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
 .permission-tree {
-  padding: 10px;
-  border: 1px solid #ebeef5;
-  border-radius: 4px;
-  max-height: 60vh;
-  overflow-y: auto;
+  border: 1px solid var(--el-border-color);
+  border-radius: 6px;
+  padding: 2px 0;
+  font-size: 13px;
+  :deep(.el-tree-node__content) {
+    height: auto;
+  }
+  :deep(.is-penultimate) {
+    .el-tree-node__children {
+      display: flex;
+      flex-wrap: wrap;
+      .el-tree-node {
+        &__content {
+          height: auto;
+          padding: 0 4px !important;
+        }
+      }
+    }
+  }
+
+  .iconfont {
+    font-size: 13px;
+  }
 }
 </style>

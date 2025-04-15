@@ -56,22 +56,26 @@ const register = async () => {
 const login = () => {
   form.value.validate(async (valid: boolean) => {
     if (valid) {
-      // 登录逻辑
-      const user = await loginAPI({
-        name: formModel.value.username,
-        password: formModel.value.password
-      })
-      const userStore = useUserStore()
-      userStore.setToken('mock-token') // 根据实际接口返回修改
-      userStore.setUser(user)
-      ElMessage.success('登录成功')
-      router.push('/')
-    } else {
-      ElMessage.error('登录失败')
-      return false
+      try {
+        const user = await loginAPI({
+          name: formModel.value.username,
+          password: formModel.value.password
+        })
+        const userStore = useUserStore()
+        const token = 'Bearer ' + user.id
+        userStore.setToken(token)
+        localStorage.setItem('token', token)
+        userStore.setUser(user)
+        await userStore.getUser()
+        ElMessage.success('登录成功')
+        router.push('/')
+      } catch {
+        ElMessage.error('登录失败')
+      }
     }
   })
 }
+
 watch(isRegister, () => {
   formModel.value = { username: '', password: '', email: '', repassword: '' }
 })

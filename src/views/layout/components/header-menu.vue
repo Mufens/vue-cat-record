@@ -68,7 +68,7 @@ function toggleFullscreen() {
   <div class="header">
     <div class="header-left">
       <div class="collapse-btn" @click="toggleCollapse">
-        <el-icon color="#819d60" size="18px">
+        <el-icon color="var(--text-color-primary)" size="18px">
           <component :is="isCollapsed ? Expand : Fold" />
         </el-icon>
       </div>
@@ -95,7 +95,7 @@ function toggleFullscreen() {
             <el-avatar :src="userStore.user?.avatar || avatar"></el-avatar>
             <div class="name">{{ userStore.user?.name }}</div>
             <div class="arrow">
-              <el-icon><CaretBottom /></el-icon>
+              <el-icon style="color: var(--text-color-primary)"><CaretBottom /></el-icon>
             </div>
           </div>
 
@@ -140,6 +140,10 @@ function toggleFullscreen() {
     display: flex;
     text-align: center;
     align-items: center;
+    .iconfont {
+      color: var(--text-color-primary);
+    }
+
     .user {
       margin: 20px;
       .el-dropdown__box {

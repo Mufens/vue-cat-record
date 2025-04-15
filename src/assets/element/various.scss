@@ -181,10 +181,6 @@
   }
 }
 
-:deep(.el-icon),
-:deep(.iconfont) {
-  color: var(--text-color-primary) !important;
-}
 // 面包屑文字颜色
 :deep(.el-breadcrumb__inner) {
   color: var(--text-color-primary) !important;
@@ -348,6 +344,12 @@
   color: var(--menu-active-text-color) !important;
   --el-tag-hover-color: var(--bg-color);
 }
+//
+:deep(.el-drawer__header) {
+  .el-icon:hover {
+    color: var(--menu-active-text-color);
+  }
+}
 //时间选择器
 :deep(.el-date-editor .el-range__icon) {
   color: #a8abb2 !important;
@@ -380,4 +382,19 @@
 .el-date-table td.available:hover span {
   color: var(--menu-active-text-color) !important;
   background-color: transparent !important;
+}
+//单选框
+.el-radio {
+  --el-radio-input-border-color-hover: var(--menu-active-text-color);
+}
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: var(--menu-active-text-color);
+  background: var(--menu-active-text-color);
+}
+.el-radio__input.is-checked + .el-radio__label {
+  color: var(--menu-active-text-color);
+}
+
+.el-textarea {
+  --el-input-focus-border-color: var(--menu-active-text-color);
 }

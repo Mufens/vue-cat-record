@@ -1,32 +1,38 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getUserInfoAPI } from '@/api/user'
+import { getRolePermissionsAPI } from '@/api/role'
 import type { User } from '@/types/user'
-import { users } from '@/mock/user'
+
 export const useUserStore = defineStore(
   'big-user',
   () => {
-    const token = ref('')
+    const token = ref(localStorage.getItem('token') || '') // 初始化时读取本地存储
     const setToken = (newToken: string) => {
       token.value = newToken
+      localStorage.setItem('token', newToken)
     }
     const removeToken = () => {
       token.value = ''
+      localStorage.removeItem('token')
     }
 
     const user = ref<User | null>(null)
+    const permissions = ref<string[]>([]) // 新增权限列表
     const getUser = async () => {
       if (!token.value) throw new Error('未登录')
-      const res = await getUserInfoAPI(user.value?.id || 0)
+      const userId = parseInt(token.value.split(' ')[1])
+      const res = await getUserInfoAPI(userId)
       user.value = res
-    }
-    const setUser = (obj: User) => {
-      user.value = { ...user.value, ...obj }
-      // 同步更新本地模拟数据（临时方案）
-      const index = users.findIndex((u) => u.id === obj.id)
-      if (index !== -1) {
-        users[index] = { ...users[index], ...obj }
+      if (user.value?.role) {
+        const { data } = await getRolePermissionsAPI(user.value.role)
+        permissions.value = data || []
+      } else {
+        permissions.value = []
       }
+    }
+    const setUser = async (obj: User) => {
+      user.value = { ...user.value, ...obj }
     }
 
     return {
@@ -34,6 +40,7 @@ export const useUserStore = defineStore(
       setToken,
       removeToken,
       user,
+      permissions,
       getUser,
       setUser,
     }

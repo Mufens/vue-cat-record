@@ -22,6 +22,7 @@ export const useTabsStore = defineStore('tabs', () => {
   // 操作方法
   const addTab = (route: RouteLocationNormalized) => {
     const targetPath = route.path
+    if (route.meta.hidden) return
     if (!targetPath || typeof targetPath !== 'string') return
 
     const exists = tabList.value.some((t) => t.path === targetPath)

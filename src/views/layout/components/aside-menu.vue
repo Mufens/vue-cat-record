@@ -2,8 +2,22 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { menuData } from '@/components/menu'
+import { useUserStore } from '@/stores/modules/user'
 
 const route = useRoute()
+const userStore = useUserStore()
+const filteredMenu = computed(() => {
+  return menuData.filter(item => {
+    if (item.permiss && !userStore.permissions.includes(item.permiss)) return false
+    if (item.children) {
+      item.children = item.children.filter(
+        sub => !sub.permiss || userStore.permissions.includes(sub.permiss)
+      )
+    }
+    return true
+  })
+})
+
 const onRoutes = computed(() => {
   return route.path
 })
@@ -25,7 +39,7 @@ defineProps({
       :default-active="onRoutes"
       router
     >
-      <template v-for="item in menuData">
+      <template v-for="item in filteredMenu">
         <template v-if="item.children">
           <el-sub-menu :index="item.index" :key="item.index">
             <template #title>

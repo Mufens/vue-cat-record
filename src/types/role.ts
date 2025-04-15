@@ -13,11 +13,17 @@ export interface RoleQueryParams {
   name?: string
   status?: boolean
 }
-export interface PermissionNode {
+export interface BasePermissionNode {
+  id: number
   label: string
+  icon?: string
   value: string
-  children?: PermissionNode[]
 }
+export interface ParentPermissionNode extends BasePermissionNode {
+  children: PermissionNode[]
+  isPenultimate?: boolean
+}
+export type PermissionNode = ParentPermissionNode | BasePermissionNode
 export interface CreateRoleDTO extends Omit<Role, 'id' | 'createdAt'> {
   permissions: string[]
 }

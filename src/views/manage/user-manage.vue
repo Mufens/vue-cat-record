@@ -161,7 +161,7 @@ onMounted(() => {
     <div class="operation">
       <div class="column">
         <div class="column-left">
-          <el-button :icon="CirclePlus" type="primary">新增</el-button>
+          <el-button :icon="CirclePlus" type="primary" v-has="'user:add'">新增</el-button>
           <el-button v-if="showBatchDelete" :icon="Delete" class="danger"> 批量删除 </el-button>
         </div>
         <div class="column-right">
@@ -210,8 +210,10 @@ onMounted(() => {
             <!-- 操作列 -->
             <template v-else-if="col.prop === 'actions'" #default="{ row }">
               <div class="actions">
-                <el-button class="primary" size="small">编辑</el-button>
-                <el-button class="danger" size="small" @click="delUser(row)">删除</el-button>
+                <el-button class="primary" size="small" v-has="'user:edit'">编辑</el-button>
+                <el-button class="danger" size="small" v-has="'user:delete'" @click="delUser(row)"
+                  >删除</el-button
+                >
               </div>
             </template>
           </el-table-column>

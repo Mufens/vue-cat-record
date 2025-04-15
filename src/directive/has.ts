@@ -7,8 +7,7 @@ export const isHasButton = (app: App<Element>) => {
   app.directive('has', {
     mounted(el, binding) {
       const { value } = binding
-      const userPerms = (UserStore.user as { permissions?: string[] })?.permissions || []
-
+      const userPerms = UserStore.permissions || []
       if (!value) return
       const requiredPerms = Array.isArray(value) ? value : [value]
 

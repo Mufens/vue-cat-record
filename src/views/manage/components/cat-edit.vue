@@ -42,7 +42,6 @@ const emit = defineEmits(['success'])
 // 提交逻辑
 const onSubmit = async () => {
   try {
-    // 构造符合 CatItem 类型的请求数据
     const requestData: Partial<CatItem> = {
       ...formModel.value,
       friendliness: Number(formModel.value.friendliness), // 确保数值类型
@@ -92,7 +91,7 @@ defineExpose({ open })
 </script>
 
 <template>
-  <el-drawer v-model="visibleDrawer" :title="formModel.id ? '编辑猫咪' : '添加猫咪'" size="40%">
+  <el-drawer v-model="visibleDrawer" :title="formModel.id ? '编辑猫咪' : '添加猫咪'" size="35%">
     <el-form :model="formModel" label-width="80px" style="padding: 20px">
       <el-form-item label="照片" prop="catImg">
         <el-upload
@@ -117,10 +116,10 @@ defineExpose({ open })
       </el-form-item>
 
       <el-form-item label="性别" prop="gender">
-        <el-select v-model="formModel.gender">
-          <el-option label="公" value="公" />
-          <el-option label="母" value="母" />
-        </el-select>
+        <el-radio-group v-model="formModel.gender">
+          <el-radio value="公">公</el-radio>
+          <el-radio value="母">母 </el-radio>
+        </el-radio-group>
       </el-form-item>
 
       <el-form-item label="健康状况" prop="healthStatus">
@@ -143,18 +142,19 @@ defineExpose({ open })
       <el-form-item label="区域" prop="area">
         <el-input v-model="formModel.area" placeholder="请输入活动区域" />
       </el-form-item>
-
-      <el-form-item>
-        <el-button
-          style="background-color: var(--menu-active-text-color); color: #fff"
-          @click="onSubmit"
-          >提交</el-button
-        >
-      </el-form-item>
     </el-form>
+    <div class="form-action-buttons">
+      <el-button @click="visibleDrawer = false">取消 </el-button>
+      <el-button type="primary" @click="onSubmit">确认 </el-button>
+    </div>
   </el-drawer>
 </template>
 <style lang="scss" scoped>
+.form-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .avatar-uploader {
   :deep() {
     .avatar {

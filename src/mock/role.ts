@@ -58,13 +58,15 @@ export default [
   {
     url: '/api/roles/:id',
     method: 'put',
-    response: ({ body, query }: { body: Partial<CreateRoleDTO>; query: { id: string } }) => {
-      const index = mockRoles.findIndex((r) => r.id === query.id)
+    response: (req: { params: { id: string }; body: Partial<CreateRoleDTO> }) => {
+      const { id } = req.params
+      const body = req.body
+      const index = mockRoles.findIndex((r) => r.id === id)
       if (index > -1) {
         mockRoles[index] = {
           ...mockRoles[index],
           ...body,
-          permissions: body.permissions || [],
+          permissions: body.permissions || mockRoles[index].permissions,
         }
         return { code: 200, data: mockRoles[index] }
       }
@@ -76,9 +78,8 @@ export default [
   {
     url: '/api/roles/:id',
     method: 'delete',
-    response: ({ query }: { query: { ids: string } }) => {
-      const id = query.ids // Assuming 'ids' contains a single ID for this endpoint
-      const index = mockRoles.findIndex((r) => r.id === id)
+    response: ({ params }: { params: { id: string } }) => {
+      const index = mockRoles.findIndex((r) => r.id === params.id)
       if (index > -1) {
         mockRoles.splice(index, 1)
         return { code: 200 }
@@ -96,13 +97,12 @@ export default [
       data: allPermissions,
     }),
   },
-
-  // 获取角色权限
+  // 根据角色名称获取权限
   {
-    url: '/api/roles/:id/permissions',
+    url: '/api/roles/permissions',
     method: 'get',
-    response: ({ query }: { query: { id: string } }) => {
-      const role = mockRoles.find((r) => r.id === query.id)
+    response: ({ query }: { query: { roleName: string } }) => {
+      const role = mockRoles.find((r) => r.name === query.roleName)
       return {
         code: 200,
         data: role?.permissions || [],
