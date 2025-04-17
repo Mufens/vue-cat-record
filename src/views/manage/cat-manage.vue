@@ -64,7 +64,7 @@ onMounted(() => {
 // 查询参数
 const queryParams = ref<CatQueryParams>({
   pagenum: 1,
-  pagesize: 6,
+  pagesize: 10,
   breed: '',
   adoptionStatus: undefined
 })
@@ -200,6 +200,7 @@ const onSuccess = (type: 'add' | 'edit') => {
           background: 'var(--menu-bg2)',
           color: '#606266'
         }"
+        style="height: 340px"
       >
         <template v-for="col in columns" :key="col.prop">
           <el-table-column

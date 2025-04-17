@@ -61,7 +61,7 @@ const router = createRouter({
           path: '/user',
           component: () => import('@/views/user/UserProfile.vue'),
           name: 'user',
-          meta: { title: '个人中心', icon: 'icon-personalcenter', permission: 'user:view' },
+          meta: { title: '个人中心', icon: 'icon-personalcenter', permission: 'us:view' },
         },
       ],
     },

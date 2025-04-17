@@ -1,7 +1,29 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import type { CreateRoleDTO } from '@/types/role'
-import { mockRoles, allPermissions } from './role-mock-data' // 将原有mock数据分离
+import { mockRoles, allPermissions } from './role-mock-data'
+function generateMockUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}
 
+// 修改新增角色的代码
+/**
+ * Represents a newly created role object with additional properties.
+ *
+ * @property {string} id - A unique identifier for the role, generated using `generateMockUUID`.
+ * @property {string} createdAt - The ISO string representation of the date and time when the role was created.
+ * @property {any} body - The original body object spread into the new role.
+ * @property {Array<any>} permissions - An array of permissions associated with the role. Defaults to an empty array if not provided in the body.
+ */
+const createNewRole = (body: CreateRoleDTO) => ({
+  ...body,
+  id: generateMockUUID(), // 使用生成的UUID
+  createdAt: new Date().toISOString(),
+  permissions: body.permissions || [],
+})
 export default [
   // 获取角色列表（带分页和过滤）
   {
@@ -43,12 +65,7 @@ export default [
     url: '/api/roles',
     method: 'post',
     response: ({ body }: { body: CreateRoleDTO }) => {
-      const newRole = {
-        ...body,
-        id: `role-${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        permissions: body.permissions || [],
-      }
+      const newRole = createNewRole(body)
       mockRoles.push(newRole)
       return { code: 200, data: newRole }
     },
@@ -58,8 +75,9 @@ export default [
   {
     url: '/api/roles/:id',
     method: 'put',
-    response: (req: { params: { id: string }; body: Partial<CreateRoleDTO> }) => {
-      const { id } = req.params
+    response: (req: { url: string; body: Partial<CreateRoleDTO> }) => {
+      const path = req.url.split('?')[0]
+      const id = path.split('/').pop()
       const body = req.body
       const index = mockRoles.findIndex((r) => r.id === id)
       if (index > -1) {
@@ -78,8 +96,10 @@ export default [
   {
     url: '/api/roles/:id',
     method: 'delete',
-    response: ({ params }: { params: { id: string } }) => {
-      const index = mockRoles.findIndex((r) => r.id === params.id)
+    response: (req: { url: string }) => {
+      const path = req.url.split('?')[0]
+      const id = path.split('/').pop()
+      const index = mockRoles.findIndex((r) => r.id === id)
       if (index > -1) {
         mockRoles.splice(index, 1)
         return { code: 200 }
@@ -87,7 +107,6 @@ export default [
       return { code: 404 }
     },
   },
-
   // 获取所有权限
   {
     url: '/api/permissions/all',
@@ -103,10 +122,12 @@ export default [
     method: 'get',
     response: ({ query }: { query: { roleName: string } }) => {
       const role = mockRoles.find((r) => r.name === query.roleName)
-      return {
-        code: 200,
-        data: role?.permissions || [],
+      if (role && !role.status) {
+        // 角色被禁用，返回爱喵用户的权限
+        const defaultRole = mockRoles.find((r) => r.name === '爱喵用户')
+        return { code: 200, data: defaultRole?.permissions || [] }
       }
+      return { code: 200, data: role?.permissions || [] }
     },
   },
 ] as MockMethod[]

@@ -5,33 +5,35 @@ import { getAllPermissionAPI, addRoleAPI, editRoleAPI } from '@/api/role'
 import { ElMessage } from 'element-plus'
 import { nextTick } from 'vue'
 
-const emit = defineEmits(['refresh'])
 const visible = ref(false)
 const treeRef = ref()
-const currentRole = ref<Role | null>(null)
 const permissionsTree = ref<PermissionNode[]>([])
 const defaultCheckedKeys = ref<string[]>([])
-const isEditMode = ref(false)
 
+const formModel = ref<Partial<Role & { name: string }>>({
+  name: '' as string,
+  remark: '',
+  status: true,
+  permissions: []
+})
 const open = async (role?: Role) => {
   await loadPermissions()
-  isEditMode.value = !!role
-  currentRole.value = role
-    ? { ...role }
-    : {
-        id: '',
-        name: '',
-        remark: '',
-        status: true,
-        createdAt: '',
-        permissions: []
-      }
+  visible.value = true
+
   await nextTick()
-  if (role) {
+  if (role?.id) {
+    formModel.value = { ...role }
     defaultCheckedKeys.value = role.permissions || []
     treeRef.value?.setCheckedKeys(defaultCheckedKeys.value)
   } else {
+    formModel.value = {
+      name: '',
+      remark: '',
+      status: true,
+      permissions: []
+    }
     defaultCheckedKeys.value = []
+    treeRef.value?.setCheckedKeys([])
   }
   visible.value = true
 }
@@ -49,25 +51,30 @@ const customNodeClass = (data: PermissionNode) => {
   return ''
 }
 
+const emit = defineEmits(['success'])
 const handleSave = async () => {
   const checkedKeys = treeRef.value.getCheckedKeys()
-  if (!currentRole.value?.name) {
+  if (!formModel.value?.name) {
     return ElMessage.error('角色名称不能为空')
   }
   try {
-    if (isEditMode.value && currentRole.value.id) {
-      await editRoleAPI(currentRole.value.id, {
-        name: currentRole.value.name,
-        remark: currentRole.value.remark,
-        status: currentRole.value.status,
+    if (formModel.value.id) {
+      await editRoleAPI(formModel.value.id, {
+        ...formModel.value,
         permissions: checkedKeys
       })
+      ElMessage.success('修改成功')
     } else {
-      await addRoleAPI({ ...currentRole.value, permissions: checkedKeys })
+      await addRoleAPI({
+        name: formModel.value.name,
+        remark: formModel.value.remark || '',
+        status: formModel.value.status ?? true,
+        permissions: checkedKeys
+      })
+      ElMessage.success('添加成功')
     }
     visible.value = false
-    emit('refresh')
-    ElMessage.success(isEditMode.value ? '修改成功' : '新增成功')
+    emit('success', formModel.value.id ? 'edit' : 'add')
   } catch (error) {
     console.error('保存失败:', error)
   }
@@ -77,28 +84,29 @@ defineExpose({ open })
 </script>
 
 <template>
-  <el-drawer v-model="visible" :title="isEditMode ? '编辑角色' : '新增角色'" size="35%">
-    <el-form v-if="currentRole" label-width="100px">
-      <el-form-item label="角色名称" required>
-        <el-input v-model="currentRole.name" :disabled="isEditMode" id="roleName" />
+  <el-drawer v-model="visible" :title="formModel.id ? '编辑角色' : '新增角色'" size="36%">
+    <el-form :model="formModel" label-width="100px">
+      <el-form-item prop="name" label="角色名称" required>
+        <el-input v-model="formModel.name" placeholder="请输入角色名称" />
       </el-form-item>
-      <el-form-item label="角色状态">
-        <el-radio-group v-model="currentRole.status" id="roleStatus">
+      <el-form-item prop="status" label="角色状态">
+        <el-radio-group v-model="formModel.status">
           <el-radio :value="true">启用</el-radio>
           <el-radio :value="false">禁用</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="角色备注">
+      <el-form-item label="角色备注" prop="remark">
         <el-input
-          v-model="currentRole.remark"
+          v-model="formModel.remark"
           type="textarea"
           placeholder="请输入备注信息"
-          :rows="3"
+          :rows="2"
         />
       </el-form-item>
 
-      <el-form-item label="权限分配">
+      <el-form-item label="权限分配" prop="permissions">
         <el-tree
+          v-model="formModel.permissions"
           style="width: 400px"
           ref="treeRef"
           :data="permissionsTree"
@@ -123,10 +131,12 @@ defineExpose({ open })
         </el-tree>
       </el-form-item>
     </el-form>
-    <div class="form-action-buttons">
-      <el-button @click="visible = false">取消 </el-button>
-      <el-button type="primary" @click="handleSave">确认 </el-button>
-    </div>
+    <template #footer>
+      <div class="form-action-buttons">
+        <el-button @click="visible = false">取消 </el-button>
+        <el-button type="primary" @click="handleSave">确认 </el-button>
+      </div>
+    </template>
   </el-drawer>
 </template>
 
@@ -137,6 +147,7 @@ defineExpose({ open })
 .form-action-buttons {
   display: flex;
   justify-content: flex-end;
+  margin-right: 12px;
 }
 .permission-tree {
   border: 1px solid var(--el-border-color);
@@ -153,7 +164,7 @@ defineExpose({ open })
       .el-tree-node {
         &__content {
           height: auto;
-          padding: 0 4px !important;
+          padding: 0 0px !important;
         }
       }
     }

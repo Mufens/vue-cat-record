@@ -176,6 +176,7 @@ onMounted(() => {
         :row-key="(row: User) => row.id"
         @selection-change="handleSelectionChange"
         :header-cell-style="{ background: 'var(--menu-bg2)', color: '#606266' }"
+        style="height: 285px"
       >
         <template v-for="col in columns" :key="col.prop">
           <el-table-column
@@ -225,12 +226,13 @@ onMounted(() => {
     <el-pagination
       v-model:current-page="queryParams.page"
       v-model:page-size="queryParams.pageSize"
-      :page-sizes="[3, 6, 8, 10]"
+      :page-sizes="[6, 10, 20, 30]"
       :background="true"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="jumper, total, sizes, prev, pager, next"
       :total="total"
       @size-change="onSizeChange"
       @current-change="onCurrentChange"
+      style="margin-top: 10px; margin-right: 5px; justify-content: flex-end"
     />
   </div>
 </template>
@@ -239,21 +241,23 @@ onMounted(() => {
 .user-manage {
   margin: 10px;
   background-color: var(--message-panel-bg, #ffffff);
-  padding: 20px;
+  padding-bottom: 10px;
 
   .search-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     .el-form {
-      margin-left: 20px;
+      padding-top: 20px;
+      margin-left: 100px;
       .el-form-item:last-child {
-        margin-left: 30px;
+        margin-left: 28px;
       }
     }
   }
 
   .operation {
+    padding: 0 20px;
     .column {
       display: flex;
       justify-content: space-between;
@@ -310,11 +314,6 @@ onMounted(() => {
         }
       }
     }
-  }
-
-  .el-pagination {
-    margin-top: 20px;
-    justify-content: flex-end;
   }
 }
 </style>

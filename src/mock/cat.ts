@@ -129,7 +129,7 @@ export default [
     }: {
       query: { pagenum?: number; pagesize?: number; breed?: string; adoptionStatus?: string }
     }) => {
-      const { pagenum = 1, pagesize = 6, breed, adoptionStatus } = query
+      const { pagenum = 1, pagesize = 10, breed, adoptionStatus } = query
 
       // 创建过滤后的副本避免污染原始数据
       let filteredData = [...data]

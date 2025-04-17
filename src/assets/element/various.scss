@@ -313,8 +313,11 @@
     background-color: var(--menu-active-text-color);
   }
   &:not(.is-active):hover {
-    color: var(--menu-active-text-color);
+    color: var(--menu-active-text-color) !important;
   }
+}
+.el-pagination button:hover {
+  color: var(--menu-active-text-color) !important;
 }
 //加载图标
 .el-loading-spinner .path {
@@ -385,16 +388,21 @@
 }
 //单选框
 .el-radio {
-  --el-radio-input-border-color-hover: var(--menu-active-text-color);
+  --el-radio-input-border-color-hover: var(--menu-active-text-color) !important;
 }
 .el-radio__input.is-checked .el-radio__inner {
-  border-color: var(--menu-active-text-color);
-  background: var(--menu-active-text-color);
+  border-color: var(--menu-active-text-color) !important;
+  background: var(--menu-active-text-color) !important;
 }
 .el-radio__input.is-checked + .el-radio__label {
-  color: var(--menu-active-text-color);
+  color: var(--menu-active-text-color) !important;
 }
 
 .el-textarea {
   --el-input-focus-border-color: var(--menu-active-text-color);
+}
+
+.el-dialog__headerbtn:focus .el-dialog__close,
+.el-dialog__headerbtn:hover .el-dialog__close {
+  color: var(--menu-active-text-color);
 }

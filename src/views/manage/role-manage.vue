@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { getRoleListAPI, deleteRoleAPI } from '@/api/role'
 import type { Role, RoleQueryParams } from '@/types/role'
 import { formatDate } from '@/utils/format'
-import TableActions from '@/components/TableActions.vue'
+import TableActions from '@/components/table/TableActions.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, RefreshRight, CirclePlus } from '@element-plus/icons-vue'
 import RoleEdit from './components/role-edit.vue'
@@ -120,7 +120,14 @@ const onSizeChange = (val: number) => {
 }
 
 const onCurrentChange = (val: number) => {
-  queryParams.value.pagesize = val
+  queryParams.value.pagenum = val
+  fetchRoleList()
+}
+const onSuccess = (type: 'add' | 'edit') => {
+  if (type === 'add') {
+    const lastPage = Math.ceil((total.value + 1) / (queryParams.value.pagesize ?? 10))
+    queryParams.value.pagenum = lastPage
+  }
   fetchRoleList()
 }
 
@@ -161,7 +168,11 @@ onMounted(() => fetchRoleList())
           >
         </div>
         <div class="column-right">
-          <TableActions v-model:columns="columns" show-columns-type="checkbox" />
+          <TableActions
+            v-model:columns="columns"
+            show-columns-type="checkbox"
+            @refresh="fetchRoleList"
+          />
         </div>
       </div>
 
@@ -169,6 +180,7 @@ onMounted(() => fetchRoleList())
         :data="tableData"
         :row-key="(row: Role) => row.id"
         :header-cell-style="{ background: 'var(--menu-bg2)', color: '#606266' }"
+        style="height: 340px"
       >
         <template v-for="col in columns" :key="col.prop">
           <el-table-column
@@ -189,7 +201,7 @@ onMounted(() => fetchRoleList())
             <template v-else-if="col.prop === 'createdAt'" #default="{ row }">{{
               formatDate(row.createdAt)
             }}</template>
-            <template v-else-if="col.prop === 'actions'" #default>
+            <template v-else-if="col.prop === 'actions'" #default="{ row }">
               <div class="actions">
                 <el-button class="primary" size="small" v-has="'role:edit'" @click="EditRole(row)"
                   >编辑</el-button
@@ -205,16 +217,18 @@ onMounted(() => fetchRoleList())
     </div>
 
     <el-pagination
-      v-model:current-page="queryParams.pagenum"
-      v-model:page-size="queryParams.pagesize"
-      :page-sizes="[3, 6, 8, 10]"
+      :page-sizes="[6, 10, 15, 20]"
       :background="true"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="jumper, total, sizes, prev, pager, next"
       :total="total"
+      :current-page="queryParams.pagenum"
+      :page-size="queryParams.pagesize"
       @size-change="onSizeChange"
       @current-change="onCurrentChange"
+      style="margin-top: 10px; justify-content: flex-end"
     />
-    <RoleEdit ref="roleEditRef" @refresh="fetchRoleList" />
+
+    <RoleEdit ref="roleEditRef" @success="onSuccess" />
   </div>
 </template>
 
@@ -223,9 +237,9 @@ onMounted(() => fetchRoleList())
   margin: 10px;
   background-color: var(--message-panel-bg, #ffffff);
   padding: 20px;
-
   .search-container {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
     .el-form {
@@ -274,11 +288,6 @@ onMounted(() => fetchRoleList())
         }
       }
     }
-  }
-
-  .el-pagination {
-    margin-top: 20px;
-    justify-content: flex-end;
   }
 }
 </style>
