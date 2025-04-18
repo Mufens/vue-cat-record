@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { getUserListAPI } from '@/api/user'
+import { getUserListAPI, deleteUserData, deleteBatchUserData } from '@/api/user'
 import type { User, UserQueryParams } from '@/types/user'
 import { formatDate } from '@/utils/format'
 import TableActions from '@/components/TableActions.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, RefreshRight, CirclePlus, Delete } from '@element-plus/icons-vue'
+import UserEdit from './components/user-edit.vue'
 const tableData = ref<User[]>([])
 const loading = ref(false)
-const dateRange = ref<string[]>([])
+const dateRange = ref([])
 const total = ref(0)
+const userEditRef = ref()
 const columns = ref([
   { label: '选择', prop: 'selection', visible: true, type: 'selection' },
   { label: '用户ID', prop: 'id', width: '120', visible: true },
@@ -52,12 +55,12 @@ const fetchUserList = async () => {
   total.value = res.total
   loading.value = false
 }
+
 const search = () => {
-  queryParams.value.createStart = dateRange.value[0]
-  queryParams.value.createEnd = dateRange.value[1]
   queryParams.value.page = 1
   fetchUserList()
 }
+
 const reset = () => {
   queryParams.value = {
     page: 1,
@@ -71,8 +74,45 @@ const reset = () => {
   }
   fetchUserList()
 }
+const AddUser = () => {
+  userEditRef.value.open()
+}
+const EditUser = (row: User) => {
+  userEditRef.value.open(row)
+}
+const delUser = (row: User) => {
+  ElMessageBox.confirm('是否删除该用户?', '提示', {
+    type: 'warning'
+  })
+    .then(() => {
+      deleteUserData(row.id).then(() => {
+        ElMessage.success('删除成功')
+        fetchUserList()
+      })
+    })
+    .catch(() => {})
+}
+const batchDelete = () => {
+  if (multipleSelection.value.length === 0) {
+    ElMessage.warning('请选择要删除的用户')
+    return
+  }
+  ElMessageBox.confirm('确定删除选中用户吗？', '警告', { type: 'warning' })
+    .then(() => {
+      const ids = multipleSelection.value.map(u => u.id)
+      deleteBatchUserData(ids)
+        .then(() => {
+          ElMessage.success('删除成功')
+          multipleSelection.value = []
+          fetchUserList()
+        })
+        .catch(() => ElMessage.error('删除失败'))
+    })
+    .catch(() => {})
+}
+
 // 分页变化
-const onSizeChange = (val: number) => {
+const handleSizeChange = (val: number) => {
   queryParams.value.pageSize = val
   fetchUserList()
 }
@@ -104,7 +144,7 @@ onMounted(() => {
   <div class="user-manage">
     <!-- 搜索区域 -->
     <div class="search-container">
-      <el-form inline label-width="70px">
+      <el-form :model="queryParams" inline label-width="70px">
         <el-form-item label="用户名">
           <el-input
             v-model="queryParams.name"
@@ -161,11 +201,19 @@ onMounted(() => {
     <div class="operation">
       <div class="column">
         <div class="column-left">
-          <el-button :icon="CirclePlus" type="primary" v-has="'user:add'">新增</el-button>
-          <el-button v-if="showBatchDelete" :icon="Delete" class="danger"> 批量删除 </el-button>
+          <el-button :icon="CirclePlus" type="primary" v-has="'user:add'" @click="AddUser"
+            >新增</el-button
+          >
+          <el-button v-if="showBatchDelete" :icon="Delete" class="danger" @click="batchDelete">
+            批量删除
+          </el-button>
         </div>
         <div class="column-right">
-          <TableActions v-model:columns="columns" :show-columns-type="'checkbox'" />
+          <TableActions
+            v-model:columns="columns"
+            show-columns-type="checkbox"
+            @refresh="fetchUserList"
+          />
         </div>
       </div>
 
@@ -211,7 +259,9 @@ onMounted(() => {
             <!-- 操作列 -->
             <template v-else-if="col.prop === 'actions'" #default="{ row }">
               <div class="actions">
-                <el-button class="primary" size="small" v-has="'user:edit'">编辑</el-button>
+                <el-button class="primary" size="small" v-has="'user:edit'" @click="EditUser(row)"
+                  >编辑</el-button
+                >
                 <el-button class="danger" size="small" v-has="'user:delete'" @click="delUser(row)"
                   >删除</el-button
                 >
@@ -230,10 +280,11 @@ onMounted(() => {
       :background="true"
       layout="jumper, total, sizes, prev, pager, next"
       :total="total"
-      @size-change="onSizeChange"
+      @size-change="handleSizeChange"
       @current-change="onCurrentChange"
       style="margin-top: 10px; margin-right: 5px; justify-content: flex-end"
     />
+    <UserEdit ref="userEditRef" @refresh="fetchUserList" />
   </div>
 </template>
 

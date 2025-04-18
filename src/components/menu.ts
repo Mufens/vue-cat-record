@@ -17,7 +17,7 @@ export const menuData: Menus[] = [
   },
   {
     id: '2',
-    title: '管理',
+    title: '系统管理',
     index: '2',
     icon: 'icon-Gc_120_line-Menu',
     children: [

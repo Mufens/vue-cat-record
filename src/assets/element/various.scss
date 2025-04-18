@@ -406,3 +406,11 @@
 .el-dialog__headerbtn:hover .el-dialog__close {
   color: var(--menu-active-text-color);
 }
+//switch开关
+.el-switch.is-checked .el-switch__core {
+  border-color: var(--menu-active-text-color, var(--menu-active-text-color));
+  background-color: var(--menu-active-text-color);
+}
+.el-switch__label.is-active {
+  color: var(--menu-active-text-color);
+}

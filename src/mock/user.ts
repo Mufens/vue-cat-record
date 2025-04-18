@@ -1,5 +1,5 @@
 import type { User } from '@/types/user'
-
+import type { MockMethod } from 'vite-plugin-mock'
 export const users: User[] = [
   {
     id: 1111111,
@@ -109,6 +109,76 @@ export const users: User[] = [
     role: '使者',
     email: 'cat@aass.com',
     avatar: '',
-    createdAt: '2023-02-010T08:00:00Z',
+    createdAt: '2025-03-10T08:00:00Z',
   },
 ]
+export default [
+  {
+    url: '/api/user/mes',
+    method: 'post',
+    response: ({ body }: { body: Partial<User> }) => {
+      const newUser: User = {
+        ...body,
+        id: Date.now(),
+        createdAt: new Date().toISOString(),
+        avatar: '',
+        name: body.name || 'Unnamed User', // Ensure 'name' is always a string
+        password: body.password || '', // Ensure 'password' is always a string
+        status: body.status ?? true, // Ensure 'status' is always a boolean
+        role: body.role || 'User', // Ensure 'role' is always a string
+        email: body.email || '', // Ensure 'email' is always a string
+      }
+      users.push(newUser)
+      return { success: true, data: newUser }
+    },
+  },
+
+  // Mock编辑用户
+  {
+    url: '/api/user/mes/:id',
+    method: 'put',
+    response: ({ query, body }: { query: { id: string }; body: Partial<User> }) => {
+      const index = users.findIndex((u) => u.id === Number(query.id))
+      if (index > -1) {
+        users[index] = { ...users[index], ...body }
+        return { success: true }
+      }
+      return { success: false }
+    },
+  },
+
+  // Mock删除用户
+  {
+    url: '/api/user/mes/:id',
+    method: 'delete',
+    response: ({ query }: { query: { id: string } }) => {
+      const index = users.findIndex((u) => u.id === Number(query.id))
+      if (index > -1) {
+        users.splice(index, 1)
+        return { success: true }
+      }
+      return { success: false }
+    },
+  },
+  {
+    url: '/api/user/mes/batch',
+    method: 'delete',
+    response: ({ query }: { query: { ids: string } }) => {
+      const ids = query.ids.split(',').map(Number)
+      let deleteCount = 0
+
+      ids.forEach((id) => {
+        const index = users.findIndex((u) => u.id === id)
+        if (index > -1) {
+          users.splice(index, 1)
+          deleteCount++
+        }
+      })
+
+      return {
+        success: deleteCount > 0,
+        message: deleteCount > 0 ? `成功删除${deleteCount}个用户` : '未找到匹配用户',
+      }
+    },
+  },
+] as MockMethod[]

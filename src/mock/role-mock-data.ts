@@ -118,7 +118,7 @@ export const allPermissions: PermissionNode[] = [
   {
     id: 2,
     icon: 'icon-Gc_120_line-Menu',
-    label: '管理',
+    label: '系统管理',
     value: 'manage',
     children: [
       {

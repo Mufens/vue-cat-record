@@ -1,6 +1,6 @@
 import { users } from '../mock/user'
 import type { User, UserQueryParams } from '../types/user'
-
+import axios from 'axios'
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // 注册接口
@@ -86,7 +86,7 @@ export const getUserListAPI = async (params: UserQueryParams) => {
   }
   if (params.createStart && params.createEnd) {
     filtered = filtered.filter(
-      (u) => u.createdAt >= params.createStart! && u.createdAt <= params.createEnd! + 'T23:59:59Z',
+      (u) => u.createdAt >= params.createStart! && u.createdAt <= params.createEnd!,
     )
   }
 
@@ -99,4 +99,27 @@ export const getUserListAPI = async (params: UserQueryParams) => {
     list: paginated,
     total: filtered.length,
   }
+}
+
+// 新增用户
+export const addUserData = (data: Omit<User, 'id' | 'createdAt' | 'avatar'>) => {
+  return axios.post('/api/user/mes', data)
+}
+
+// 修改用户
+export const editUserData = (id: number, data: Partial<User>) => {
+  return axios.put(`/api/user/mes/${id}`, data)
+}
+
+// 删除用户
+export const deleteUserData = (id: number) => {
+  return axios.delete(`/api/user/mes/${id}`)
+}
+
+// 批量删除用户
+export const deleteBatchUserData = (ids: number[]) => {
+  return axios.delete('/api/user/mes/batch', {
+    params: { ids: ids.join(',') },
+    paramsSerializer: { indexes: null },
+  })
 }
