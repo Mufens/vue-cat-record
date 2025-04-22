@@ -143,10 +143,12 @@ defineExpose({ open })
         <el-input v-model="formModel.area" placeholder="请输入活动区域" />
       </el-form-item>
     </el-form>
-    <div class="form-action-buttons">
-      <el-button @click="visibleDrawer = false">取消 </el-button>
-      <el-button type="primary" @click="onSubmit">确认 </el-button>
-    </div>
+    <template #footer>
+      <div class="form-action-buttons">
+        <el-button @click="visibleDrawer = false">取消 </el-button>
+        <el-button type="primary" @click="onSubmit">确认 </el-button>
+      </div>
+    </template>
   </el-drawer>
 </template>
 <style lang="scss" scoped>

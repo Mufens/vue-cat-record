@@ -18,13 +18,13 @@ export const menuData: Menus[] = [
   {
     id: '2',
     title: '系统管理',
-    index: '2',
+    index: '/system',
     icon: 'icon-Gc_120_line-Menu',
     children: [
       {
         id: '21',
         pid: '2',
-        index: '/cat-manage',
+        index: '/system/cat',
         title: '猫猫管理',
         icon: 'icon-claw',
         permiss: 'cat:view',
@@ -32,7 +32,7 @@ export const menuData: Menus[] = [
       {
         id: '22',
         pid: '2',
-        index: '/user-manage',
+        index: '/system/user',
         title: '用户管理',
         icon: 'icon-Gc_32_line-UserManagement',
         permiss: 'user:view',
@@ -40,10 +40,18 @@ export const menuData: Menus[] = [
       {
         id: '23',
         pid: '3',
-        index: '/role-manage',
+        index: '/system/role',
         title: '角色管理',
         icon: 'icon-a-jiaoseguanli2',
         permiss: 'role:view',
+      },
+      {
+        id: '24',
+        pid: '4',
+        index: '/system/menu',
+        title: '菜单管理',
+        icon: 'icon-caidan',
+        permiss: 'menu:view',
       },
     ],
   },

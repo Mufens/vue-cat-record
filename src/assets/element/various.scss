@@ -408,9 +408,20 @@
 }
 //switch开关
 .el-switch.is-checked .el-switch__core {
-  border-color: var(--menu-active-text-color, var(--menu-active-text-color));
-  background-color: var(--menu-active-text-color);
+  border-color: var(--menu-active-text-color, var(--menu-active-text-color)) !important;
+  background-color: var(--menu-active-text-color) !important;
 }
 .el-switch__label.is-active {
-  color: var(--menu-active-text-color);
+  color: var(--menu-active-text-color) !important;
+}
+//级联选择器
+.el-cascader-node.in-active-path,
+.el-cascader-node.is-selectable.in-checked-path,
+.el-cascader-node.is-active {
+  color: var(--menu-active-text-color) !important;
+  font-weight: bold;
+}
+
+#nprogress .bar {
+  background: var(--menu-active-text-color) !important;
 }

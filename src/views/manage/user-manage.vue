@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getUserListAPI, deleteUserData, deleteBatchUserData } from '@/api/user'
 import type { User, UserQueryParams } from '@/types/user'
 import { formatDate } from '@/utils/format'
-import TableActions from '@/components/TableActions.vue'
+import TableActions from '@/components/table/TableActions.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, RefreshRight, CirclePlus, Delete } from '@element-plus/icons-vue'
 import UserEdit from './components/user-edit.vue'
@@ -39,8 +39,8 @@ const columns = ref([
 
 // 查询参数
 const queryParams = ref<UserQueryParams>({
-  page: 1,
-  pageSize: 10,
+  pagenum: 1,
+  pagesize: 10,
   name: '',
   email: '',
   status: undefined,
@@ -51,20 +51,20 @@ const queryParams = ref<UserQueryParams>({
 const fetchUserList = async () => {
   loading.value = true
   const res = await getUserListAPI(queryParams.value)
-  tableData.value = res.list
-  total.value = res.total
+  tableData.value = res.data.list
+  total.value = res.data.total
   loading.value = false
 }
 
 const search = () => {
-  queryParams.value.page = 1
+  queryParams.value.pagenum = 1
   fetchUserList()
 }
 
 const reset = () => {
   queryParams.value = {
-    page: 1,
-    pageSize: 10,
+    pagenum: 1,
+    pagesize: 10,
     name: '',
     email: '',
     status: undefined,
@@ -81,17 +81,18 @@ const EditUser = (row: User) => {
   userEditRef.value.open(row)
 }
 const delUser = (row: User) => {
-  ElMessageBox.confirm('是否删除该用户?', '提示', {
-    type: 'warning'
-  })
+  ElMessageBox.confirm('是否删除该用户?', '提示', { type: 'warning' })
     .then(() => {
-      deleteUserData(row.id).then(() => {
-        ElMessage.success('删除成功')
-        fetchUserList()
-      })
+      deleteUserData(row.id)
+        .then(() => {
+          ElMessage.success('删除成功')
+          fetchUserList()
+        })
+        .catch(() => ElMessage.error('删除失败'))
     })
     .catch(() => {})
 }
+
 const batchDelete = () => {
   if (multipleSelection.value.length === 0) {
     ElMessage.warning('请选择要删除的用户')
@@ -112,27 +113,28 @@ const batchDelete = () => {
 }
 
 // 分页变化
-const handleSizeChange = (val: number) => {
-  queryParams.value.pageSize = val
+const onSizeChange = (val: number) => {
+  queryParams.value.pagesize = val
+  queryParams.value.pagenum = 1
   fetchUserList()
 }
 const onCurrentChange = (val: number) => {
-  queryParams.value.page = val
+  queryParams.value.pagenum = val
   fetchUserList()
 }
-
-const page = ref(1)
-const pageSize = ref(10)
-
-const paginatedData = computed(() => {
-  return tableData.value.slice((page.value - 1) * pageSize.value, page.value * pageSize.value)
-})
 
 const showBatchDelete = ref(false)
 const multipleSelection = ref<User[]>([])
 const handleSelectionChange = (val: User[]) => {
   multipleSelection.value = val
   showBatchDelete.value = val.length > 0
+}
+const onSuccess = (type: 'add' | 'edit') => {
+  if (type === 'add') {
+    const lastPage = Math.ceil((total.value + 1) / (queryParams.value.pagesize ?? 10))
+    queryParams.value.pagenum = lastPage
+  }
+  fetchUserList()
 }
 
 onMounted(() => {
@@ -219,7 +221,7 @@ onMounted(() => {
 
       <!-- 数据表格 -->
       <el-table
-        :data="paginatedData"
+        :data="tableData"
         v-loading="loading"
         :row-key="(row: User) => row.id"
         @selection-change="handleSelectionChange"
@@ -274,17 +276,17 @@ onMounted(() => {
 
     <!-- 分页 -->
     <el-pagination
-      v-model:current-page="queryParams.page"
-      v-model:page-size="queryParams.pageSize"
+      v-model:current-page="queryParams.pagenum"
+      v-model:page-size="queryParams.pagesize"
       :page-sizes="[6, 10, 20, 30]"
       :background="true"
       layout="jumper, total, sizes, prev, pager, next"
       :total="total"
-      @size-change="handleSizeChange"
+      @size-change="onSizeChange"
       @current-change="onCurrentChange"
       style="margin-top: 10px; margin-right: 5px; justify-content: flex-end"
     />
-    <UserEdit ref="userEditRef" @refresh="fetchUserList" />
+    <UserEdit ref="userEditRef" @success="onSuccess" />
   </div>
 </template>
 
@@ -312,26 +314,9 @@ onMounted(() => {
     .column {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       &-left {
         margin-top: 10px;
-        .el-button {
-          &.danger {
-            background-color: var(--type-danger-color) !important;
-            border-color: var(--danger-border-color) !important;
-            color: var(--danger-color) !important;
-            :deep(.el-icon) {
-              color: var(--danger-color) !important;
-            }
-            &:hover {
-              background-color: #f56c6c !important;
-              color: #fff !important;
-              :deep(.el-icon) {
-                color: #fff !important;
-              }
-            }
-          }
-        }
       }
       &-right {
         margin-top: 12px;

@@ -10,8 +10,8 @@ export interface User {
   tags?: string[]
 }
 export interface UserQueryParams {
-  page: number
-  pageSize: number
+  pagenum: number
+  pagesize: number
   name?: string
   email?: string
   status?: boolean

@@ -30,13 +30,13 @@ const router = createRouter({
           meta: { title: '记录', icon: 'icon-jilu', permission: 'record:view' },
         },
         {
-          path: '/cat-manage',
+          path: '/system/cat',
           component: () => import('@/views/manage/cat-manage.vue'),
           name: 'cat-manage',
           meta: { title: '猫猫管理', icon: 'icon-claw', permission: 'cat:view' },
         },
         {
-          path: '/user-manage',
+          path: '/system/user',
           component: () => import('@/views/manage/user-manage.vue'),
           name: 'user-manage',
           meta: {
@@ -46,10 +46,16 @@ const router = createRouter({
           },
         },
         {
-          path: '/role-manage',
+          path: '/system/role',
           component: () => import('@/views/manage/role-manage.vue'),
           name: 'role-manage',
           meta: { title: '角色管理', icon: 'icon-a-jiaoseguanli2', permission: 'role:view' },
+        },
+        {
+          path: '/system/menu',
+          component: () => import('@/views/manage/menu-manage.vue'),
+          name: 'menu-manage',
+          meta: { title: '菜单管理', icon: 'icon-caidan', permission: 'menu:view' },
         },
         {
           path: '/message-board',

@@ -147,7 +147,6 @@ defineExpose({ open })
 .form-action-buttons {
   display: flex;
   justify-content: flex-end;
-  margin-right: 12px;
 }
 .permission-tree {
   border: 1px solid var(--el-border-color);

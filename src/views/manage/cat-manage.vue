@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { formatDate } from '@/utils/format'
-import TableActions from '@/components/TableActions.vue'
+import TableActions from '@/components/table/TableActions.vue'
 import { Search, ZoomIn, Edit, Delete, RefreshRight, CirclePlus } from '@element-plus/icons-vue'
 import { fetchCatData } from '@/api/cat'
 import type { CatItem, CatQueryParams } from '@/types/cat'

@@ -25,7 +25,7 @@ const createNewRole = (body: CreateRoleDTO) => ({
   permissions: body.permissions || [],
 })
 export default [
-  // 获取角色列表（带分页和过滤）
+  // 获取角色列表
   {
     url: '/api/roles/list',
     method: 'get',

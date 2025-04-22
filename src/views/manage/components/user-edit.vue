@@ -5,7 +5,7 @@ import { addUserData, editUserData } from '@/api/user'
 import { getRoleListAPI } from '@/api/role'
 import type { User } from '@/types/user'
 import type { Role } from '@/types/role'
-
+import { useUserStore } from '@/stores/modules/user'
 const visible = ref(false)
 const roleList = ref<Role[]>([])
 const formModel = ref<Partial<User>>({
@@ -33,6 +33,21 @@ onMounted(() => {
 
 const emit = defineEmits(['success'])
 
+const rules = {
+  name: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 1, max: 11, message: '用户名长度在1-11个字符之间', trigger: 'blur' }
+  ],
+  password: [
+    { required: !formModel.value.id, message: '请输入密码', trigger: 'blur' },
+    { pattern: /^\S{6,15}$/, message: '密码必须为6-15位非空字符', trigger: 'blur' }
+  ],
+  email: [
+    { required: true, message: '请输入邮箱', trigger: 'blur' },
+    { type: 'email', message: '邮箱格式不正确', trigger: ['blur', 'change'] }
+  ]
+}
+
 // 提交逻辑
 const onSubmit = async () => {
   try {
@@ -53,6 +68,12 @@ const onSubmit = async () => {
 
     visible.value = false
     emit('success')
+    // 如果修改的是当前登录用户
+    const userStore = useUserStore()
+    if (userStore.user?.id === formModel.value.id) {
+      await userStore.getUser()
+      window.location.reload() // 强制刷新页面以更新权限相关状态
+    }
   } catch {
     ElMessage.error('操作失败')
   }
@@ -83,7 +104,7 @@ defineExpose({ open })
     :close-on-click-modal="false"
     destroy-on-close
   >
-    <el-form :model="formModel" label-width="80px" style="padding: 0 20px">
+    <el-form :model="formModel" label-width="80px" :rules="rules" style="padding: 0 20px">
       <el-form-item label="用户名" prop="name">
         <el-input v-model="formModel.name" placeholder="请输入用户名" />
       </el-form-item>

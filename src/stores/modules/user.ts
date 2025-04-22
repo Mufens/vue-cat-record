@@ -33,6 +33,11 @@ export const useUserStore = defineStore(
     }
     const setUser = async (obj: User) => {
       user.value = { ...user.value, ...obj }
+      if (obj.role) {
+        const { data } = await getRolePermissionsAPI(obj.role)
+        permissions.value = data || []
+        localStorage.removeItem('cached-permissions')
+      }
     }
 
     return {

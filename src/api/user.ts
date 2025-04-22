@@ -67,57 +67,27 @@ export const updateUserInfoAPI = async (userId: number, updateData: Partial<User
 
 //获取用户列表
 export const getUserListAPI = async (params: UserQueryParams) => {
-  await delay(500)
-
-  // 过滤逻辑
-  let filtered = [...users]
-
-  if (params.name) {
-    filtered = filtered.filter((u) => u.name.includes(params.name!))
-  }
-  if (params.email) {
-    filtered = filtered.filter((u) => u.email.includes(params.email!))
-  }
-  if (typeof params.status !== 'undefined') {
-    filtered = filtered.filter((u) => u.status === params.status)
-  }
-  if (params.role) {
-    filtered = filtered.filter((u) => u.role.includes(params.role!))
-  }
-  if (params.createStart && params.createEnd) {
-    filtered = filtered.filter(
-      (u) => u.createdAt >= params.createStart! && u.createdAt <= params.createEnd!,
-    )
-  }
-
-  // 分页逻辑
-  const start = (params.page - 1) * params.pageSize
-  const end = start + params.pageSize
-  const paginated = filtered.slice(start, end)
-
-  return {
-    list: paginated,
-    total: filtered.length,
-  }
+  const { data } = await axios.get('/api/users/list', { params })
+  return data
 }
 
 // 新增用户
-export const addUserData = (data: Omit<User, 'id' | 'createdAt' | 'avatar'>) => {
-  return axios.post('/api/user/mes', data)
+export const addUserData = async (data: Omit<User, 'id' | 'createdAt' | 'avatar'>) => {
+  return axios.post('/api/users', data)
 }
 
-// 修改用户
-export const editUserData = (id: number, data: Partial<User>) => {
-  return axios.put(`/api/user/mes/${id}`, data)
+// 编辑用户
+export const editUserData = async (id: number, data: Partial<User>) => {
+  return axios.put(`/api/users/${id}`, data)
 }
 
 // 删除用户
-export const deleteUserData = (id: number) => {
-  return axios.delete(`/api/user/mes/${id}`)
+export const deleteUserData = async (id: number) => {
+  return axios.delete(`/api/users/${id}`)
 }
 
 // 批量删除用户
-export const deleteBatchUserData = (ids: number[]) => {
+export const deleteBatchUserData = async (ids: number[]) => {
   return axios.delete('/api/user/mes/batch', {
     params: { ids: ids.join(',') },
     paramsSerializer: { indexes: null },

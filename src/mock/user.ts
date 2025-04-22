@@ -113,46 +113,97 @@ export const users: User[] = [
   },
 ]
 export default [
+  // 获取用户列表
   {
-    url: '/api/user/mes',
+    url: '/api/users/list',
+    method: 'get',
+    response: ({
+      query,
+    }: {
+      query: {
+        pagenum?: number
+        pagesize?: number
+        name?: string
+        email?: string
+        status?: string
+        role?: string
+      }
+    }) => {
+      const { pagenum = 1, pagesize = 10, name, email, status, role } = query
+
+      let filtered = [...users]
+
+      // 过滤逻辑
+      if (name) filtered = filtered.filter((u) => u.name.includes(name))
+      if (email) filtered = filtered.filter((u) => u.email.includes(email))
+      if (status !== undefined) filtered = filtered.filter((u) => u.status === (status === 'true'))
+      if (role) filtered = filtered.filter((u) => u.role === role)
+
+      // 分页计算
+      const start = (pagenum - 1) * pagesize
+      const end = start + Number(pagesize)
+
+      return {
+        code: 200,
+        data: {
+          list: filtered.slice(start, end),
+          total: filtered.length,
+        },
+      }
+    },
+  },
+  //新增用户
+  {
+    url: '/api/users',
     method: 'post',
     response: ({ body }: { body: Partial<User> }) => {
-      const newUser: User = {
+      const exists = users.some((u) => u.name === body.name || u.email === body.email)
+      if (exists) return { code: 400, message: '用户名或邮箱已存在' }
+
+      const newUser = {
         ...body,
         id: Date.now(),
         createdAt: new Date().toISOString(),
-        avatar: '',
-        name: body.name || 'Unnamed User', // Ensure 'name' is always a string
-        password: body.password || '', // Ensure 'password' is always a string
-        status: body.status ?? true, // Ensure 'status' is always a boolean
-        role: body.role || 'User', // Ensure 'role' is always a string
-        email: body.email || '', // Ensure 'email' is always a string
+        status: body.status ?? true,
+        avatar: body.avatar || '',
+        role: body.role || '爱喵用户',
+        name: body.name || '',
+        password: body.password || '',
+        email: body.email || '',
       }
       users.push(newUser)
-      return { success: true, data: newUser }
+      return { code: 200, data: newUser }
     },
   },
 
-  // Mock编辑用户
+  // 编辑用户
   {
-    url: '/api/user/mes/:id',
+    url: '/api/users/:id',
     method: 'put',
-    response: ({ query, body }: { query: { id: string }; body: Partial<User> }) => {
-      const index = users.findIndex((u) => u.id === Number(query.id))
-      if (index > -1) {
-        users[index] = { ...users[index], ...body }
-        return { success: true }
-      }
-      return { success: false }
+    response: ({ url, body }: { url: string; body: Partial<User> }) => {
+      const id = url.split('/').pop()
+      const index = users.findIndex((u) => u.id === Number(id))
+
+      if (index === -1) return { code: 404, message: '用户不存在' }
+
+      // 唯一性校验
+      const exists = users.some(
+        (u) => u.id !== Number(id) && (u.name === body.name || u.email === body.email),
+      )
+      if (exists) return { code: 400, message: '用户名或邮箱已存在' }
+
+      users[index] = { ...users[index], ...body }
+      return { code: 200, data: users[index] }
     },
   },
 
-  // Mock删除用户
+  // 删除用户
   {
-    url: '/api/user/mes/:id',
+    url: '/api/users/:id',
     method: 'delete',
-    response: ({ query }: { query: { id: string } }) => {
-      const index = users.findIndex((u) => u.id === Number(query.id))
+    response: ({ url }: { url: string }) => {
+      const id = Number(url.split('/').pop())
+      const index = users.findIndex((u) => u.id === id)
       if (index > -1) {
         users.splice(index, 1)
         return { success: true }
