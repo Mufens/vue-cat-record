@@ -164,9 +164,9 @@ tabsStore.$subscribe(() => {
   align-items: center;
   height: 45px;
   overflow: hidden;
-  border-left: 1px solid var(--border-color, #e4e7ed);
-  border-bottom: 1px solid var(--border-color, #e5e6eb);
-  background-color: var(--message-panel-bg, #ffffff);
+  border-left: 1px solid var(--border-line-color);
+  border-bottom: 1px solid var(--border-line-color);
+  background-color: var(--public-bg-color);
 
   .el-tabs {
     flex: 1;

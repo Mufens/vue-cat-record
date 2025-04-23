@@ -118,7 +118,7 @@ function toggleFullscreen() {
 .header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border-color, #f5f6f6);
+  border-bottom: 1px solid var(--border-line-color);
   align-items: center;
   height: 60px;
   background-color: var(--header-bg-color);

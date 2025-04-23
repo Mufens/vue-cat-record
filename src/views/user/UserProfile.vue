@@ -240,6 +240,7 @@ const changePassword = async () => {
 
 .profile-card {
   height: 370px;
+  width: 100%;
   margin-bottom: 20px;
   background: url('@/assets/images/bg2.png') no-repeat center/cover;
   border-radius: 10px;
