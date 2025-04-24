@@ -30,7 +30,6 @@ import DatePunch from '@/components/calendar/date-punch.vue'
 <style lang="scss">
 .cat-record {
   margin: 10px;
-
   .todoList {
     border-left: 1px solid var(--border-line-color);
   }

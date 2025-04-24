@@ -242,7 +242,8 @@ const changePassword = async () => {
   height: 370px;
   width: 100%;
   margin-bottom: 20px;
-  background: url('@/assets/images/bg2.png') no-repeat center/cover;
+  background: url('@/assets/images/bg2.png') no-repeat center;
+  background-size: 100% 100%;
   border-radius: 10px;
 }
 
