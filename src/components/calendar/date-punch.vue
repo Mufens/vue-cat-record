@@ -191,10 +191,6 @@ const seasonClass = computed(() => {
       .month {
         font-weight: bold;
         font-size: 28px;
-        //background: linear-gradient(45deg, #f36c21, #f9906f, #1dd1d8);
-        // background: linear-gradient(#a1be41, #92c37a, #4f8b57);
-
-        //background: linear-gradient(to bottom right, #a4d7fe, #b7dce7, #a5c8d5);
       }
     }
 
@@ -248,6 +244,7 @@ const seasonClass = computed(() => {
   &.content {
     flex-wrap: wrap;
     span {
+      font-family: 'YaHei';
       width: calc(100% / 7);
       text-align: center;
       padding: 4px 0;

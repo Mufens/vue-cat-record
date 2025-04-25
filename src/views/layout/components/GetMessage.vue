@@ -196,7 +196,7 @@ const markAllAsRead = () => {
         display: flex;
         align-items: flex-start;
         padding: 12px 0;
-        border-bottom: 1px solid var(--border-color, #e2e8f0);
+        border-bottom: 1px solid var(--border-line-color);
         .avater {
           margin-right: 12px;
           flex-shrink: 0;
