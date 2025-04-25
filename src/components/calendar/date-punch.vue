@@ -82,16 +82,23 @@ const bgPositionX = computed(() => {
     return '100%'
   }
 })
+const seasonClass = computed(() => {
+  const month = currentMonth.value
+  if (month >= 2 && month <= 4) return 'spring'
+  if (month >= 5 && month <= 7) return 'summer'
+  if (month >= 8 && month <= 10) return 'autumn'
+  return 'winter'
+})
 </script>
 
 <template>
   <div class="calendar">
     <el-card shadow="never" :body-style="{ padding: '10px' }">
       <div class="calendar-title">
-        <div class="day">{{ currentDay }}</div>
+        <div class="day" :class="seasonClass">{{ currentDay }}</div>
         <div class="ym">
-          <div class="year">{{ currentYear }}/</div>
-          <div class="month">{{ months[currentMonth] }}</div>
+          <div class="year" :class="seasonClass">{{ currentYear }}/</div>
+          <div class="month" :class="seasonClass">{{ months[currentMonth] }}</div>
         </div>
         <div class="change">
           <div @click="prevMonth" class="change prev">
@@ -124,6 +131,7 @@ const bgPositionX = computed(() => {
 .calendar {
   &-title {
     position: relative;
+    z-index: 1;
     cursor: pointer;
     height: 150px;
     overflow: hidden;
@@ -131,45 +139,65 @@ const bgPositionX = computed(() => {
     background-size: 400% 100%;
     background-position-y: center;
     background-position-x: v-bind(bgPositionX);
-    transition: background-position-x 0.5s ease;
+    transition: background-position-x 0.3s ease;
     transform: 0.3s;
     //文字有背景颜色
     //color: transparent;
     //background-clip: text;
     display: flex;
     justify-content: space-between;
+    .day,
+    .year,
+    .month {
+      &.spring {
+        background: linear-gradient(45deg, #2d98419b 30%, #84c74ac2 60%, #47c09e65 90%);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      &.summer {
+        background: radial-gradient(#99755963 20%, #4abbc7f7 50%, #48cd8ac3 80%);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      &.autumn {
+        background-color: #897042bb;
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      &.winter {
+        background: linear-gradient(to bottom, #a4d7fe, #bfc8dc, #a5c8d5);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      color: transparent;
+    }
+
     .day {
       margin-left: 20px;
       margin-top: 10px;
       font-weight: bold;
       font-size: 70px;
-      background: linear-gradient(0deg, #2a5caa, #f7acbc, #7bbfea);
-
-      //background: linear-gradient(45deg, var(--menu-bg2), var(--menu-active-text-color));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
     }
     .ym {
       display: flex;
       margin-bottom: 10px;
-      margin-left: 10px;
+
       align-items: flex-end;
       .year {
         font-weight: bold;
-        font-size: 12px;
-        color: var(--color-primary);
+        font-size: 14px;
       }
       .month {
         font-weight: bold;
         font-size: 28px;
-        background: linear-gradient(45deg, #f36c21, #f9906f, #1dd1d8);
+        //background: linear-gradient(45deg, #f36c21, #f9906f, #1dd1d8);
+        // background: linear-gradient(#a1be41, #92c37a, #4f8b57);
 
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+        //background: linear-gradient(to bottom right, #a4d7fe, #b7dce7, #a5c8d5);
       }
     }
+
     .change {
       display: flex;
       align-items: center;
