@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import { StarFilled } from '@element-plus/icons-vue'
 import DatePunch from '@/components/calendar/date-punch.vue'
+import CarouselItem from './components/carousel-item.vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 </script>
 <template>
   <div class="cat-record">
     <el-row>
       <el-col :span="17">
-        <el-card> </el-card>
+        <el-card>
+          <div class="editor">
+            <quill-editor theme="snow" contentType="html"> </quill-editor>
+          </div>
+        </el-card>
       </el-col>
       <el-col :span="7" class="todoList">
-        <el-card>
+        <el-card shadow="never">
           <div class="summary">
             <div class="all">
               <div class="a">参与天数</div>
@@ -27,6 +33,7 @@ import DatePunch from '@/components/calendar/date-punch.vue'
         </el-card>
 
         <DatePunch />
+        <CarouselItem />
       </el-col>
     </el-row>
   </div>
@@ -37,9 +44,9 @@ import DatePunch from '@/components/calendar/date-punch.vue'
 }
 .cat-record {
   .todoList {
-    border-left: 1px solid var(--border-line-color);
     .summary {
       display: flex;
+
       .all,
       .submit,
       .contribution {

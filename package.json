@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.8.3",
     "dayjs": "^1.11.13",
     "echarts": "^5.6.0",

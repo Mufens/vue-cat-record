@@ -10,7 +10,7 @@ import ThemeSwith from '@/components/theme/ThemeSwith.vue'
 import GetMessage from './GetMessage.vue'
 import { useUserStore } from '@/stores'
 import { onMounted } from 'vue'
-import avatar from '@/assets/images/avatar1.jpg'
+import avatar from '@/assets/images/avatar/avatar1.jpg'
 const userStore = useUserStore()
 const router = useRouter()
 onMounted(async () => {

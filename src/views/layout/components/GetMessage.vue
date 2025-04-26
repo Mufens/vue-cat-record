@@ -29,10 +29,10 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// 消息数据
-import avatar4 from '@/assets/images/avatar4.jpg'
-import avatar2 from '@/assets/images/avatar2.jpg'
-import avatar3 from '@/assets/images/avatar3.jpg'
+// 消息数据avatar/
+import avatar4 from '@/assets/images/avatar/avatar4.jpg'
+import avatar2 from '@/assets/images/avatar/avatar2.jpg'
+import avatar3 from '@/assets/images/avatar/avatar3.jpg'
 
 const messageData = {
   messages: [
