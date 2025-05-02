@@ -238,6 +238,7 @@ const seasonClass = computed(() => {
     color: var(--text-color-primary);
     span {
       width: calc(100% / 7);
+      font-size: 14px;
       text-align: center;
     }
   }
