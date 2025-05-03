@@ -1,15 +1,28 @@
 <script setup lang="ts">
 import { View } from '@element-plus/icons-vue'
-
 import { ref, onMounted, nextTick, watch } from 'vue'
 import type { MessageItem } from '@/components/cardList'
 import { messageList } from '@/components/cardList'
+import CardDetail from './card-detail.vue'
 
 const columns = ref<MessageItem[][]>([])
 const containerRef = ref<HTMLElement>()
 const columnCount = ref(3)
 const isVisible = ref(false)
-
+const visible = ref(false)
+const selectedItem = ref<MessageItem>({
+  id: 0,
+  pictures: '',
+  content: '',
+  avatar: '',
+  author: '',
+  view: '',
+  ratio: '1'
+})
+const handleCardClick = (item: MessageItem) => {
+  selectedItem.value = item
+  visible.value = true
+}
 // 计算布局
 const calculateLayout = async () => {
   if (!containerRef.value) return
@@ -58,6 +71,13 @@ const calculateLayout = async () => {
   columns.value = tempColumns
   isVisible.value = true
 }
+const handleItemUpdate = (updatedItem: MessageItem) => {
+  const index = messageList.findIndex(item => item.id === updatedItem.id)
+  if (index !== -1) {
+    const newItem = JSON.parse(JSON.stringify(updatedItem))
+    messageList.splice(index, 1, newItem)
+  }
+}
 
 // 初始化及响应式处理
 onMounted(() => {
@@ -72,7 +92,7 @@ onMounted(() => {
 })
 
 watch(
-  () => [...messageList], // 确保数组变化触发
+  () => [...messageList],
   () => nextTick(calculateLayout),
   { deep: true }
 )
@@ -85,6 +105,7 @@ watch(
         <el-card
           v-for="(item, itemIndex) in col"
           :key="itemIndex"
+          @click="handleCardClick(item)"
           class="waterfall-item"
           :data-id="item.originalIndex"
           :body-style="{ padding: '0px' }"
@@ -95,7 +116,7 @@ watch(
             <img :src="item.pictures" class="cover-image" />
           </div>
           <div class="content-box">
-            <div class="content-text">{{ item.content }}</div>
+            <div class="content-text">{{ item.title }}</div>
             <div class="meta-info">
               <div class="user-info">
                 <el-avatar :src="item.avatar" :size="24" />
@@ -109,6 +130,12 @@ watch(
           </div>
         </el-card>
       </div>
+      <card-detail
+        v-model="visible"
+        :item="selectedItem || {}"
+        v-if="selectedItem"
+        @update:item="handleItemUpdate"
+      />
     </template>
 
     <!-- 修正隐藏渲染结构 -->
@@ -125,7 +152,7 @@ watch(
           <img :src="item.pictures" class="cover-image" />
         </div>
         <div class="content-box">
-          <div class="content-text">{{ item.content }}</div>
+          <div class="content-text">{{ item.title }}</div>
           <div class="meta-info">
             <div class="user-info">
               <el-avatar :src="item.avatar" :size="24" />

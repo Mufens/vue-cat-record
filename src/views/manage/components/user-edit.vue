@@ -103,6 +103,7 @@ defineExpose({ open })
     width="35%"
     :close-on-click-modal="false"
     destroy-on-close
+    draggable
   >
     <el-form :model="formModel" label-width="80px" :rules="rules" style="padding: 0 20px">
       <el-form-item label="用户名" prop="name">

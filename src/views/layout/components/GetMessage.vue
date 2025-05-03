@@ -166,12 +166,11 @@ const markAllAsRead = () => {
     max-height: 350px;
     top: 35px;
     right: -35px;
-    border: 0.1px solid var(--border-color, #fff);
+    border: 0.1px solid var(--border-line-color);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background: var(--message-panel-bg, #fff);
-    color: var(--message-panel-text, #020817);
-
+    background: var(--public-bg-color);
+    color: var(--message-panel-text);
     padding: 16px;
     z-index: 9999;
 

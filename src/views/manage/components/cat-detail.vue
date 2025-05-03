@@ -19,7 +19,7 @@ const getStarColor = (index: number, friendliness: number): string => {
 </script>
 
 <template>
-  <el-dialog v-model="localVisible" title="猫咪详情" width="60%">
+  <el-dialog v-model="localVisible" title="猫咪详情" width="60%" draggable>
     <el-descriptions border>
       <el-descriptions-item label="活动区域">{{ catData.area }}</el-descriptions-item>
 
