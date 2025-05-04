@@ -151,12 +151,18 @@ const markAllAsRead = () => {
 .message-container {
   position: relative;
   margin: 0 15px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   ::-webkit-scrollbar {
-    display: none;
+    width: 4px;
+    background: transparent;
   }
-
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #eee;
+  }
+  ::-webkit-scrollbar-track {
+    //轨道部分
+    background: transparent;
+  }
   .message-icon {
     cursor: pointer;
     i {
