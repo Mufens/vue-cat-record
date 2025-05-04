@@ -12,7 +12,7 @@ const isVisible = ref(false)
 const visible = ref(false)
 const selectedItem = ref<MessageItem>({
   id: 0,
-  pictures: '',
+  pictures: [],
   content: '',
   avatar: '',
   author: '',
@@ -74,8 +74,7 @@ const calculateLayout = async () => {
 const handleItemUpdate = (updatedItem: MessageItem) => {
   const index = messageList.findIndex(item => item.id === updatedItem.id)
   if (index !== -1) {
-    const newItem = JSON.parse(JSON.stringify(updatedItem))
-    messageList.splice(index, 1, newItem)
+    messageList.splice(index, 1, { ...updatedItem })
   }
 }
 
@@ -113,7 +112,10 @@ watch(
         >
           <!-- 保持与实际一致的内容结构 -->
           <div class="image-box" :style="{ aspectRatio: item.ratio || '1' }">
-            <img :src="item.pictures" class="cover-image" />
+            <img
+              :src="Array.isArray(item.pictures) ? item.pictures[0] : item.pictures"
+              class="cover-image"
+            />
           </div>
           <div class="content-box">
             <div class="content-text">{{ item.title }}</div>
@@ -149,7 +151,10 @@ watch(
         shadow="hover"
       >
         <div class="image-box" :style="{ aspectRatio: item.ratio || '1' }">
-          <img :src="item.pictures" class="cover-image" />
+          <img
+            :src="Array.isArray(item.pictures) ? item.pictures[0] : item.pictures"
+            class="cover-image"
+          />
         </div>
         <div class="content-box">
           <div class="content-text">{{ item.title }}</div>
@@ -189,12 +194,13 @@ watch(
 
       .image-box {
         position: relative;
+        cursor: pointer;
         width: 100%;
         overflow: hidden;
         .cover-image {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          background-size: cover;
           border-radius: 8px;
         }
       }

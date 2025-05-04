@@ -2,17 +2,35 @@
 import type { MessageItem } from '@/components/cardList'
 import { ref, watch, computed } from 'vue'
 import { useUserStore } from '@/stores/modules/user'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 
 const props = defineProps<{ item?: MessageItem; modelValue: boolean }>()
 const emit = defineEmits(['update:modelValue', 'update:item'])
 const visible = ref(false)
+const currentImageIndex = ref(0)
+
 const dialogHeight = computed(() => {
   if (!props.item?.ratio) return '380px'
   const [w, h] = props.item.ratio.split('/').map(Number)
   return w / h === 3 / 4 ? '500px' : w / h === 1 ? '400px' : `${Math.min(600, (400 * h) / w)}px`
 })
+
+const images = computed(() => {
+  if (!props.item) return []
+  return Array.isArray(props.item.pictures) ? props.item.pictures : [props.item.pictures]
+})
+const prevImage = () => {
+  if (currentImageIndex.value > 0) currentImageIndex.value--
+}
+const nextImage = () => {
+  if (currentImageIndex.value < images.value.length - 1) currentImageIndex.value++
+}
+watch(visible, newVal => {
+  if (!newVal) currentImageIndex.value = 0
+})
+
 const totalComments = computed(() => {
-  if (!props.item?.comment) return 0
+  if (!props.item?.comment || props.item.comment.length === 0) return 0
   return props.item.comment.reduce((acc, comment) => {
     return acc + 1 + (comment.replies?.length || 0)
   }, 0)
@@ -28,7 +46,9 @@ const replyTarget = ref<{
 } | null>(null)
 const sendComment = () => {
   if (!commentInput.value.trim() || !props.item) return
-  const updatedItem = JSON.parse(JSON.stringify(props.item))
+  // 使用浅拷贝保留响应性
+  const updatedItem = { ...props.item }
+  updatedItem.comment = updatedItem.comment ? [...updatedItem.comment] : []
 
   const newComment = {
     avatar: userStore.user?.avatar || '',
@@ -55,9 +75,10 @@ const sendComment = () => {
     }
   } else {
     // 添加主评论
-    updatedItem.comment = [...(updatedItem.comment || []), newComment]
+    updatedItem.comment.unshift(newComment)
+    emit('update:item', updatedItem)
   }
-  emit('update:item', updatedItem)
+
   commentInput.value = ''
   replyTarget.value = null
 }
@@ -80,14 +101,28 @@ const commentInput = ref('')
 </script>
 <template>
   <div>
-    <el-dialog v-model="visible" :show-close="false" width="800" class="elDialog" draggable>
+    <el-dialog v-model="visible" :show-close="false" width="820" class="elDialog" draggable>
       <div class="dialog" v-if="props.item" :style="{ height: dialogHeight }">
         <div class="left">
-          <img
-            :src="props.item.pictures"
-            :style="{ aspectRatio: props.item.ratio || '1' }"
-            class="preview-image"
-          />
+          <div class="image-container">
+            <img
+              :src="images[currentImageIndex]"
+              :style="{ aspectRatio: props.item.ratio || '1' }"
+              class="preview-image"
+            />
+            <div class="change" v-if="images.length > 1">
+              <div @click.stop="prevImage" class="change prev" v-show="currentImageIndex > 0">
+                <el-icon><ArrowLeft /></el-icon>
+              </div>
+              <div
+                @click.stop="nextImage"
+                class="change next"
+                v-show="currentImageIndex < images.length - 1"
+              >
+                <el-icon><ArrowRight /></el-icon>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="right">
@@ -107,10 +142,12 @@ const commentInput = ref('')
                 <div class="time" v-if="props.item.time">{{ props.item.time }}</div>
               </div>
               <div class="comments-list">
-                <p class="judge">共{{ totalComments }}条评论</p>
-                <div v-if="!props.item?.comment?.length" class="empty-comments">
-                  暂无评论，快来抢沙发~
-                </div>
+                <template v-if="totalComments > 0">
+                  <p class="judge">共{{ totalComments }}条评论</p>
+                </template>
+                <template v-else>
+                  <div class="empty-comments">暂无评论，快来抢沙发~</div>
+                </template>
 
                 <div
                   v-for="(comment, index) in props.item.comment"
@@ -148,7 +185,7 @@ const commentInput = ref('')
                       <span class="replyUser">{{ reply.user }}</span>
                       <p class="rc">{{ reply.content }}</p>
                       <div class="huifu">
-                        <div class="ctime">{{ comment.time }}</div>
+                        <div class="ctime">{{ reply.time }}</div>
                         <div
                           class="rp"
                           @click="
@@ -215,18 +252,67 @@ const commentInput = ref('')
   display: flex;
 }
 .left {
+  position: relative;
   flex: 1;
-  min-width: 400px;
+  min-width: 420px;
   margin-top: -16px;
   padding-right: 20px;
+  .image-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    &:hover .change {
+      opacity: 1;
+    }
+  }
 }
 .preview-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-
+  background-size: cover;
   border-radius: 20px 0 0 20px;
 }
+.change {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 2;
+  width: 100%;
+  justify-content: space-between;
+
+  .prev,
+  .next {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+    .el-icon {
+      font-size: 16px;
+      color: #666;
+    }
+  }
+  .prev {
+    left: 15px;
+  }
+  .next {
+    right: 15px;
+  }
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
 .right {
   flex: 1;
   min-width: 300px;
@@ -344,7 +430,6 @@ const commentInput = ref('')
   padding-left: 45px;
 }
 .comment-input {
-  margin-bottom: 16px;
   border-top: 1px solid var(--border-line-color);
 }
 .reply-prompt {
@@ -364,5 +449,8 @@ const commentInput = ref('')
   text-align: center;
   padding: 20px;
   font-size: 14px;
+}
+.el-input {
+  padding: 10px 0;
 }
 </style>

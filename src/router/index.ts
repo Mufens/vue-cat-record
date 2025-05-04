@@ -92,7 +92,7 @@ router.beforeEach(async (to, from, next) => {
     if (localToken) userStore.setToken(localToken)
   }
   // 白名单路径（无需登录）
-  const whiteList = ['/login', '/403', '/404', '/record']
+  const whiteList = ['/login', '/403', '/404']
   if (whiteList.includes(to.path)) {
     return next()
   }

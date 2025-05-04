@@ -151,6 +151,11 @@ const markAllAsRead = () => {
 .message-container {
   position: relative;
   margin: 0 15px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   .message-icon {
     cursor: pointer;
