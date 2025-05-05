@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { View } from '@element-plus/icons-vue'
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, nextTick, watch, reactive } from 'vue'
 import type { MessageItem } from '@/components/cardList'
 import { messageList } from '@/components/cardList'
 import CardDetail from './card-detail.vue'
@@ -74,7 +74,7 @@ const calculateLayout = async () => {
 const handleItemUpdate = (updatedItem: MessageItem) => {
   const index = messageList.findIndex(item => item.id === updatedItem.id)
   if (index !== -1) {
-    messageList.splice(index, 1, { ...updatedItem })
+    messageList.splice(index, 1, reactive(updatedItem))
   }
 }
 

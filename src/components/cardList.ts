@@ -27,11 +27,13 @@ export interface MessageItem {
   ratio?: string
   originalIndex?: number
   comment?: Array<{
+    id: number
     avatar: string
     user: string
     content: string
     time: string
     replies?: Array<{
+      id: number
       avatar: string
       user: string
       content: string
@@ -52,12 +54,14 @@ export const messageList: MessageItem[] = [
     time: '2023-10-01',
     comment: [
       {
+        id: 11,
         avatar: avatar3,
         user: '小白',
         content: '好可爱',
         time: '2023-10-01 ',
         replies: [
           {
+            id: 111,
             avatar: avatar4,
             user: '小黑',
             content: 'yesyes',
@@ -66,6 +70,7 @@ export const messageList: MessageItem[] = [
         ],
       },
       {
+        id: 12,
         avatar: avatar1,
         user: 'aa',
         content: '可爱',
@@ -85,12 +90,14 @@ export const messageList: MessageItem[] = [
     time: '2024-1-01',
     comment: [
       {
+        id: 21,
         avatar: avatar3,
         user: '小白',
         content: '1',
         time: '2024-1-03 ',
       },
       {
+        id: 22,
         avatar: avatar1,
         user: 'aa',
         content: '2',
@@ -128,12 +135,14 @@ export const messageList: MessageItem[] = [
     ratio: '3/4',
     comment: [
       {
+        id: 41,
         avatar: avatar3,
         user: '小白',
         content: 'oioioi',
         time: '2023-10-03 ',
         replies: [
           {
+            id: 411,
             avatar: avatar4,
             user: '小黑',
             content: 'yesyes',
@@ -142,6 +151,7 @@ export const messageList: MessageItem[] = [
         ],
       },
       {
+        id: 42,
         avatar: avatar1,
         user: 'aa',
         content: 'hhhhhhh',
@@ -163,12 +173,14 @@ export const messageList: MessageItem[] = [
     time: '2024-12-01',
     comment: [
       {
+        id: 51,
         avatar: avatar3,
         user: '小白',
         content: 'oioioi',
         time: '2023-10-03 ',
         replies: [
           {
+            id: 511,
             avatar: avatar4,
             user: '小黑',
             content: 'yesyes',
@@ -177,6 +189,7 @@ export const messageList: MessageItem[] = [
         ],
       },
       {
+        id: 52,
         avatar: avatar1,
         user: 'aa',
         content: 'hhhhhhh',
@@ -192,6 +205,7 @@ export const messageList: MessageItem[] = [
     avatar: avatar3,
     author: '潇洒',
     view: '111',
+    comment: [],
   },
 
   {
@@ -202,6 +216,7 @@ export const messageList: MessageItem[] = [
     avatar: avatar2,
     author: 'xxbb',
     view: '111',
+    comment: [],
   },
   {
     id: 8,
@@ -211,6 +226,7 @@ export const messageList: MessageItem[] = [
     avatar: avatar2,
     author: 'xxbb',
     view: '111',
+    comment: [],
   },
   {
     id: 9,
@@ -223,5 +239,6 @@ export const messageList: MessageItem[] = [
     view: '111',
     ratio: '10/12',
     time: '4-13',
+    comment: [],
   },
 ]

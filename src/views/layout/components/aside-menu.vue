@@ -106,4 +106,7 @@ defineProps({
 .el-menu {
   border-right: none;
 }
+.el-menu-item {
+  height: 46px;
+}
 </style>

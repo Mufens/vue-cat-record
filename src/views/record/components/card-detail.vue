@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { MessageItem } from '@/components/cardList'
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, nextTick } from 'vue'
+import { ElInput } from 'element-plus'
 import { useUserStore } from '@/stores/modules/user'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 
@@ -46,8 +47,8 @@ const replyTarget = ref<{
 } | null>(null)
 const sendComment = () => {
   if (!commentInput.value.trim() || !props.item) return
-  // 使用浅拷贝保留响应性
-  const updatedItem = { ...props.item }
+  // 创建深拷贝确保响应式更新
+  const updatedItem = JSON.parse(JSON.stringify(props.item))
   updatedItem.comment = updatedItem.comment ? [...updatedItem.comment] : []
 
   const newComment = {
@@ -64,7 +65,11 @@ const sendComment = () => {
       const contentPrefix = replyTarget.value.isReplyToReply
         ? `回复 @${replyTarget.value.replyUser}：`
         : ''
-      const newReply = { ...newComment, content: contentPrefix + commentInput.value.trim() }
+      const newReply = {
+        id: Date.now(),
+        ...newComment,
+        content: contentPrefix + commentInput.value.trim()
+      }
       //添加到主评论的replies或子回复
       if (replyTarget.value.isReplyToReply) {
         targetComment.replies = [...(targetComment.replies || []), newReply]
@@ -74,15 +79,23 @@ const sendComment = () => {
       emit('update:item', { ...props.item, comment: updatedComments })
     }
   } else {
-    // 添加主评论
     updatedItem.comment.unshift(newComment)
-    emit('update:item', updatedItem)
   }
-
+  emit('update:item', updatedItem)
   commentInput.value = ''
   replyTarget.value = null
+  showButtons.value = false
 }
-
+const showButtons = ref(false)
+const handleInputFocus = () => {
+  showButtons.value = true
+}
+const cancelComment = () => {
+  commentInput.value = ''
+  replyTarget.value = null
+  showButtons.value = false
+}
+const commentInputRef = ref<InstanceType<typeof ElInput>>()
 watch(
   () => props.modelValue,
   newVal => {
@@ -151,7 +164,7 @@ const commentInput = ref('')
 
                 <div
                   v-for="(comment, index) in props.item.comment"
-                  :key="index"
+                  :key="comment.time + index"
                   class="comment-item"
                 >
                   <div class="comment-header">
@@ -164,12 +177,13 @@ const commentInput = ref('')
                         <div
                           class="rp"
                           @click="
-                            replyTarget = {
+                            ;(replyTarget = {
                               commentIndex: index,
                               replyUser: comment.user,
                               replyContent: comment.content,
                               isReplyToReply: false
-                            }
+                            }),
+                              nextTick(() => commentInputRef?.focus())
                           "
                         >
                           回复
@@ -189,12 +203,13 @@ const commentInput = ref('')
                         <div
                           class="rp"
                           @click="
-                            replyTarget = {
+                            ;(replyTarget = {
                               commentIndex: index,
                               replyUser: reply.user,
                               replyContent: reply.content,
                               isReplyToReply: true
-                            }
+                            }),
+                              nextTick(() => commentInputRef?.focus())
                           "
                         >
                           回复
@@ -219,19 +234,29 @@ const commentInput = ref('')
                   <div class="reply-content">{{ replyTarget.replyContent }}</div>
                 </template>
               </div>
-
-              <el-input
-                v-model="commentInput"
-                placeholder="说点什么..."
-                @keyup.enter="sendComment"
-                clearable
-              >
-                <template #append>
-                  <el-button type="primary" @click="sendComment" :disabled="!commentInput.trim()"
-                    >发送</el-button
+              <div class="custom-input-wrapper">
+                <el-input
+                  class="custom-input"
+                  ref="commentInputRef"
+                  @focus="handleInputFocus"
+                  v-model="commentInput"
+                  placeholder="说点什么..."
+                  @keyup.enter="sendComment"
+                  @blur="!commentInput.trim() && (showButtons = false)"
+                >
+                </el-input>
+                <div class="button-group" v-if="showButtons || commentInput.trim()">
+                  <el-button @click="cancelComment"> 取消 </el-button>
+                  <el-button
+                    class="send-btn"
+                    type="primary"
+                    @click="sendComment"
+                    :disabled="!commentInput.trim()"
                   >
-                </template>
-              </el-input>
+                    {{ replyTarget ? '回复' : '发送' }}
+                  </el-button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -450,7 +475,18 @@ const commentInput = ref('')
   padding: 20px;
   font-size: 14px;
 }
-.el-input {
-  padding: 10px 0;
+:deep(.custom-input .el-input__wrapper) {
+  margin: 5px 0;
+  border-radius: 20px;
+}
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.el-button {
+  border-radius: 20px;
+  margin-left: 2px;
+  margin-bottom: 5px;
 }
 </style>

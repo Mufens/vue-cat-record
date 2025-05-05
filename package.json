@@ -29,6 +29,7 @@
     "vue-countup-v3": "^1.4.2",
     "vue-echarts": "^7.0.3",
     "vue-router": "^4.5.0",
+    "vue3-danmaku": "^1.6.1",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
