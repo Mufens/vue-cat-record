@@ -50,6 +50,9 @@ importers:
       vue-router:
         specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.8.2))
+      vue3-danmaku:
+        specifier: ^1.6.1
+        version: 1.6.1(vue@3.5.13(typescript@5.8.2))
       vuedraggable:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.5.13(typescript@5.8.2))
@@ -2804,6 +2807,11 @@ packages:
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
+
+  vue3-danmaku@1.6.1:
+    resolution: {integrity: sha512-v7KqMV5WK3mqRSotSuJfnJldsIpilh72nLKKebWGCO7HM4k330QV1f4oje410GfwSx+SrJ+YLeTG8QLJYuKwYg==}
+    peerDependencies:
+      vue: ^3.0.0
 
   vue@1.0.28:
     resolution: {integrity: sha512-DEwNmtns5dCjuAQbeddcZk54kGoPWJRonEsmwjiD2KfmioZ16IvCRY+RD+AUXztwJkBNUPU/V9KTK8v6EQ2g2Q==}
@@ -5606,6 +5614,10 @@ snapshots:
       '@volar/typescript': 2.4.12
       '@vue/language-core': 2.2.8(typescript@5.8.2)
       typescript: 5.8.2
+
+  vue3-danmaku@1.6.1(vue@3.5.13(typescript@5.8.2)):
+    dependencies:
+      vue: 3.5.13(typescript@5.8.2)
 
   vue@1.0.28:
     dependencies:

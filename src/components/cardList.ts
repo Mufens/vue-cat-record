@@ -42,7 +42,7 @@ export interface MessageItem {
   }>
 }
 
-export const messageList: MessageItem[] = [
+export const messageList = <MessageItem[]>[
   {
     id: 1,
     pictures: [one],

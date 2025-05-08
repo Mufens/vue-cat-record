@@ -47,11 +47,8 @@ const replyTarget = ref<{
 } | null>(null)
 const sendComment = () => {
   if (!commentInput.value.trim() || !props.item) return
-  // 创建深拷贝确保响应式更新
-  const updatedItem = JSON.parse(JSON.stringify(props.item))
-  updatedItem.comment = updatedItem.comment ? [...updatedItem.comment] : []
-
   const newComment = {
+    id: Date.now(),
     avatar: userStore.user?.avatar || '',
     user: userStore.user?.name || '匿名用户',
     content: commentInput.value.trim(),
@@ -66,7 +63,6 @@ const sendComment = () => {
         ? `回复 @${replyTarget.value.replyUser}：`
         : ''
       const newReply = {
-        id: Date.now(),
         ...newComment,
         content: contentPrefix + commentInput.value.trim()
       }
@@ -79,9 +75,9 @@ const sendComment = () => {
       emit('update:item', { ...props.item, comment: updatedComments })
     }
   } else {
-    updatedItem.comment.unshift(newComment)
+    const updatedItem = { ...props.item, comment: [newComment, ...(props.item.comment || [])] }
+    emit('update:item', updatedItem)
   }
-  emit('update:item', updatedItem)
   commentInput.value = ''
   replyTarget.value = null
   showButtons.value = false
@@ -164,7 +160,7 @@ const commentInput = ref('')
 
                 <div
                   v-for="(comment, index) in props.item.comment"
-                  :key="comment.time + index"
+                  :key="comment.id"
                   class="comment-item"
                 >
                   <div class="comment-header">
@@ -192,7 +188,7 @@ const commentInput = ref('')
                     </div>
                   </div>
 
-                  <!-- 回复 -->
+                  <!-- 子评论 -->
                   <div v-for="(reply, rIndex) in comment.replies" :key="rIndex" class="reply-item">
                     <el-avatar :src="reply.avatar" :size="26" />
                     <div class="reply-content">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { View } from '@element-plus/icons-vue'
-import { ref, onMounted, nextTick, watch, reactive } from 'vue'
+import { ref, onMounted, nextTick, watch } from 'vue'
 import type { MessageItem } from '@/components/cardList'
 import { messageList } from '@/components/cardList'
 import CardDetail from './card-detail.vue'
@@ -74,7 +74,7 @@ const calculateLayout = async () => {
 const handleItemUpdate = (updatedItem: MessageItem) => {
   const index = messageList.findIndex(item => item.id === updatedItem.id)
   if (index !== -1) {
-    messageList.splice(index, 1, reactive(updatedItem))
+    messageList.splice(index, 1, updatedItem)
   }
 }
 
@@ -93,7 +93,7 @@ onMounted(() => {
 watch(
   () => [...messageList],
   () => nextTick(calculateLayout),
-  { deep: true }
+  { deep: true, immediate: true }
 )
 </script>
 
@@ -102,8 +102,8 @@ watch(
     <template v-if="isVisible">
       <div v-for="(col, colIndex) in columns" :key="colIndex" class="waterfall-column">
         <el-card
-          v-for="(item, itemIndex) in col"
-          :key="itemIndex"
+          v-for="item in col"
+          :key="item.id"
           @click="handleCardClick(item)"
           class="waterfall-item"
           :data-id="item.originalIndex"
