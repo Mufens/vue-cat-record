@@ -157,7 +157,7 @@ const markAllAsRead = () => {
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: #eee;
+    background-color: #c1c1c1;
   }
   ::-webkit-scrollbar-track {
     //轨道部分

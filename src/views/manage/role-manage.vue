@@ -45,7 +45,14 @@ const columns = ref([
     align: 'center',
     visible: true
   },
-  { label: '操作', prop: 'actions', headerAlign: 'center', fixed: 'right', visible: true }
+  {
+    label: '操作',
+    prop: 'actions',
+    headerAlign: 'center',
+    fixed: 'right',
+    width: '120',
+    visible: true
+  }
 ])
 
 const queryParams = ref<RoleQueryParams>({
@@ -235,7 +242,7 @@ onMounted(() => fetchRoleList())
 <style lang="scss" scoped>
 .role-manage {
   margin: 10px;
-  background-color: var(--message-panel-bg, #ffffff);
+  background-color: var(--public-bg-color);
   padding: 20px;
   .search-container {
     display: flex;

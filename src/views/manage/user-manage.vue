@@ -226,7 +226,6 @@ onMounted(() => {
         :row-key="(row: User) => row.id"
         @selection-change="handleSelectionChange"
         :header-cell-style="{ background: 'var(--menu-bg2)', color: '#606266' }"
-        style="height: 285px"
       >
         <template v-for="col in columns" :key="col.prop">
           <el-table-column
@@ -293,7 +292,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .user-manage {
   margin: 10px;
-  background-color: var(--message-panel-bg, #ffffff);
+  background-color: var(--public-bg-color);
   padding-bottom: 10px;
 
   .search-container {

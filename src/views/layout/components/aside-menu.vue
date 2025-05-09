@@ -81,12 +81,11 @@ defineProps({
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 1000;
+  z-index: 1002;
   width: 200px;
   height: 100vh;
   border-right: 1px solid var(--border-color);
   overflow-x: hidden;
-  //background-color: #fcf2f0;
   background-color: var(--aside-bg-color);
 
   &_logo {

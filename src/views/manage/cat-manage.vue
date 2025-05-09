@@ -195,7 +195,7 @@ const onSuccess = (type: 'add' | 'edit') => {
         :data="catList"
         v-loading="loading"
         @selection-change="handleSelectionChange"
-        :cell-style="{ background: 'var(--message-panel-bg, #ffffff)' }"
+        :cell-style="{ background: 'var(--public-bg-color)' }"
         :header-cell-style="{
           background: 'var(--menu-bg2)',
           color: '#606266'
@@ -296,21 +296,24 @@ const onSuccess = (type: 'add' | 'edit') => {
 <style lang="scss" scoped>
 .cat-manage {
   margin: 10px 10px;
-  background-color: var(--message-panel-bg, #ffffff);
-  padding-bottom: 10px;
+  background-color: var(--public-bg-color);
+
+  padding: 20px;
 
   .search-container {
     display: flex;
+    margin-top: 10px;
     justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
     .el-form {
-      margin-top: 20px;
-    }
-
-    .toolBar {
-      margin-left: auto;
+      margin-left: 20px;
+      .el-form-item:last-child {
+        margin-left: 30px;
+      }
     }
   }
+
   .operation {
     padding: 0 20px;
     .column {

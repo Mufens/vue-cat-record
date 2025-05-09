@@ -235,7 +235,7 @@ onMounted(() => {
 .operation {
   margin: 10px;
   padding: 20px;
-  background-color: var(--message-panel-bg, #ffffff);
+  background-color: var(--public-bg-color);
   .column {
     display: flex;
     justify-content: space-between;

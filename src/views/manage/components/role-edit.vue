@@ -84,7 +84,7 @@ defineExpose({ open })
 </script>
 
 <template>
-  <el-drawer v-model="visible" :title="formModel.id ? '编辑角色' : '新增角色'" size="36%">
+  <el-drawer v-model="visible" :title="formModel.id ? '编辑角色' : '新增角色'" size="460px">
     <el-form :model="formModel" label-width="100px">
       <el-form-item prop="name" label="角色名称" required>
         <el-input v-model="formModel.name" placeholder="请输入角色名称" />

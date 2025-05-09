@@ -41,6 +41,7 @@ import CardList from './components/card-list.vue'
   margin: 10px 5px;
 }
 .cat-record {
+  min-width: 800px;
   .right-side {
     .todoList {
       position: sticky;

@@ -326,7 +326,7 @@ const changePassword = async () => {
   padding: 20px;
 }
 .el-form {
-  width: 40%;
+  width: 400px;
   max-width: 600px;
   margin: 0 auto;
 }

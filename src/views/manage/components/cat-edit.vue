@@ -91,8 +91,8 @@ defineExpose({ open })
 </script>
 
 <template>
-  <el-drawer v-model="visibleDrawer" :title="formModel.id ? '编辑猫咪' : '添加猫咪'" size="35%">
-    <el-form :model="formModel" label-width="80px" style="padding: 20px">
+  <el-drawer v-model="visibleDrawer" :title="formModel.id ? '编辑猫咪' : '添加猫咪'" size="340px">
+    <el-form :model="formModel" label-width="80px">
       <el-form-item label="照片" prop="catImg">
         <el-upload
           class="avatar-uploader"
@@ -156,7 +156,6 @@ defineExpose({ open })
   display: flex;
   justify-content: flex-end;
 }
-
 .avatar-uploader {
   :deep() {
     .avatar {

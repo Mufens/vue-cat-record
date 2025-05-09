@@ -19,46 +19,48 @@ const getStarColor = (index: number, friendliness: number): string => {
 </script>
 
 <template>
-  <el-dialog v-model="localVisible" title="猫咪详情" width="60%" draggable>
-    <el-descriptions border>
-      <el-descriptions-item label="活动区域">{{ catData.area }}</el-descriptions-item>
+  <div class="cat-detail">
+    <el-dialog v-model="localVisible" title="猫咪详情" width="750px" draggable>
+      <el-descriptions border>
+        <el-descriptions-item label="活动区域">{{ catData.area }}</el-descriptions-item>
 
-      <el-descriptions-item label="亲和度等级">
-        <div class="rate">
-          <span v-for="i in 5" :key="i" :style="{ color: getStarColor(i, catData.friendliness) }">
-            {{ i <= catData.friendliness ? '★' : '☆' }}
-          </span>
-        </div>
-      </el-descriptions-item>
+        <el-descriptions-item label="亲和度等级">
+          <div class="rate">
+            <span v-for="i in 5" :key="i" :style="{ color: getStarColor(i, catData.friendliness) }">
+              {{ i <= catData.friendliness ? '★' : '☆' }}
+            </span>
+          </div>
+        </el-descriptions-item>
 
-      <el-descriptions-item label="健康状况">
-        <el-tag :type="healthTagType(catData.healthStatus)">
-          {{ catData.healthStatus }}
-        </el-tag>
-      </el-descriptions-item>
-      <el-descriptions-item :rowspan="2" label="照片">
-        <el-image style="width: 200px; height: 200px" :src="catData.catImg || cat" fit="cover" />
-      </el-descriptions-item>
-      <el-descriptions-item label="姓名">{{ catData.name }}</el-descriptions-item>
+        <el-descriptions-item label="健康状况">
+          <el-tag :type="healthTagType(catData.healthStatus)">
+            {{ catData.healthStatus }}
+          </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item :rowspan="2" label="照片">
+          <el-image style="width: 200px; height: 200px" :src="catData.catImg || cat" fit="cover" />
+        </el-descriptions-item>
+        <el-descriptions-item label="姓名">{{ catData.name }}</el-descriptions-item>
 
-      <el-descriptions-item label="品种">{{ catData.breed }}</el-descriptions-item>
+        <el-descriptions-item label="品种">{{ catData.breed }}</el-descriptions-item>
 
-      <el-descriptions-item label="年龄">{{ catData.age }}</el-descriptions-item>
+        <el-descriptions-item label="年龄">{{ catData.age }}</el-descriptions-item>
 
-      <el-descriptions-item label="领养状态">
-        <el-tag :type="catData.adoptionStatus === '已领养' ? 'success' : 'info'">
-          {{ catData.adoptionStatus }}
-        </el-tag>
-      </el-descriptions-item>
+        <el-descriptions-item label="领养状态">
+          <el-tag :type="catData.adoptionStatus === '已领养' ? 'success' : 'info'">
+            {{ catData.adoptionStatus }}
+          </el-tag>
+        </el-descriptions-item>
 
-      <el-descriptions-item label="编号">{{ catData.id }}</el-descriptions-item>
+        <el-descriptions-item label="编号">{{ catData.id }}</el-descriptions-item>
 
-      <el-descriptions-item label="性别">{{ catData.gender }}</el-descriptions-item>
-      <el-descriptions-item label="登记时间">{{
-        formatDate(catData.createTime)
-      }}</el-descriptions-item>
-    </el-descriptions>
-  </el-dialog>
+        <el-descriptions-item label="性别">{{ catData.gender }}</el-descriptions-item>
+        <el-descriptions-item label="登记时间">{{
+          formatDate(catData.createTime)
+        }}</el-descriptions-item>
+      </el-descriptions>
+    </el-dialog>
+  </div>
 </template>
 
 <style scoped>

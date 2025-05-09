@@ -164,9 +164,28 @@ tabsStore.$subscribe(() => {
   align-items: center;
   height: 45px;
   overflow: hidden;
+  overflow-x: auto;
   border-left: 1px solid var(--border-line-color);
   border-bottom: 1px solid var(--border-line-color);
   background-color: var(--public-bg-color);
+  &::-webkit-scrollbar {
+    height: 5px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(245, 245, 245, 0.5);
+    border-radius: 2px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
+  /* Firefox兼容 */
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 rgba(245, 245, 245, 0.5);
 
   .el-tabs {
     flex: 1;

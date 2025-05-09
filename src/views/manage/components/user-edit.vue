@@ -100,7 +100,7 @@ defineExpose({ open })
   <el-dialog
     v-model="visible"
     :title="formModel.id ? '编辑用户' : '新增用户'"
-    width="35%"
+    width="400px"
     :close-on-click-modal="false"
     destroy-on-close
     draggable

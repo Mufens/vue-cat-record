@@ -46,20 +46,12 @@
   --header-bg-color: #d8d3f1;
   --menu-active-text-color: #f090c0;
   --menu-hover-bg: #e4def6;
-  --menu-hover-bg2: #f5f4f4;
   --menu-bg2: #e4def6;
   --rate-color: #c1b7eb;
   --button-color: #e4def6;
   --type-primary-color: #fff0f5;
   --primary-border-color: #d9d1f7;
-
   --date-choose-bg: #f5f0ff;
-
-  --el-menu-active-color: var(--menu-active-text-color);
-  --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--aside-bg-color);
-  --el-dropdown-menuItem-text-color: var(--text-color-primary);
-  --el-tabs-item-color: var(--text-color-primary);
 }
 .blusky {
   --color-primary: #a7c7f1;
@@ -69,7 +61,7 @@
   --header-bg-color: #a7c7f1;
   --menu-active-text-color: #5b89d8;
   --menu-hover-bg: #b7cdec;
-  --menu-hover-bg2: #f5f4f4;
+
   --menu-bg2: #b7cdec;
   --rate-color: #a7c7f1;
   --button-color: #b7cdec;
@@ -77,12 +69,6 @@
   --primary-border-color: #aed6f9;
 
   --date-choose-bg: #f0f5ff;
-  --el-menu-active-color: var(--menu-active-text-color);
-  --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--aside-bg-color);
-  --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
-  --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
-  --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .water {
   --color-primary: #cce7e0;
@@ -92,19 +78,13 @@
   --header-bg-color: #cce7e0;
   --menu-active-text-color: #67a0c0;
   --menu-hover-bg: #d8f5ea;
-  --menu-hover-bg2: #f5f4f4;
+
   --menu-bg2: #d8f5ea;
   --rate-color: #84b5d1;
   --button-color: #d8f5ea;
   --type-primary-color: #d8f5ea;
   --primary-border-color: #cce7e0;
   --date-choose-bg: #eaf7f1;
-  --el-menu-active-color: var(--menu-active-text-color);
-  --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--aside-bg-color);
-  --el-dropdown-menuItem-hover-fill: var(--menu-hover-bg);
-  --el-dropdown-menuItem-hover-color: var(--menu-active-text-color);
-  --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .momo {
   --color-primary: #bea78b;
@@ -114,17 +94,12 @@
   --header-bg-color: #bea78b;
   --menu-active-text-color: #644c24e7;
   --menu-hover-bg: #b3987a;
-  --menu-hover-bg2: #f5f4f4;
+
   --menu-bg2: #b3987a;
   --rate-color: #bea78b;
   --button-color: #b3987a;
   --type-primary-color: #fcf3ea;
   --type-border-color: #c4baaf;
-  --date-choose-bg: #f5f4f4;
-  --el-menu-active-color: var(--menu-active-text-color);
-  --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--aside-bg-color);
-  --el-dropdown-menuItem-text-color: var(--text-color-primary);
 }
 .gaoji {
   --color-primary: #06b1bd;
@@ -140,19 +115,13 @@
   --border-color: #e4e7ed;
   --rate-color: #f9e9be;
   --button-color: #3c7eff;
-
-  --el-menu-active-color: var(--menu-active-text-color);
-  --el-menu-text-color: var(--text-color-primary);
-  --el-menu-bg-color: var(--aside-bg-color);
-  --el-dropdown-menuItem-text-color: var(--text-color-primary);
-
   :deep(.el-tabs__item.is-active) {
     background-color: var(--active-color) !important;
   }
 }
 
 .dark {
-  --color-primary: #ffffff;
+  --color-primary: #3c7eff;
   --text-color-primary: #ffffff;
   --bg-color: #232324;
   --aside-bg-color: #232324;
@@ -170,17 +139,13 @@
   --type-danger-color: #2b1d1d;
   --danger-border-color: #854040;
   --date-choose-bg: #2d2d2d;
-  --el-menu-bg-color: var(--bg-color);
-  --el-menu-text-color: var(--text-color-primary);
-  --el-menu-active-color: var(--menu-active-text-color);
-  --el-menu-hover-bg-color: var(--menu-hover-bg);
-  --el-dropdown-menuItem-text-color: var(--text-color-primary);
   --message-panel-text: #ffffff;
   --border-color: #333335;
   --bg-color1: #3a3a3d;
   --table-hover-color: #262727;
   --type-primary-color: #18222c;
   --type-danger-color: #2b1d1d;
+  --rate-color: #5589ef;
   .el-card {
     background-color: var(--bg-color);
   }

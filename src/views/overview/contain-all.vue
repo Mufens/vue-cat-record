@@ -129,121 +129,123 @@ const activities = ref([
 </script>
 
 <template>
-  <el-row :gutter="20" class="card">
-    <el-col v-for="card in cards" :key="card.name" :span="6">
-      <el-card shadow="hover" body-class="card-body">
-        <div class="card-content">
-          <div class="name">{{ card.name }}</div>
-          <div class="num">
-            <count-up
-              class="count"
-              :startVal="0"
-              :endVal="card.count"
-              :duration="2"
-              :options="{
-                useEasing: true,
-                useGrouping: true,
-                separator: ',',
-                decimal: '.'
-              }"
-            />
+  <div class="all">
+    <el-row :gutter="20" class="card">
+      <el-col v-for="card in cards" :key="card.name" :span="6">
+        <el-card shadow="hover" body-class="card-body">
+          <div class="card-content">
+            <div class="name">{{ card.name }}</div>
+            <div class="num">
+              <count-up
+                class="count"
+                :startVal="0"
+                :endVal="card.count"
+                :duration="2"
+                :options="{
+                  useEasing: true,
+                  useGrouping: true,
+                  separator: ',',
+                  decimal: '.'
+                }"
+              />
 
-            <span
-              class="change"
-              :style="{ color: card.change.startsWith('+') ? '#67C23A' : '#F56C6C' }"
-            >
-              {{ card.change }}
-            </span>
+              <span
+                class="change"
+                :style="{ color: card.change.startsWith('+') ? '#67C23A' : '#F56C6C' }"
+              >
+                {{ card.change }}
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="icon" :class="card.iconClass">
-          <i class="iconfont" :class="card.icon"></i>
-        </div>
-      </el-card>
-    </el-col>
-  </el-row>
+          <div class="icon" :class="card.iconClass">
+            <i class="iconfont" :class="card.icon"></i>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
 
-  <el-row :gutter="20" class="chart">
-    <el-col :span="14">
-      <el-card shadow="never">
-        <div class="card-header">
-          <p class="card-header-title">猫咪动态</p>
-          <p class="card-header-desc">最近一年猫咪数量变化</p>
-        </div>
-        <v-chart class="chart1" :option="dashOpt1" :key="themeWatcher" autoresize />
-      </el-card>
-    </el-col>
-    <el-col :span="10">
-      <el-card shadow="never">
-        <div class="card-header">
-          <p class="card-header-title">猫咪年龄分布</p>
-          <p class="card-header-desc">猫咪年龄统计截止日期为2024.12.31</p>
-        </div>
-        <v-chart class="chart1" :option="dashOpt4" :key="themeWatcher" autoresize />
-      </el-card>
-    </el-col>
-  </el-row>
-  <el-row :gutter="20" class="chart">
-    <el-col :span="8">
-      <el-card shadow="never">
-        <v-chart class="chart1" :option="dashOpt2" autoresize />
-      </el-card>
-    </el-col>
-    <el-col :span="8">
-      <el-card shadow="never" :body-style="{ height: '400px' }">
-        <div class="card-header">
-          <p class="card-header-title">排行榜</p>
-          <p class="card-header-desc">猫咪所花费的大米Top5</p>
-        </div>
-        <div>
-          <div class="rank">
-            <div
-              class="rank-item"
-              v-for="(rank, index) in [...ranks].sort((a, b) => b.value - a.value).slice(0, 5)"
-              :key="rank.title + index"
-            >
-              <div class="rank-item-avatar" :style="{ backgroundColor: rank.color }">
-                {{ index + 1 }}
-              </div>
-              <div class="rank-item-content">
-                <div class="rank-item-top">
-                  <div class="rank-item-title">{{ rank.title }}</div>
-                  <div class="rank-item-desc">花销：¥{{ rank.value.toLocaleString() }}</div>
+    <el-row :gutter="20" class="chart">
+      <el-col :span="14">
+        <el-card shadow="never">
+          <div class="card-header">
+            <p class="card-header-title">猫咪动态</p>
+            <p class="card-header-desc">最近一年猫咪数量变化</p>
+          </div>
+          <v-chart class="chart1" :option="dashOpt1" :key="themeWatcher" autoresize />
+        </el-card>
+      </el-col>
+      <el-col :span="10">
+        <el-card shadow="never">
+          <div class="card-header">
+            <p class="card-header-title">猫咪年龄分布</p>
+            <p class="card-header-desc">猫咪年龄统计截止日期为2024.12.31</p>
+          </div>
+          <v-chart class="chart1" :option="dashOpt4" :key="themeWatcher" autoresize />
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20" class="chart">
+      <el-col :span="8">
+        <el-card shadow="never">
+          <v-chart class="chart1" :option="dashOpt2" autoresize />
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card shadow="never" :body-style="{ height: '400px' }">
+          <div class="card-header">
+            <p class="card-header-title">排行榜</p>
+            <p class="card-header-desc">猫咪所花费的大米Top5</p>
+          </div>
+          <div>
+            <div class="rank">
+              <div
+                class="rank-item"
+                v-for="(rank, index) in [...ranks].sort((a, b) => b.value - a.value).slice(0, 5)"
+                :key="rank.title + index"
+              >
+                <div class="rank-item-avatar" :style="{ backgroundColor: rank.color }">
+                  {{ index + 1 }}
                 </div>
-                <el-progress
-                  :show-text="false"
-                  striped
-                  :stroke-width="8"
-                  :percentage="rank.percent"
-                  :color="rank.color"
-                />
+                <div class="rank-item-content">
+                  <div class="rank-item-top">
+                    <div class="rank-item-title">{{ rank.title }}</div>
+                    <div class="rank-item-desc">花销：¥{{ rank.value.toLocaleString() }}</div>
+                  </div>
+                  <el-progress
+                    :show-text="false"
+                    striped
+                    :stroke-width="8"
+                    :percentage="rank.percent"
+                    :color="rank.color"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="8">
-      <el-card shadow="hover" :body-style="{ height: '400px' }">
-        <div class="card-header">
-          <p class="card-header-title">时间线</p>
-          <p class="card-header-desc">最新猫咪大事件消息</p>
-        </div>
-        <el-timeline>
-          <el-timeline-item
-            v-for="(activity, index) in activities"
-            :key="index"
-            :color="activity.color"
-            :timestamp="activity.timestamp"
-          >
-            <div class="timeline-item">
-              {{ activity.content }}
-            </div>
-          </el-timeline-item>
-        </el-timeline>
-      </el-card>
-    </el-col>
-  </el-row>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card shadow="hover" :body-style="{ height: '400px' }">
+          <div class="card-header">
+            <p class="card-header-title">时间线</p>
+            <p class="card-header-desc">最新猫咪大事件消息</p>
+          </div>
+          <el-timeline>
+            <el-timeline-item
+              v-for="(activity, index) in activities"
+              :key="index"
+              :color="activity.color"
+              :timestamp="activity.timestamp"
+            >
+              <div class="timeline-item">
+                {{ activity.content }}
+              </div>
+            </el-timeline-item>
+          </el-timeline>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <style>
@@ -257,6 +259,10 @@ const activities = ref([
 </style>
 
 <style scoped lang="scss">
+.all {
+  margin: 10px;
+  min-width: 1000px;
+}
 .el-card {
   margin: 8px 6px;
 }
