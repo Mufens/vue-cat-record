@@ -134,6 +134,10 @@ function toggleFullscreen() {
     }
     .bread-container {
       margin-left: 18px;
+
+      @media screen and (max-width: 550px) {
+        display: none;
+      }
     }
   }
   .header-right {

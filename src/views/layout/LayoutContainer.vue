@@ -9,7 +9,7 @@ const isMobile = ref(false)
 const showMask = ref(false)
 
 const checkCollapse = () => {
-  isMobile.value = window.innerWidth < 650
+  isMobile.value = window.innerWidth < 800
   if (isMobile.value) {
     isCollapsed.value = true
     isMobileMenuActive.value = false
