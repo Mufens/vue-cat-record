@@ -12,13 +12,11 @@ const checkCollapse = () => {
   isMobile.value = window.innerWidth < 800
   if (isMobile.value) {
     isCollapsed.value = true
-    isMobileMenuActive.value = false
-    showMask.value = false
   } else {
     isCollapsed.value = false
-    isMobileMenuActive.value = false
-    showMask.value = false
   }
+  showMask.value = false
+  isMobileMenuActive.value = false
 }
 const closeMenu = () => {
   if (isMobile.value && !isCollapsed.value) {
@@ -46,6 +44,21 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', checkCollapse)
 })
+const handleCollapseToggle = () => {
+  if (isMobile.value) {
+    isCollapsed.value = !isCollapsed.value
+  } else {
+    isCollapsed.value = !isCollapsed.value
+  }
+}
+watch(isMobile, newVal => {
+  if (newVal) {
+    isCollapsed.value = true
+  } else {
+    isCollapsed.value = false
+  }
+})
+
 watch(isCollapsed, newVal => {
   if (isMobile.value) {
     showMask.value = !newVal
@@ -82,7 +95,8 @@ watch(isCollapsed, newVal => {
           left: isMobile ? '0' : isCollapsed ? '0' : '200px'
         }"
       >
-        <HeaderMenu @toggle-collapse="state => (isCollapsed = state)"> </HeaderMenu>
+        <HeaderMenu :is-collapsed="isCollapsed" @toggle-collapse="handleCollapseToggle">
+        </HeaderMenu>
 
         <TabContainer></TabContainer>
       </div>

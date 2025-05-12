@@ -39,11 +39,10 @@ const handleCommand = async (key: string) => {
 }
 
 //折叠状态
+defineProps({ isCollapsed: { type: Boolean, required: true } })
 const emit = defineEmits(['toggle-collapse'])
-const isCollapsed = ref(false)
 const toggleCollapse = () => {
-  isCollapsed.value = !isCollapsed.value
-  emit('toggle-collapse', isCollapsed.value)
+  emit('toggle-collapse')
 }
 
 // 根据当前路由生成面包屑数组
@@ -128,7 +127,7 @@ function toggleFullscreen() {
     text-align: center;
     align-items: center;
     .collapse-btn {
-      margin-left: 18px;
+      margin-left: 7px;
       margin-top: 3px;
       cursor: pointer;
     }
