@@ -6,7 +6,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 const themesStore = useThemesStore()
 const containerRef = ref<HTMLElement | null>(null)
 const visible = ref(false)
-const visibleThemes = computed(() => themes.filter(t => t.className !== 'dark')) // 只过滤dark
+const visibleThemes = computed(() => themes.filter(t => t.className !== 'dark'))
 
 onMounted(() => {
   themesStore.initializeTheme()
@@ -106,12 +106,9 @@ onBeforeUnmount(() => document.removeEventListener('click', clickHandler))
   right: -9px;
   background: #fff;
   border: 1px solid #fff;
-
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   padding: 12px;
   border-radius: 6px;
-  // display: flex;
-  // flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;

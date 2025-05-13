@@ -2,12 +2,13 @@
 import AsideMenu from './components/aside-menu.vue'
 import HeaderMenu from './components/header-menu.vue'
 import TabContainer from '@/components/TabContainer.vue'
+import { useTabsStore } from '@/stores'
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 const isCollapsed = ref(false)
 const isMobileMenuActive = ref(false)
 const isMobile = ref(false)
 const showMask = ref(false)
-
+const tabs = useTabsStore()
 const checkCollapse = () => {
   isMobile.value = window.innerWidth < 800
   if (isMobile.value) {
@@ -84,15 +85,15 @@ watch(isCollapsed, newVal => {
     <div
       class="container"
       :style="{
-        marginLeft: isMobile ? '0' : isCollapsed ? '0px' : '200px',
-        width: isMobile ? '100%' : isCollapsed ? '100%' : 'calc(100% - 200px)'
+        marginLeft: isMobile ? '0' : isCollapsed ? '0px' : '180px',
+        width: isMobile ? '100%' : isCollapsed ? '100%' : 'calc(100% - 180px)'
       }"
     >
       <div
         class="fixed-header"
         :style="{
-          width: isMobile ? '100%' : isCollapsed ? '100%' : 'calc(100% - 200px)',
-          left: isMobile ? '0' : isCollapsed ? '0' : '200px'
+          width: isMobile ? '100%' : isCollapsed ? '100%' : 'calc(100% - 180px)',
+          left: isMobile ? '0' : isCollapsed ? '0' : '180px'
         }"
       >
         <HeaderMenu :is-collapsed="isCollapsed" @toggle-collapse="handleCollapseToggle">
@@ -101,7 +102,13 @@ watch(isCollapsed, newVal => {
         <TabContainer></TabContainer>
       </div>
       <div class="main">
-        <router-view> </router-view>
+        <router-view v-slot="{ Component }">
+          <transition name="move" mode="out-in">
+            <keep-alive :include="tabs.nameList">
+              <component :is="Component"></component>
+            </keep-alive>
+          </transition>
+        </router-view>
       </div>
     </div>
   </div>

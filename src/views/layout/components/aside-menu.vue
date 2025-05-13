@@ -30,7 +30,7 @@ defineProps({
 })
 </script>
 <template>
-  <div class="aside" :style="{ width: isCollapsed ? '0px' : '200px' }">
+  <div class="aside" :style="{ width: isCollapsed ? '0px' : '180px' }">
     <div class="aside_logo"></div>
     <el-menu
       class="aside-menu"
@@ -82,11 +82,15 @@ defineProps({
   left: 0;
   top: 0;
   z-index: 1002;
-  width: 200px;
+  width: 180px;
   height: 100vh;
   border-right: 1px solid var(--border-color);
   overflow-x: hidden;
   background-color: var(--aside-bg-color);
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   &_logo {
     height: 150px;
