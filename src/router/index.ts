@@ -20,24 +20,27 @@ const router = createRouter({
         {
           path: '/overview',
           name: 'Overview',
-          component: () => import('@/views/overview/contain-all.vue'),
+          component: () =>
+            import(/* webpackChunkName: "Overview" */ '@/views/overview/contain-all.vue'),
           meta: { title: '首页', icon: 'icon-shouye', permission: 'overview:view' },
         },
         {
           path: '/record',
           name: 'Record',
-          component: () => import('@/views/record/cat-record.vue'),
+          component: () => import(/* webpackChunkName: "Record" */ '@/views/record/cat-record.vue'),
           meta: { title: '记录', icon: 'icon-jilu', permission: 'record:view' },
         },
         {
           path: '/system/cat',
-          component: () => import('@/views/manage/cat-manage.vue'),
+          component: () =>
+            import(/* webpackChunkName: "cat-manage" */ '@/views/manage/cat-manage.vue'),
           name: 'cat-manage',
           meta: { title: '猫猫管理', icon: 'icon-claw', permission: 'cat:view' },
         },
         {
           path: '/system/user',
-          component: () => import('@/views/manage/user-manage.vue'),
+          component: () =>
+            import(/* webpackChunkName: "user-manage" */ '@/views/manage/user-manage.vue'),
           name: 'user-manage',
           meta: {
             title: '用户管理',
@@ -47,25 +50,28 @@ const router = createRouter({
         },
         {
           path: '/system/role',
-          component: () => import('@/views/manage/role-manage.vue'),
+          component: () =>
+            import(/* webpackChunkName: "role-manage" */ '@/views/manage/role-manage.vue'),
           name: 'role-manage',
           meta: { title: '角色管理', icon: 'icon-a-jiaoseguanli2', permission: 'role:view' },
         },
         {
           path: '/system/menu',
-          component: () => import('@/views/manage/menu-manage.vue'),
+          component: () =>
+            import(/* webpackChunkName: "menu-manage" */ '@/views/manage/menu-manage.vue'),
           name: 'menu-manage',
           meta: { title: '菜单管理', icon: 'icon-caidan', permission: 'menu:view' },
         },
         {
           path: '/message-board',
-          component: () => import('@/views/board/message-board.vue'),
+          component: () =>
+            import(/* webpackChunkName: "message-board" */ '@/views/board/message-board.vue'),
           name: 'message-board',
           meta: { title: '留言板', icon: 'icon-maojiazhengchangx', permission: 'message:view' },
         },
         {
           path: '/user',
-          component: () => import('@/views/user/UserProfile.vue'),
+          component: () => import(/* webpackChunkName: "user" */ '@/views/user/UserProfile.vue'),
           name: 'user',
           meta: { title: '个人中心', icon: 'icon-personalcenter', permission: 'us:view' },
         },

@@ -8,7 +8,7 @@ const getCssVarValue = (varName: string): string => {
 const getPrimaryColor = () => getCssVarValue('--color-primary')
 const getTextColor = () => {
   const color = getCssVarValue('--message-panel-text')
-  return color || '#333' // 默认黑色
+  return color
 }
 
 // 使用时可灵活扩展
@@ -52,48 +52,7 @@ export const createLineOptions = (config: {
     },
   ],
 })
-export const createPieOptions = (
-  data: Array<{ value: number; name: string }>,
-  isRing: boolean = false,
-): EChartsOption => ({
-  title: {
-    text: '猫咪种类分布',
-    left: 'center',
-    textStyle: {
-      color: getTextColor(), // 使用文本主题色
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-  },
-  tooltip: {
-    trigger: 'item',
-    formatter: '{b}: {c} ({d}%)',
-  },
-  series: [
-    {
-      type: 'pie',
-      radius: isRing ? ['40%', '70%'] : '50%', // 环形图配置
-      avoidLabelOverlap: true,
-      label: {
-        show: true,
-        formatter: '{b|{b}:} {d}%',
-        rich: {
-          b: { fontWeight: 'bold' },
-        },
-      },
-      itemStyle: {
-        borderRadius: 1, // 圆角效果
-      },
-      data,
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowColor: 'rgba(0, 0, 0, 0.5)',
-        },
-      },
-    },
-  ],
-})
+
 export const createBarOptions = (config: {
   xData: string[]
   seriesData: number[]
@@ -127,6 +86,50 @@ export const createBarOptions = (config: {
         itemStyle: {
           shadowBlur: 10,
           shadowColor: 'rgba(0, 0, 0, 0.3)',
+        },
+      },
+    },
+  ],
+})
+
+export const createPieOptions = (
+  data: Array<{ value: number; name: string }>,
+  isRing: boolean = false,
+): EChartsOption => ({
+  title: {
+    text: '猫咪种类分布',
+    left: 'center',
+    textStyle: {
+      color: getTextColor(),
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+  },
+  tooltip: {
+    trigger: 'item',
+    formatter: '{b}: {c} ({d}%)',
+  },
+  color: ['#F7E8AA', '#70887D', '#EBB471', '#9a8878', '#F1908C', '#61649F', '#F6C555', '#7B90D2'],
+  series: [
+    {
+      type: 'pie',
+      radius: isRing ? ['40%', '70%'] : '50%', // 环形图配置
+      avoidLabelOverlap: true,
+      label: {
+        show: true,
+        formatter: '{b|{b}:} {d}%',
+        rich: {
+          b: { fontWeight: 'bold' },
+        },
+      },
+      itemStyle: {
+        borderRadius: 1, // 圆角效果
+      },
+      data,
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowColor: 'rgba(0, 0, 0, 0.5)',
         },
       },
     },
