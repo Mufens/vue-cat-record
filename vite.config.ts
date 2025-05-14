@@ -22,6 +22,7 @@ export default defineConfig(({ command }) => {
         resolvers: [
           ElementPlusResolver({
             importStyle: 'sass',
+            directives: true,
           }),
         ],
       }),
@@ -45,6 +46,21 @@ export default defineConfig(({ command }) => {
        @use "@/assets/element/various.scss" as *;
 
         `,
+        },
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'element-plus': ['element-plus'],
+            'echarts-core': ['echarts/core'], // 核心
+            'echarts-charts': ['echarts/charts'], // 图表
+            'echarts-components': ['echarts/components'], // 组件
+            'echarts-renderer': ['echarts/renderers'], // 渲染器
+            'vue-echarts': ['vue-echarts'],
+            vendors: ['axios', 'pinia', 'vue-router', 'sortablejs'],
+          },
         },
       },
     },

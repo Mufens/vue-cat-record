@@ -139,8 +139,24 @@ const submitForm = () => {
   })
 }
 
-const delMenu = () => {
-  ElMessage.success('删除成功')
+const delMenu = (row: Menus) => {
+  const removeMenu = (menus: Menus[], id: string): boolean => {
+    for (let i = 0; i < menus.length; i++) {
+      if (menus[i].id === id) {
+        menus.splice(i, 1)
+        return true
+      }
+      if (menus[i].children && removeMenu(menus[i].children!, id)) {
+        return true
+      }
+    }
+    return false
+  }
+  if (removeMenu(tableData.value, row.id)) {
+    ElMessage.success('删除成功')
+  } else {
+    ElMessage.error('删除失败')
+  }
 }
 onMounted(() => {
   initTableData()

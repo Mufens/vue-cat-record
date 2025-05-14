@@ -11,6 +11,6 @@ export const formatDate = (date: string | number): string => {
   }
   return parsedDate
     .toLocaleDateString('zh-CN', options)
-    .replace(/\//g, '-') // 将斜杠替换为短横线（可选）
+    .replace(/\//g, '-') // 将斜杠替换为短横线
     .replace(' ', ' ') // 保持日期和时间之间的空格
 }
