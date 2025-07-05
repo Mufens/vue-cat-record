@@ -150,12 +150,12 @@ const seasonClass = computed(() => {
     .year,
     .month {
       &.spring {
-        background: linear-gradient(45deg, #2d98419b 30%, #84c74ac2 60%, #47c09e65 90%);
+        background: -webkit-linear-gradient(45deg, #2d98419b 30%, #84c74ac2 60%, #47c09e65 90%);
         -webkit-background-clip: text;
         background-clip: text;
       }
       &.summer {
-        background: radial-gradient(#99755963 20%, #4abbc7f7 50%, #48cd8ac3 80%);
+        background: -webkit-radial-gradient(#99755963 20%, #4abbc7f7 50%, #48cd8ac3 80%);
         -webkit-background-clip: text;
         background-clip: text;
       }
