@@ -11,7 +11,7 @@ permissions:
 on:
   push:
     branches:
-      - main # 推送到 main 分支时触发
+      - master # 推送到 main 分支时触发
   workflow_dispatch: # 允许手动触发，类似 Jenkins 的“Build Now”
 
 # 定义任务
