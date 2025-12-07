@@ -60,6 +60,11 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 import VueDanmaku from 'vue3-danmaku'
+interface Danmu {
+  content: string
+  color: string
+}
+
 const baberrageRef = ref<HTMLElement | null>(null)
 let observer: ResizeObserver | null = null
 
@@ -125,7 +130,7 @@ const sendDanmu = () => {
     color: colors[Math.floor(Math.random() * colors.length)]
   }
   danmuList.value.push(newDanmu)
-  danmakuRef.value?.add(newDanmu)
+  danmakuRef.value?.add({ content: newDanmu.content, color: newDanmu.color })
   message.value = ''
   inputRef.value?.focus()
   lastDanmu.content = content
