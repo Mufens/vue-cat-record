@@ -1,0 +1,58 @@
+# Workflow 名称，显示在 GitHub Actions 界面
+name: Deploy My Vue Project
+
+# 定义权限，确保 Actions 有权操作仓库和部署 Pages
+permissions:
+  contents: write # 允许写入代码和分支（如推送 gh-pages）
+  pages: write # 允许部署到 GitHub Pages
+  id-token: write # 验证身份，部署 Pages 必需
+
+# 定义触发事件
+on:
+  push:
+    branches:
+      - main # 推送到 main 分支时触发
+  workflow_dispatch: # 允许手动触发，类似 Jenkins 的“Build Now”
+
+# 定义任务
+jobs:
+  # 构建任务
+  build:
+    runs-on: ubuntu-latest # 在最新的 Ubuntu 虚拟机上运行
+    steps:
+      # 步骤 1：检出代码
+      - name: Checkout Code
+        uses: actions/checkout@v4 # 使用官方 Action 拉取仓库代码
+
+      # 步骤 2：设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # 安装指定版本的 Node.js
+        with:
+          node-version: '18' # 使用 Node.js 18.x
+
+      # 步骤 3：安装项目依赖
+      - name: Install Dependencies
+        run: npm install # 运行 npm install 安装 package.json 里的依赖
+
+      # 步骤 4：构建项目
+      - name: Build Project
+        run: npm run build # 运行 npm run build 生成 build 目录
+
+      # 步骤 5：上传构建产物为 Pages artifact
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3 # 上传 build 目录作为 Pages 部署产物
+        with:
+          path: ./dist # 指定上传的目录
+
+  # 部署任务，依赖于 build 任务
+  deploy:
+    needs: build # 等待 build 任务完成
+    runs-on: ubuntu-latest # 在 Ubuntu 虚拟机上运行
+    environment:
+      name: github-pages # 指定 GitHub Pages 环境
+      url: ${{ steps.deployment.outputs.page_url }} # 部署后生成的 URL
+    steps:
+      # 步骤 1：部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment # 设置 ID 以获取输出（如 page_url）
+        uses: actions/deploy-pages@v4 # 使用官方 Action 部署到 Pages
