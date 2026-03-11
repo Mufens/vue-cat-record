@@ -1,6 +1,6 @@
 import { users } from '../mock/user'
 import type { User, UserQueryParams } from '../types/user'
-import axios from 'axios'
+
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // 注册接口
@@ -65,31 +65,107 @@ export const updateUserInfoAPI = async (userId: number, updateData: Partial<User
   return users[userIndex]
 }
 
-//获取用户列表
+// 获取用户列表（纯前端，适配 GitHub Pages）
+// 返回结构与原 axios + mock 接口保持一致：{ code, data: { list, total } }
 export const getUserListAPI = async (params: UserQueryParams) => {
-  const { data } = await axios.get('/api/users/list', { params })
-  return data
+  const { pagenum, pagesize, name, email, status, role } = params
+
+  let filtered = [...users]
+
+  if (name) filtered = filtered.filter((u) => u.name.includes(name))
+  if (email) filtered = filtered.filter((u) => u.email.includes(email))
+  if (status !== undefined) filtered = filtered.filter((u) => u.status === status)
+  if (role) filtered = filtered.filter((u) => u.role === role)
+
+  const page = pagenum || 1
+  const size = pagesize || 10
+  const start = (page - 1) * size
+  const end = start + Number(size)
+
+  return {
+    code: 200,
+    data: {
+      list: filtered.slice(start, end),
+      total: filtered.length,
+    },
+  }
 }
 
 // 新增用户
 export const addUserData = async (data: Omit<User, 'id' | 'createdAt' | 'avatar'>) => {
-  return axios.post('/api/users', data)
+  const exists = users.some((u) => u.name === data.name || u.email === data.email)
+  if (exists) {
+    return {
+      code: 400,
+      message: '用户名或邮箱已存在',
+    }
+  }
+
+  const newUser: User = {
+    ...data,
+    id: Date.now(),
+    createdAt: new Date().toISOString(),
+    status: (data as Partial<User>).status ?? true,
+    avatar: (data as Partial<User>).avatar || '',
+  }
+  users.push(newUser)
+
+  return {
+    code: 200,
+    data: newUser,
+  }
 }
 
 // 编辑用户
-export const editUserData = async (id: number, data: Partial<User>) => {
-  return axios.put(`/api/users/${id}`, data)
+export const editUserData = async (id: number, payload: Partial<User>) => {
+  const index = users.findIndex((u) => u.id === id)
+  if (index === -1) {
+    return {
+      code: 404,
+      message: '用户不存在',
+    }
+  }
+
+  const exists = users.some(
+    (u) => u.id !== id && (u.name === payload.name || u.email === payload.email),
+  )
+  if (exists) {
+    return {
+      code: 400,
+      message: '用户名或邮箱已存在',
+    }
+  }
+
+  users[index] = { ...users[index], ...payload }
+  return {
+    code: 200,
+    data: users[index],
+  }
 }
 
 // 删除用户
 export const deleteUserData = async (id: number) => {
-  return axios.delete(`/api/users/${id}`)
+  const index = users.findIndex((u) => u.id === id)
+  if (index > -1) {
+    users.splice(index, 1)
+    return { success: true }
+  }
+  return { success: false }
 }
 
 // 批量删除用户
 export const deleteBatchUserData = async (ids: number[]) => {
-  return axios.delete('/api/user/mes/batch', {
-    params: { ids: ids.join(',') },
-    paramsSerializer: { indexes: null },
+  let deleteCount = 0
+  ids.forEach((id) => {
+    const index = users.findIndex((u) => u.id === id)
+    if (index > -1) {
+      users.splice(index, 1)
+      deleteCount++
+    }
   })
+
+  return {
+    success: deleteCount > 0,
+    message: deleteCount > 0 ? `成功删除${deleteCount}个用户` : '未找到匹配用户',
+  }
 }

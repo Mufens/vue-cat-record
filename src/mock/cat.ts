@@ -1,6 +1,8 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import type { CatItem } from '@/types/cat'
-let data: CatItem[] = [
+
+// 导出底层猫咪数据，供纯前端 API 复用（GitHub Pages 无后端）
+export let cats: CatItem[] = [
   {
     id: 111,
     name: '大宝',
@@ -132,7 +134,7 @@ export default [
       const { pagenum = 1, pagesize = 10, breed, adoptionStatus } = query
 
       // 创建过滤后的副本避免污染原始数据
-      let filteredData = [...data]
+      let filteredData = [...cats]
 
       if (breed) filteredData = filteredData.filter((item) => item.breed === breed)
       if (adoptionStatus)
@@ -169,7 +171,7 @@ export default [
         createTime: body.createTime || new Date().toISOString(),
         catImg: body.catImg || '',
       }
-      data.push(newCat)
+      cats.push(newCat)
       return { success: true, data: newCat }
     },
   },
@@ -178,14 +180,14 @@ export default [
     url: '/api/cat/mes/:id',
     method: 'put',
     response: ({ body, query }: { body: Partial<CatItem>; query: { id: string } }) => {
-      const index = data.findIndex((item) => item.id === Number(query.id))
+      const index = cats.findIndex((item) => item.id === Number(query.id))
       if (index >= 0) {
-        data[index] = {
-          ...data[index],
+        cats[index] = {
+          ...cats[index],
           ...body,
-          catImg: body.catImg || data[index].catImg,
+          catImg: body.catImg || cats[index].catImg,
         }
-        return { success: true, data: data[index] }
+        return { success: true, data: cats[index] }
       }
       return { success: false }
     },
@@ -195,9 +197,9 @@ export default [
     url: '/api/cat/mes/:id',
     method: 'delete',
     response: ({ query }: { query: { id: string } }) => {
-      const index = data.findIndex((item) => item.id === Number(query.id))
+      const index = cats.findIndex((item) => item.id === Number(query.id))
       if (index >= 0) {
-        data.splice(index, 1)
+        cats.splice(index, 1)
         return { success: true }
       }
       return { success: false }
@@ -213,7 +215,7 @@ export default [
       const ids = query.ids.split(',').map(Number)
       console.log('Parsed ids:', ids)
       // 使用filter过滤掉需要删除的项
-      data = data.filter((item) => !ids.includes(item.id))
+      cats = cats.filter((item) => !ids.includes(item.id))
 
       return { success: true }
     },
