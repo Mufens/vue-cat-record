@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getUserListAPI, deleteUserData, deleteBatchUserData } from '@/api/user'
+﻿import { getUserListAPI, deleteUserData, deleteBatchUserData } from '@/api/user'
 import type { User, UserQueryParams } from '@/types/user'
 import { formatDate } from '@/utils/format'
 import TableActions from '@/components/table/TableActions.vue'
@@ -18,6 +18,7 @@ const columns = ref([
   { label: '用户名', prop: 'name', visible: true },
   { label: '角色', prop: 'role', width: '120', visible: true },
   { label: '邮箱', prop: 'email', visible: true },
+  { label: '密码', prop: 'password', width: '160', visible: true },
   {
     label: '用户状态',
     prop: 'status',
@@ -218,7 +219,6 @@ onMounted(() => {
           />
         </div>
       </div>
-
       <!-- 数据表格 -->
       <el-table
         :data="tableData"
@@ -250,6 +250,11 @@ onMounted(() => {
               <el-tag :type="row.status ? 'success' : 'warning'">
                 {{ row.status ? '启用' : '禁用' }}
               </el-tag>
+            </template>
+
+            <!-- 密码列：直接展示密码 -->
+            <template v-else-if="col.prop === 'password'" #default="{ row }">
+              {{ row.password }}
             </template>
 
             <!-- 创建时间格式化 -->
@@ -351,4 +356,5 @@ onMounted(() => {
     }
   }
 }
+
 </style>
