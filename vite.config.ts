@@ -11,7 +11,10 @@ import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
+  const isProd = command === 'build'
+
   return {
+    base: isProd ? '/vue-cat-record/' : '/',
     plugins: [
       vue(),
       vueDevTools(),

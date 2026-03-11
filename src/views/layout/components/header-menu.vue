@@ -33,9 +33,15 @@ const handleCommand = async (key: string) => {
     userStore.removeToken()
     userStore.user = null
     router.push('/login')
-  } else {
-    router.push('/user')
+    return
   }
+
+  if (key === 'github') {
+    window.open('https://github.com/Mufens/vue-cat-record', '_blank')
+    return
+  }
+
+  router.push('/user')
 }
 
 //折叠状态
@@ -105,6 +111,11 @@ function toggleFullscreen() {
                 <i class="iconfont icon-personalcenter"></i>
                 个人中心</el-dropdown-item
               >
+              <el-dropdown-item command="github">
+                <i class="iconfont icon-github"></i>
+                github仓库</el-dropdown-item
+              >
+
               <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
