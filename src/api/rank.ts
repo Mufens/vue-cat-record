@@ -1,11 +1,4 @@
-import axios from 'axios'
-import type { RankResponse } from '@/types/rank'
 import { getMockRankData } from '@/mock/rank'
 
-// // 真实接口版本
-// export const fetchRankData = () => {
-//   return axios.get<RankResponse>('/api/rank')
-// }
-export const fetchRankData = import.meta.env.DEV
-  ? () => Promise.resolve(getMockRankData())
-  : () => axios.get<RankResponse>('/api/rank')
+// 排行榜数据统一使用前端 mock，避免 GitHub Pages 上 404
+export const fetchRankData = () => Promise.resolve(getMockRankData())

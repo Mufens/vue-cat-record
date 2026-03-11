@@ -8,7 +8,7 @@ export const users: User[] = [
     status: true,
     role: '管理员',
     email: 'admin@123.com',
-    avatar: '/images/avatar.jpg',
+    avatar: 'images/avatar.jpg',
     createdAt: '2024-03-27T22:38:06Z',
   },
   {
@@ -18,7 +18,7 @@ export const users: User[] = [
     status: true,
     role: '金角大王',
     email: 'golden@example.com',
-    avatar: '/images/avatar.jpg',
+    avatar: 'images/avatar.jpg',
     createdAt: '2023-01-02T00:00:00Z',
   },
   {
@@ -28,7 +28,7 @@ export const users: User[] = [
     status: true,
     role: '银角大王',
     email: 'silver@333.com',
-    avatar: '/images/avatar.jpg',
+    avatar: 'images/avatar.jpg',
     createdAt: '2023-01-02T08:00:00Z',
   },
   {

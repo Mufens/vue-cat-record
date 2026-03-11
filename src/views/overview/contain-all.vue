@@ -98,12 +98,9 @@ watch(
 const ranks = ref<RankItem[]>([])
 const loadRankData = async () => {
   try {
-    const { data } = await fetchRankData()
-    if (Array.isArray(data)) {
-      ranks.value = data
-      console.log('排行榜数据:', ranks.value)
-    } else if (data.success) {
-      ranks.value = data.data
+    const res = await fetchRankData()
+    if (res.success) {
+      ranks.value = res.data
       console.log('排行榜数据:', ranks.value)
     }
   } catch (err) {
